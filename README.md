@@ -1,2 +1,2 @@
 # ohtu-miniprojekti2018
-Tiimi: "Is Trello okay?"
+Team: "Is Trello okay?"
