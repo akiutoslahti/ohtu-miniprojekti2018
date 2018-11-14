@@ -1,5 +1,10 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+- bash <(curl -s https://codecov.io/bash)
+deploy:
+  provider: heroku
+  api_key:
+    secure: dBohLWPLLvfuAlkTdcZ9SZSD3cbGZSGHY0WTUu9L95wL/tz3eB9p0UFFXRGrEPTetZZyMiJsCJCZHoYdUAaukAzxgzdcjmqZv7LWBerab2r5z/eFYv92YXP9LtzPJYDF2NywDL766VFJCoOparmSGoanfXiLAfSxDOtPpaH91rYwxaSLR5fvU7oHcGGczd0dQ4hkpR5xeUqcKxGHq9p7Okgo/IfrWyZl0wky1Op9GjoYixsE5blDdiMtiM2jSMWKgnrmp8MGE3TGy0C0ch1LP6DkaG5556th+k6a92Z5zYYK6slDuynFFwDun7rI8DrwS/tefgTvZhBUwHJLfvWfO5t7M0JHOvFKaJK6rXofUaEU4kPBF+xaqys3wxVb6xP4gge/P/QmYjdMMa5/mJwRsS/0x3c2faD0OPNEZMK/+5QV1oODWfcHuF1l0A51tq5pby74J+opHt1lMH2Jnt3eVVKjC6+TfnDuFKm5dEYJZj9HMzbY0K04sewxocA66I9OMXCtwy8SmceHrYoKXr9Ne070A7HSB1nU7NUcktj5esOlB6fTtTzhz/i0YP662uh7j4gBlcTrYaMwbMgXq2y4g/oEE4x/QyiN7XgmRlueKyNIWEboaBexvN4AVBd4U/yeN0zGdWcFELws5wlc4Wv0c9OhMRw0E4lsXAauNZ14EnA=
+  app: ohtutips

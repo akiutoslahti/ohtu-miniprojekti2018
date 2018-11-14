@@ -17,19 +17,21 @@ public class DefaultController {
 
     @PostConstruct
     public void init() {
-        // test data to the application
+        // purge previous data and insert initial data
+        bookRepository.deleteAll();
+        
         Book book1 = new Book();
         book1.setTitle("Lord Of The Rings");
         book1.setAuthor("J. R. R. Tolkien");
         bookRepository.save(book1);
-
+        
         Book book2 = new Book();
         book2.setTitle("Silmarillion");
         book2.setAuthor("J. R. R. Tolkien");
         bookRepository.save(book2);
 
         Book book3 = new Book();
-        book3.setTitle("Hobbit");
+        book3.setTitle("The Hobbit or There and Back Again");
         book3.setAuthor("J. R. R. Tolkien");
         bookRepository.save(book3);
     }

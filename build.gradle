@@ -37,7 +37,8 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
     implementation('org.springframework.boot:spring-boot-starter-web')
     runtimeOnly('com.h2database:h2')
-    testCompile 'junit:junit:4.12'
+    runtimeOnly('org.postgresql:postgresql')
+    testCompile('junit:junit:4.12')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
 
@@ -57,3 +58,10 @@ jacocoTestReport {
 }
 
 check.dependsOn jacocoTestReport
+
+bootRun {
+    String activeProfile =  System.properties['spring.profiles.active']
+    String confLoc = System.properties['spring.config.location']
+    systemProperty "spring.profiles.active", activeProfile
+    systemProperty "spring.config.location", "file:$confLoc"
+}
