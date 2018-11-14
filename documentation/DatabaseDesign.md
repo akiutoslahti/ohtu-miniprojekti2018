@@ -1,6 +1,6 @@
 ## Initial Database Design
 
-In the initial database design we have table for different the different reading tip types (TipType) and a table for the actual reading tips (Tip).
+In the initial database design we have a table for the different reading tip types (TipType) and a table for the actual reading tips (Tip).
 In addition we have three sub tables (TipAuthor, TipTag, TipCourse) for the tip properties that might have multiple values.
 TipType and TipCourse tables will be prefilled so that predefined tip types and courses already exist in the application.
 Tip tags (TipTag) will be provided via input by the end user.
