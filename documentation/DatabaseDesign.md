@@ -10,7 +10,8 @@ Initial database diagram:
 ![DB diagram](http://yuml.me/09375d70.png)
 
 yuml.me definition:
-```[TipType|id:integer; name:string; hasisbn:boolean; hasurl:boolean]
+```
+[TipType|id:integer; name:string; hasisbn:boolean; hasurl:boolean]
 [Tip|id:integer; tiptype_id:TipType.id; topic:string; isbn:string; url:string; description:string; comment:string; seen:boolean; hidden:boolean]
 [TipAuthor|tip_id:Tip.id; author:string]
 [TipTag|tip_id:Tip.id; tag:string]
