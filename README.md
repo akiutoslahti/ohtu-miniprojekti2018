@@ -5,7 +5,7 @@
 
 ## Documentation
 * [How to start developing](documentation/Development.md)
-* [Build pipeline](IntegrationAndBuild.md)
+* [Build pipeline](documentation/IntegrationAndBuild.md)
 
 ## Scrum
 * Backlog in [Trello](https://trello.com/b/149C501e/ohtu-miniproject)
