@@ -3,6 +3,10 @@
 [![Build Status](https://travis-ci.org/akiutoslahti/ohtu-miniprojekti2018.svg?branch=master)](https://travis-ci.org/akiutoslahti/ohtu-miniprojekti2018)
 [![codecov](https://codecov.io/gh/akiutoslahti/ohtu-miniprojekti2018/branch/master/graph/badge.svg)](https://codecov.io/gh/akiutoslahti/ohtu-miniprojekti2018)
 
+## Documentation
+* [How to start developing](documentation/Development.md)
+* [Build pipeline](IntegrationAndBuild.md)
+
 ## Scrum
 * Backlog in [Trello](https://trello.com/b/149C501e/ohtu-miniproject)
     * Install [Scrum for Trello](http://scrumfortrello.com/) browser plugin
