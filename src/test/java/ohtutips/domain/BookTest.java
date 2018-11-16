@@ -6,11 +6,11 @@ import static org.junit.Assert.*;
 
 public class BookTest {
 
-    private Book testBook;
+    private BookTip testBook;
 
     @Before
     public void setUp() {
-        this.testBook = new Book();
+        this.testBook = new BookTip();
     }
 
     @Test
