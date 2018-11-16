@@ -14,9 +14,9 @@ public class BookTip extends AbstractPersistable<Long> {
     private String isbn;
     
     // Will be replaced when the database is complete
-    private List<String> tags = new ArrayList<>();
-    private List<String> prerequisiteCourses = new ArrayList<>();;
-    private List<String> relatedCourses = new ArrayList<>();;
+    private String tags;
+    private String prerequisiteCourses;
+    private String relatedCourses;
 
     public String getTitle() {
         return title;
@@ -38,15 +38,15 @@ public class BookTip extends AbstractPersistable<Long> {
         this.isbn = isbn;
     }
 
-    public void setPrerequisiteCourses(List<String> prerequisiteCourses) {
+    public void setPrerequisiteCourses(String prerequisiteCourses) {
         this.prerequisiteCourses = prerequisiteCourses;
     }
 
-    public void setRelatedCourses(List<String> relatedCourses) {
+    public void setRelatedCourses(String relatedCourses) {
         this.relatedCourses = relatedCourses;
     }
 
-    public void setTags(List<String> tags) {
+    public void setTags(String tags) {
         this.tags = tags;
     }
 
@@ -58,15 +58,15 @@ public class BookTip extends AbstractPersistable<Long> {
         return isbn;
     }
 
-    public List<String> getPrerequisiteCourses() {
+    public String getPrerequisiteCourses() {
         return prerequisiteCourses;
     }
 
-    public List<String> getRelatedCourses() {
+    public String getRelatedCourses() {
         return relatedCourses;
     }
 
-    public List<String> getTags() {
+    public String getTags() {
         return tags;
     }
 

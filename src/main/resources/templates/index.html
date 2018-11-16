@@ -8,12 +8,17 @@
         <h1>Reading Tips Archive</h1>
 
         <h2>Books</h2>
-
-        <ul>
-            <li th:each="book : ${books}">
-                <span th:text="${book.title} + ' by ' + ${book.author}"></span>
-            </li>
-        </ul>
-
+        
+        <p th:each="book : ${books}">
+            <br th:text="'Author: ' + ${book.author}"></br>
+            <br th:text="'Title: ' + ${book.title}"></br>
+            <br th:text="'Type: ' + ${book.type}"></br>
+            <br th:text="'ISBN: ' + ${book.isbn}"></br>
+            <br th:text="'Tags: ' + ${book.tags}"></br>
+            <br th:text="'Prerequisite courses: ' + ${book.prerequisiteCourses}"></br>
+            <br th:text="'Related courses: ' + ${book.relatedCourses}"></br>
+            
+            <span th:text="'----------------------------------------'"/>
+        </p>
     </body>
 </html>
