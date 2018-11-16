@@ -36,9 +36,9 @@ public class BookTipTest {
     
     @Test
     public void setGetIsbnTest() {
-        assertNull(this.testBook.getType());
-        this.testBook.setType("test type");
-        assertEquals("test type", this.testBook.getType());
+        assertNull(this.testBook.getIsbn());
+        this.testBook.setIsbn("test isbn");
+        assertEquals("test isbn", this.testBook.getIsbn());
     }
     
     @Test
@@ -61,4 +61,5 @@ public class BookTipTest {
         this.testBook.setRelatedCourses("test related courses");
         assertEquals("test related courses", this.testBook.getRelatedCourses());
     }
+    
 }
