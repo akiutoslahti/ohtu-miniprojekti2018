@@ -9,7 +9,7 @@
 
 ## Scrum
 * Backlog in [Trello](https://trello.com/b/149C501e/ohtu-miniproject)
-    * Install [Scrum for Trello](http://scrumfortrello.com/) browser plugin
+    * **Optional** Install [Scrum for Trello](http://scrumfortrello.com/) browser plugin for easier reading and seeing total time left on tasks.
 * [Burndown Chart](https://docs.google.com/spreadsheets/d/1k_zhpgvVd8Xq-XXRJ9vQeVHRLzwot7oc-jfq42d4XPU/edit?ts=5bed3f04#gid=0)
 * [Sprint Goals](documentation/SprintGoals.md)
 
