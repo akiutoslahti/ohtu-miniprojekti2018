@@ -1,5 +1,7 @@
 package ohtutips.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import ohtutips.domain.BookTip;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ohtutips.repository.BookTipRepository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class DefaultController {
@@ -54,10 +57,46 @@ public class DefaultController {
         bookTipRepository.save(bookTip3);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/*", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("books", bookTipRepository.findAll());
         return "index";
     }
-
+    
+    @RequestMapping(value = "/new/book_tip", method = RequestMethod.GET)
+    public String bookTipForm() {
+        
+        return "addBookTip";
+    }
+    
+    @RequestMapping(value = "/new/book_tip", method = RequestMethod.POST)
+    public String addBookTip(Model model, @RequestParam String author, @RequestParam String title, @RequestParam String type,
+            @RequestParam String isbn, @RequestParam String tags, 
+            @RequestParam String prerequisiteCourses, @RequestParam String relatedCourses) {
+        
+        List<String> errors = new ArrayList<>();
+        if (author.trim().isEmpty() || title.trim().isEmpty() 
+                || type.trim().isEmpty() || isbn.trim().isEmpty() 
+                || tags.trim().isEmpty() || prerequisiteCourses.trim().isEmpty() 
+                || relatedCourses.trim().isEmpty()) {
+            errors.add("Please leave no empty fields");
+            
+            model.addAttribute("errors", errors);
+            
+            return "addBookTip";
+        }
+        
+        
+        BookTip bookTip = new BookTip();
+        bookTip.setAuthor(author);
+        bookTip.setTitle(title);
+        bookTip.setIsbn(isbn);
+        bookTip.setType(type);
+        bookTip.setTags(tags);
+        bookTip.setPrerequisiteCourses(prerequisiteCourses);
+        bookTip.setRelatedCourses(relatedCourses);
+        
+        bookTipRepository.save(bookTip);
+        return "redirect:/";
+    }
 }
