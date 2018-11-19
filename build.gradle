@@ -33,7 +33,7 @@ configurations {
 
 project.ext {
     cucumberVersion = '4.2.0'
-    seleniumVersion = '3.141.59'
+    seleniumVersion = '3.14.0'
 }
 
 dependencies {

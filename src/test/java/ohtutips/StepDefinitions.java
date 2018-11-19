@@ -4,13 +4,23 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import org.junit.After;
 import static org.junit.Assert.assertTrue;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.test.context.junit4.SpringRunner;
 
-public class Stepdefs extends SpringIntegrationTest {
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public class StepDefinitions {
+    @LocalServerPort
+    protected int port;
+    
     WebDriver driver = new HtmlUnitDriver();
-    String baseUrl = "http://localhost:8080";
+    String baseUrl = "http://localhost:" + port;
    
+    
     
     @Given("website is loaded")
     public void website_is_loaded() throws Throwable {
