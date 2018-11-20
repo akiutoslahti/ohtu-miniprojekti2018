@@ -31,6 +31,11 @@ configurations {
     }
 }
 
+project.ext {
+    cucumberVersion = '4.2.0'
+    seleniumVersion = '3.14.0'
+}
+
 dependencies {
     developmentOnly('org.springframework.boot:spring-boot-devtools')
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -39,7 +44,13 @@ dependencies {
     runtimeOnly('com.h2database:h2')
     runtimeOnly('org.postgresql:postgresql')
     testCompile('junit:junit:4.12')
+    testCompile('io.cucumber:cucumber-java:' + cucumberVersion)
+    testCompile('io.cucumber:cucumber-junit:' + cucumberVersion)
+    testCompile('io.cucumber:cucumber-spring:' + cucumberVersion)
     testImplementation('org.springframework.boot:spring-boot-starter-test')
+    compile('org.seleniumhq.selenium:selenium-api:' + seleniumVersion)
+    compile('org.seleniumhq.selenium:selenium-java:' + seleniumVersion)
+    compile('org.seleniumhq.selenium:htmlunit-driver:2.33.3')
 }
 
 jacocoTestReport {
