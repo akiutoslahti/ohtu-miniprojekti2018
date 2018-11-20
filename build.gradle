@@ -50,7 +50,7 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test')
     compile('org.seleniumhq.selenium:selenium-api:' + seleniumVersion)
     compile('org.seleniumhq.selenium:selenium-java:' + seleniumVersion)
-    compile('org.seleniumhq.selenium:selenium-htmlunit-driver:2.52.0') 
+    compile('org.seleniumhq.selenium:htmlunit-driver:2.33.3')
 }
 
 jacocoTestReport {

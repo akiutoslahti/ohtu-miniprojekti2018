@@ -2,25 +2,18 @@ package ohtutips;
 
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
-import org.junit.After;
 import static org.junit.Assert.assertTrue;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.ContextConfiguration;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@ContextConfiguration()
+@SpringBootTest( properties = "server.port=8080", classes = OhtuTipsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class StepDefinitions {
-    @LocalServerPort
-    protected int port;
     
-    WebDriver driver = new HtmlUnitDriver();
-    String baseUrl = "http://localhost:" + port;
-   
-    
+    private WebDriver driver = new HtmlUnitDriver();
+    private String baseUrl = "http://localhost:8080";
     
     @Given("website is loaded")
     public void website_is_loaded() throws Throwable {
@@ -30,11 +23,6 @@ public class StepDefinitions {
     @Then("frontpage loads")
     public void frontpage_loads() throws Throwable {
         pageHasContent("Reading Tips Archive");
-    }
-    
-    @After
-    public void tearDown(){
-        driver.quit();
     }
 
     private void pageHasContent(String content) {
