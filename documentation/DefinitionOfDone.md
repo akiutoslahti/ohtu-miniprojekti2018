@@ -8,7 +8,7 @@ As developers, we agree to follow this definition of Done in our Ohtu Miniprojec
 
 * The functionality described in the user story must be available in the production version of the project.
 
-* Production pipeline includes GitHub, Travis, Codacy, and Heroku.
+* Production pipeline includes GitHub, Travis, Codecov, and Heroku.
 
 * The user story has a defined acceptance criteria.
 
