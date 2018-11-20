@@ -78,7 +78,7 @@ public class DefaultController {
         if (author.trim().isEmpty() || title.trim().isEmpty() 
                 || type.trim().isEmpty() || isbn.trim().isEmpty() 
                 || tags.trim().isEmpty()) {
-            errors.add("Please fill all field marked with (*).");
+            errors.add("Please fill all fields marked with (*).");
             
             model.addAttribute("errors", errors);
             return "addBookTip";
