@@ -1,0 +1,6 @@
+-----------------------------------------------------------------------------
+20.11.2018:
+
+[Book|-author: String;-title: String;-type:String;-ISBN:String;-tags:String;-prerequisiteCourses:String;-relatedCourses:String;]
+
+-----------------------------------------------------------------------------
