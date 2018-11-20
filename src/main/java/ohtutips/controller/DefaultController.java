@@ -29,8 +29,8 @@ public class DefaultController {
         bookTip1.setType("Book");
         bookTip1.setIsbn("978-0544003415");
         bookTip1.setTags("Fantasy");
-        bookTip1.setPrerequisiteCourses("none");
-        bookTip1.setRelatedCourses("none");
+        bookTip1.setPrerequisiteCourses("");
+        bookTip1.setRelatedCourses("");
         
         bookTipRepository.save(bookTip1);
         
@@ -40,8 +40,8 @@ public class DefaultController {
         bookTip2.setType("Book");
         bookTip2.setIsbn("978-0345325815");
         bookTip2.setTags("Fantasy");
-        bookTip2.setPrerequisiteCourses("none");
-        bookTip2.setRelatedCourses("none");
+        bookTip2.setPrerequisiteCourses("");
+        bookTip2.setRelatedCourses("");
         
         bookTipRepository.save(bookTip2);
 
@@ -51,8 +51,8 @@ public class DefaultController {
         bookTip3.setType("Book");
         bookTip3.setIsbn("978-0618002214");
         bookTip3.setTags("Fantasy");
-        bookTip3.setPrerequisiteCourses("none");
-        bookTip3.setRelatedCourses("none");
+        bookTip3.setPrerequisiteCourses("");
+        bookTip3.setRelatedCourses("");
         
         bookTipRepository.save(bookTip3);
     }
@@ -77,16 +77,13 @@ public class DefaultController {
         List<String> errors = new ArrayList<>();
         if (author.trim().isEmpty() || title.trim().isEmpty() 
                 || type.trim().isEmpty() || isbn.trim().isEmpty() 
-                || tags.trim().isEmpty() || prerequisiteCourses.trim().isEmpty() 
-                || relatedCourses.trim().isEmpty()) {
-            errors.add("Please leave no empty fields");
+                || tags.trim().isEmpty()) {
+            errors.add("Please fill all field marked with (*).");
             
             model.addAttribute("errors", errors);
-            
             return "addBookTip";
         }
-        
-        
+                
         BookTip bookTip = new BookTip();
         bookTip.setAuthor(author);
         bookTip.setTitle(title);

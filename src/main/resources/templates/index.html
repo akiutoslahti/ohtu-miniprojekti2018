@@ -10,17 +10,17 @@
         <h2>Books</h2>
 
         <a href="/new/book_tip">make a new book tip</a>
-        
-        <p th:each="book : ${books}">
-            <span th:utext="
-                  'Author: ' + ${book.author} + '<br>' +
-                  'Title: ' + ${book.title} + '<br>' +
-                  'Type: ' + ${book.type} + '<br>' +
-                  'ISBN: ' + ${book.isbn} + '<br>' +
-                  'Tags: ' + ${book.tags} + '<br>' +
-                  'Prerequisite courses: ' + ${book.prerequisiteCourses} + '<br>' +
-                  'Related courses: ' + ${book.relatedCourses}
-                  "></span>
-        </p>
+
+        <ul id="book-tips">
+            <li th:each="book : ${books}" th:utext="
+                'Author: ' + ${book.author} + '<br>' +
+                'Title: ' + ${book.title} + '<br>' +
+                'Type: ' + ${book.type} + '<br>' +
+                'ISBN: ' + ${book.isbn} + '<br>' +
+                'Tags: ' + ${book.tags} + '<br>' +
+                'Prerequisite courses: ' + ${book.prerequisiteCourses} + '<br>' +
+                'Related courses: ' + ${book.relatedCourses} + '<br>' + '<br>'
+                "></li>
+        </ul>
     </body>
 </html>
