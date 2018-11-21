@@ -23,17 +23,22 @@ Glad: **Everyone participated! Woo!** All of the team was actively involved both
 
 #### NO VOTES Categories:
 MAD:
+
 **Spring / Cucumber / Selenium documentation**
 Configuration hell can be hell. No immediate action to take.
 
 SAD:
+
 **Some felt they couldn't participate as much as they'd like, and missed out on some of the learning experience.** It was noted that the goal is not to learn absolutely everything during the process, and it's great the process progresses also when oneself is not actively working on it. However, it is also unfortunate that some of the knowledge won't get shared as people who are most apt at something, like to do it.
 * Let's do more pairwork, especially combining experienced and inexperienced person to do a task should propagate knowledge and maximise learning.
+
 **Trello's not entirely okay**
 * We'll split each sprint into its own board to keep it clearer and to preserve sprint history.
+
 **Poor personal communication**
 Realisation that TG-chat is (almost) always there, and we're in this as a group. Even if a task is assigned to you, you're not alone with it.
 
 GLAD:
+
 **Sprint #1 went well overall.**
 **Quick setup of dev environment and production pipeline, sets us up for a great project.** For future reference, doing configuration etc in pairs will be an amazing learning experience.
