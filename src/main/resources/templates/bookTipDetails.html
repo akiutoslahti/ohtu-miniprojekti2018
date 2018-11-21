@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Book tip details</title>
+    </head>
+
+    <body>
+        <a href="/">back</a>
+
+        <ul th:each="error : ${errors}">
+            <li th:text="${error}">here</li>
+        </ul>
+
+        <ul id="book-tip">
+            
+            <li th:utext="
+                'Author: ' + ${book.author} + '<br>' +
+                'Title: ' + ${book.title} + '<br>' +
+                'Type: ' + ${book.type} + '<br>' +
+                'ISBN: ' + ${book.isbn} + '<br>' +
+                'Tags: ' + ${book.tags} + '<br>' +
+                'Prerequisite courses: ' + ${book.prerequisiteCourses} + '<br>' +
+                'Related courses: ' + ${book.relatedCourses} + '<br>' + '<br>'
+                "></li>
+        </ul>
+    </body>
+</html>

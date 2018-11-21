@@ -61,7 +61,7 @@ public class StepDefinitions {
         WebElement element = driver.findElement(By.id("book-tips"));
         List<WebElement> list = element.findElements(By.xpath(".//li"));
         for (WebElement tip : list) {
-            if (tip.getText().contains(bookTip.getIsbn())) {
+            if (tip.getText().contains(bookTip.getTitle()) && tip.getText().contains(bookTip.getAuthor())) {
                 contains = true;
                 break;
             }

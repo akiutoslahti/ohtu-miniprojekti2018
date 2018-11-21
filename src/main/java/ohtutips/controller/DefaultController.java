@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ohtutips.repository.BookTipRepository;
+import org.springframework.data.domain.Sort;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -59,8 +61,16 @@ public class DefaultController {
 
     @RequestMapping(value = "/*", method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("books", bookTipRepository.findAll());
+        model.addAttribute("books", bookTipRepository.findAll(new Sort(Sort.Direction.ASC, "id")));
         return "index";
+    }
+    
+    @RequestMapping(value = "/booktip/{id}", method = RequestMethod.GET)
+    public String bookTipDetails(Model model, @PathVariable long id) {
+        
+        model.addAttribute("book", bookTipRepository.findById(id).get());
+        
+        return "bookTipDetails";
     }
     
     @RequestMapping(value = "/new/book_tip", method = RequestMethod.GET)
