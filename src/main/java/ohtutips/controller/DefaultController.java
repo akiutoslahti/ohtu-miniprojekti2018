@@ -1,7 +1,5 @@
 package ohtutips.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import ohtutips.domain.BookTip;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ohtutips.repository.BookTipRepository;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class DefaultController {
