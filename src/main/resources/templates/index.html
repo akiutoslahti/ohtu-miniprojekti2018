@@ -9,13 +9,12 @@
 
         <h2>Books</h2>
 
-        <a href="/new/book_tip">make a new book tip</a>
+        <a href="/book_tip">make a new book tip</a>
 
         <ul id="book-tips">
             <li th:each="book : ${books}">
-                <a th:href="'/booktip/' + ${book.id}" th:utext="
-                ' ' + ${book.title} + ' by ' + ${book.author} + '<br>'
-                "/>
+                <a th:href="'/book_tip/' + ${book.id}" th:text="
+                ' ' + ${book.title} + ' by ' + ${book.author}"/>
             </li>
         </ul>
     </body>

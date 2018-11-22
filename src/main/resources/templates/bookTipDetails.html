@@ -13,15 +13,31 @@
 
         <ul id="book-tip">
             
-            <li th:utext="
-                'Author: ' + ${book.author} + '<br>' +
-                'Title: ' + ${book.title} + '<br>' +
-                'Type: ' + ${book.type} + '<br>' +
-                'ISBN: ' + ${book.isbn} + '<br>' +
-                'Tags: ' + ${book.tags} + '<br>' +
-                'Prerequisite courses: ' + ${book.prerequisiteCourses} + '<br>' +
-                'Related courses: ' + ${book.relatedCourses} + '<br>' + '<br>'
-                "></li>
+            <li>
+                <span th:text="'Author: ' + ${book.author}"/>
+                <span style="white-space: pre-line">
+                </span>
+                <span th:text="'Title: ' + ${book.title}"/>
+                <span style="white-space: pre-line">
+                </span>
+                <span th:text="'Type: ' + ${book.type}"/>
+                <span style="white-space: pre-line">
+                </span>
+                <span th:text="'ISBN: ' + ${book.isbn}"/>
+                <span style="white-space: pre-line">
+                </span>
+                <span th:text="'Tags: ' + ${book.tags}"/>
+                <span style="white-space: pre-line">
+                </span>
+                <span th:text="'Prerequisite courses: ' + ${book.prerequisiteCourses}"/>
+                <span style="white-space: pre-line">
+                </span>
+                <span th:text="'Related courses: ' + ${book.relatedCourses}"/>
+            </li>
         </ul>
+        <form th:action="@{/book_tip/{id}(id=${book.id})}" method="POST">
+            <input type="hidden" name="_method" value="DELETE"/>
+            <input type="submit" value="Delete"/>
+        </form>
     </body>
 </html>

@@ -65,45 +65,5 @@ public class DefaultController {
         return "index";
     }
     
-    @RequestMapping(value = "/booktip/{id}", method = RequestMethod.GET)
-    public String bookTipDetails(Model model, @PathVariable long id) {
-        
-        model.addAttribute("book", bookTipRepository.findById(id).get());
-        
-        return "bookTipDetails";
-    }
     
-    @RequestMapping(value = "/new/book_tip", method = RequestMethod.GET)
-    public String bookTipForm() {
-        
-        return "addBookTip";
-    }
-    
-    @RequestMapping(value = "/new/book_tip", method = RequestMethod.POST)
-    public String addBookTip(Model model, @RequestParam String author, @RequestParam String title, @RequestParam String type,
-            @RequestParam String isbn, @RequestParam String tags, 
-            @RequestParam String prerequisiteCourses, @RequestParam String relatedCourses) {
-        
-        List<String> errors = new ArrayList<>();
-        if (author.trim().isEmpty() || title.trim().isEmpty() 
-                || type.trim().isEmpty() || isbn.trim().isEmpty() 
-                || tags.trim().isEmpty()) {
-            errors.add("Please fill all fields marked with (*).");
-            
-            model.addAttribute("errors", errors);
-            return "addBookTip";
-        }
-                
-        BookTip bookTip = new BookTip();
-        bookTip.setAuthor(author);
-        bookTip.setTitle(title);
-        bookTip.setIsbn(isbn);
-        bookTip.setType(type);
-        bookTip.setTags(tags);
-        bookTip.setPrerequisiteCourses(prerequisiteCourses);
-        bookTip.setRelatedCourses(relatedCourses);
-        
-        bookTipRepository.save(bookTip);
-        return "redirect:/";
-    }
 }
