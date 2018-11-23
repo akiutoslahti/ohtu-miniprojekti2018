@@ -10,12 +10,63 @@
         <h2>Books</h2>
 
         <a href="/book_tip">add a book tip</a>
+        <p>
+        Sort:
+            <button onclick="sortByTitle()">By Title</button>
+            <button onclick="sortByAuthor()">By Author</button>
+            <button onclick="sortByAdded()">By Added</button>
+        </p>
+        <ul id="book-tips"></ul>
+        
+        <script th:inline="javascript">
+            var booktips=[
+            /*[# th:each="book : ${books}"]*/
+                {id:[[${book.id}]], title:[[${book.title}]], author:[[${book.author}]]},
+            /*[/]*/
+            ];
+            
+            displayTips();
+            
+            function sortByTitle() {
+                booktips.sort(function(a, b){
+                    var x = a.title.toLowerCase();
+                    var y = b.title.toLowerCase();
+                    if (x < y) {return -1;}
+                    if (x > y) {return 1;}
+                    return 0;
+                });
+                displayTips();
+            }
+            
+            function sortByAuthor() {
+                booktips.sort(function(a, b){
+                    var x = a.author.toLowerCase();
+                    var y = b.author.toLowerCase();
+                    if (x < y) {return -1;}
+                    if (x > y) {return 1;}
+                    return 0;
+                });
+                displayTips();
+            }
+            
+            function sortByAdded() {
+                booktips.sort(function(a, b){
+                    return a.id - b.id;
+                });
+                displayTips();
+            }
 
-        <ul id="book-tips">
-            <li th:each="book : ${books}">
-                <a th:href="'/book_tip/' + ${book.id}" th:text="
-                ' ' + ${book.title} + ' by ' + ${book.author}"/>
-            </li>
-        </ul>
+            function displayTips() {
+                var tipList = "";
+                booktips.forEach(listTips);
+                document.getElementById("book-tips").innerHTML = tipList;
+
+                function listTips(tip) {
+                    tipList = tipList + "<li><a href='/book_tip/" + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>"; 
+                }
+            }
+
+        </script> 
+               
     </body>
 </html>

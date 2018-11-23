@@ -4,6 +4,7 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import java.util.ArrayList;
 import java.util.List;
 import ohtutips.domain.BookTip;
 import static org.junit.Assert.*;
@@ -131,15 +132,46 @@ public class StepDefinitions {
     }
 
     private BookTip oneBookTest() {
+
         BookTip bookTip = new BookTip();
-        bookTip.setTitle("The Martian");
-        bookTip.setAuthor("Andy Weir");
+        bookTip.setTitle("Silmarillion");
+        bookTip.setAuthor("J. R. R. Tolkien");
         bookTip.setType("Book");
-        bookTip.setIsbn("978-0091956134");
-        bookTip.setTags("Science Fiction");
+        bookTip.setIsbn("978-0345325815");
+        bookTip.setTags("Fantasy");
         bookTip.setPrerequisiteCourses("");
         bookTip.setRelatedCourses("");
+        
         return bookTip;
+    }
+    
+    private ArrayList<BookTip> twoBookTest() {
+        
+        ArrayList<BookTip> bookTips = new ArrayList<>();
+        
+        BookTip bookTip1 = new BookTip();
+        bookTip1.setTitle("The Hobbit or There and Back Again");
+        bookTip1.setAuthor("J. R. R. Tolkien");
+        bookTip1.setType("Book");
+        bookTip1.setIsbn("978-0618002214");
+        bookTip1.setTags("Fantasy");
+        bookTip1.setPrerequisiteCourses("");
+        bookTip1.setRelatedCourses("");
+
+        bookTips.add(bookTip1);
+
+        BookTip bookTip2 = new BookTip();
+        bookTip2.setTitle("The Martian");
+        bookTip2.setAuthor("Weir, Andy");
+        bookTip2.setType("Book");
+        bookTip2.setIsbn("978-0091956134");
+        bookTip2.setTags("Science Fiction");
+        bookTip2.setPrerequisiteCourses("");
+        bookTip2.setRelatedCourses("");
+        
+        bookTips.add(bookTip2);
+
+        return bookTips;
     }
 
 }

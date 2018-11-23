@@ -1,6 +1,7 @@
 package ohtutips.controller;
 
 import com.zaxxer.hikari.HikariDataSource;
+import java.util.ArrayList;
 import javax.annotation.PostConstruct;
 import ohtutips.domain.BookTip;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,38 +26,11 @@ public class DefaultController {
 
         if (ds.getJdbcUrl().contains("jdbc:h2:mem:testdb")) {
 
-            BookTip bookTip1 = new BookTip();
-            bookTip1.setTitle("Lord Of The Rings");
-            bookTip1.setAuthor("J. R. R. Tolkien");
-            bookTip1.setType("Book");
-            bookTip1.setIsbn("978-0544003415");
-            bookTip1.setTags("Fantasy");
-            bookTip1.setPrerequisiteCourses("");
-            bookTip1.setRelatedCourses("");
+            ArrayList<BookTip> tips = initialBooks();
+            for (BookTip tip : tips) {
+                bookTipRepository.save(tip);
+            }
 
-            bookTipRepository.save(bookTip1);
-
-            BookTip bookTip2 = new BookTip();
-            bookTip2.setTitle("Silmarillion");
-            bookTip2.setAuthor("J. R. R. Tolkien");
-            bookTip2.setType("Book");
-            bookTip2.setIsbn("978-0345325815");
-            bookTip2.setTags("Fantasy");
-            bookTip2.setPrerequisiteCourses("");
-            bookTip2.setRelatedCourses("");
-
-            bookTipRepository.save(bookTip2);
-
-            BookTip bookTip3 = new BookTip();
-            bookTip3.setTitle("The Hobbit or There and Back Again");
-            bookTip3.setAuthor("J. R. R. Tolkien");
-            bookTip3.setType("Book");
-            bookTip3.setIsbn("978-0618002214");
-            bookTip3.setTags("Fantasy");
-            bookTip3.setPrerequisiteCourses("");
-            bookTip3.setRelatedCourses("");
-
-            bookTipRepository.save(bookTip3);
         }
 
     }
@@ -66,6 +40,45 @@ public class DefaultController {
         model.addAttribute("books", bookTipRepository.findAll(
                 new Sort(Sort.Direction.ASC, "id")));
         return "index";
+    }
+
+    public ArrayList<BookTip> initialBooks() {
+        ArrayList<BookTip> tips = new ArrayList<>();
+
+        BookTip bookTip1 = new BookTip();
+        bookTip1.setTitle("Lord Of The Rings");
+        bookTip1.setAuthor("Tolkien, J. R. R.");
+        bookTip1.setType("Book");
+        bookTip1.setIsbn("978-0544003415");
+        bookTip1.setTags("Fantasy");
+        bookTip1.setPrerequisiteCourses("");
+        bookTip1.setRelatedCourses("");
+
+        tips.add(bookTip1);
+
+        BookTip bookTip2 = new BookTip();
+        bookTip2.setTitle("Ready Player One");
+        bookTip2.setAuthor("Cline, Ernest");
+        bookTip2.setType("Book");
+        bookTip2.setIsbn("978-0099560432");
+        bookTip2.setTags("Science Fiction");
+        bookTip2.setPrerequisiteCourses("");
+        bookTip2.setRelatedCourses("");
+
+        tips.add(bookTip2);
+        
+        BookTip bookTip3 = new BookTip();
+        bookTip3.setTitle("Introduction to the Theory of Computation");
+        bookTip3.setAuthor("Sipser, Michael");
+        bookTip3.setType("Book");
+        bookTip3.setIsbn("978-1133187790");
+        bookTip3.setTags("Computer Science");
+        bookTip3.setPrerequisiteCourses("");
+        bookTip3.setRelatedCourses("");
+
+        tips.add(bookTip3);
+
+        return tips;
     }
 
 }
