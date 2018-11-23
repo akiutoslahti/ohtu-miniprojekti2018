@@ -14,7 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration()
-@SpringBootTest(properties = "server.port=8080", classes = OhtuTipsApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(properties = "server.port=8080", 
+        classes = OhtuTipsApplication.class, 
+        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class StepDefinitions {
 
     private WebDriver driver = new HtmlUnitDriver();
@@ -56,17 +58,7 @@ public class StepDefinitions {
 
     @Then("one of them is the newly created one")
     public void one_of_them_is_the_newly_created_one() {
-        BookTip bookTip = oneBookTest();
-        boolean contains = false;
-        WebElement element = driver.findElement(By.id("book-tips"));
-        List<WebElement> list = element.findElements(By.xpath(".//li"));
-        for (WebElement tip : list) {
-            if (tip.getText().contains(bookTip.getTitle()) && tip.getText().contains(bookTip.getAuthor())) {
-                contains = true;
-                break;
-            }
-        }
-        assertTrue(contains);
+        assertTrue(bookTipListContains(oneBookTest()));
     }
 
     @When("all necessary book tip fields have not been filled")
@@ -97,10 +89,42 @@ public class StepDefinitions {
         pageHasContent("Books");
     }
 
+    @When("user navigates to book tip details")
+    public void user_navigates_to_book_tip_details() {
+        WebElement element = driver.findElement(
+                By.linkText("The Martian by Andy Weir"));
+        element.click();
+        pageHasContent("Book tip details");
+        pageHasContent("Author: Andy Weir");
+        pageHasContent("Title: The Martian");
+    }
+
+    @When("clicks {string} button")
+    public void clicks_button(String string) {
+        driver.findElement(By.tagName("form")).submit();
+    }
+
+    @Then("deleted one is not listed")
+    public void deleted_one_is_not_listed() {
+        assertFalse(bookTipListContains(oneBookTest()));
+    }
+
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
     }
-    
+
+    private boolean bookTipListContains(BookTip bookTip) {
+        WebElement element = driver.findElement(By.id("book-tips"));
+        List<WebElement> list = element.findElements(By.xpath(".//li"));
+        for (WebElement tip : list) {
+            if (tip.getText().contains(bookTip.getTitle()) 
+                    && tip.getText().contains(bookTip.getAuthor())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private BookTip oneBookTest() {
         BookTip bookTip = new BookTip();
         bookTip.setTitle("The Martian");

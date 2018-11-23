@@ -32,9 +32,11 @@ public class BookController {
     }
     
     @RequestMapping(value = "/book_tip", method = RequestMethod.POST)
-    public String addBookTip(Model model, @RequestParam String author, @RequestParam String title, @RequestParam String type,
+    public String addBookTip(Model model, @RequestParam String author, 
+            @RequestParam String title, @RequestParam String type,
             @RequestParam String isbn, @RequestParam String tags, 
-            @RequestParam String prerequisiteCourses, @RequestParam String relatedCourses) {
+            @RequestParam String prerequisiteCourses, 
+            @RequestParam String relatedCourses) {
         
         List<String> errors = new ArrayList<>();
         if (author.trim().isEmpty() || title.trim().isEmpty() 

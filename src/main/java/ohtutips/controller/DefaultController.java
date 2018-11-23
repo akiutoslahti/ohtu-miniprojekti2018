@@ -57,7 +57,8 @@ public class DefaultController {
 
     @RequestMapping(value = "/*", method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("books", bookTipRepository.findAll(new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("books", bookTipRepository.findAll(
+                new Sort(Sort.Direction.ASC, "id")));
         return "index";
     }
     
