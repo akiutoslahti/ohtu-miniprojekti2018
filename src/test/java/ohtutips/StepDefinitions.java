@@ -1,11 +1,13 @@
 package ohtutips;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.util.List;
 import ohtutips.domain.BookTip;
 import static org.junit.Assert.*;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,12 +16,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration()
-@SpringBootTest(properties = "server.port=8080", 
-        classes = OhtuTipsApplication.class, 
+@SpringBootTest(properties = "server.port=8080",
+        classes = OhtuTipsApplication.class,
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class StepDefinitions {
 
-    private WebDriver driver = new HtmlUnitDriver();
+    private WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME, true);
     private String baseUrl = "http://localhost:8080";
 
     @Given("user has opened the application and link {string} has been clicked")
@@ -100,8 +102,11 @@ public class StepDefinitions {
     }
 
     @When("clicks {string} button")
-    public void clicks_button(String string) {
-        driver.findElement(By.tagName("form")).submit();
+    public void clicks_button(String string) throws Throwable {
+        driver.findElement(By.name("delete-tip")).click();
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
+        Thread.sleep(500);
     }
 
     @Then("deleted one is not listed")
@@ -117,7 +122,7 @@ public class StepDefinitions {
         WebElement element = driver.findElement(By.id("book-tips"));
         List<WebElement> list = element.findElements(By.xpath(".//li"));
         for (WebElement tip : list) {
-            if (tip.getText().contains(bookTip.getTitle()) 
+            if (tip.getText().contains(bookTip.getTitle())
                     && tip.getText().contains(bookTip.getAuthor())) {
                 return true;
             }
