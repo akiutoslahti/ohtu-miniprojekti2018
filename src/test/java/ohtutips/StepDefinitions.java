@@ -101,8 +101,8 @@ public class StepDefinitions {
         pageHasContent("Title: The Martian");
     }
 
-    @When("clicks {string} button")
-    public void clicks_button(String string) throws Throwable {
+    @When("clicks delete button")
+    public void clicks_button() throws Throwable {
         driver.findElement(By.name("delete-tip")).click();
         Alert alert = driver.switchTo().alert();
         alert.accept();
