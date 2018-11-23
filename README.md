@@ -25,3 +25,5 @@
 * Continuous integration: [Travis CI](https://travis-ci.org/akiutoslahti/ohtu-miniprojekti2018) 
 * Code coverage: [Codecov](https://codecov.io/gh/akiutoslahti/ohtu-miniprojekti2018)
 * App Demo: [Heroku](https://ohtutips.herokuapp.com/)
+          
+           
