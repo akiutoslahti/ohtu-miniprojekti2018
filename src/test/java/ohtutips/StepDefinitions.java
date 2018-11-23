@@ -94,12 +94,14 @@ public class StepDefinitions {
 
     @When("user navigates to book tip details")
     public void user_navigates_to_book_tip_details() {
+        BookTip bookTip = oneBookTest();
         WebElement element = driver.findElement(
-                By.linkText("The Martian by Andy Weir"));
+                By.linkText(bookTip.getTitle() + " by " + bookTip.getAuthor()));
         element.click();
         pageHasContent("Book tip details");
-        pageHasContent("Author: Andy Weir");
-        pageHasContent("Title: The Martian");
+        pageHasContent("Author: " + bookTip.getAuthor());
+        pageHasContent("Title: " + bookTip.getTitle());
+        pageHasContent("ISBN: " + bookTip.getIsbn());
     }
 
     @When("clicks delete button")
