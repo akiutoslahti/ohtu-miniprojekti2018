@@ -6,6 +6,7 @@
 ## Documentation
 * [How to start developing](documentation/Development.md)
 * [Build pipeline](documentation/IntegrationAndBuild.md)
+* [How to run application locally](documentation/RunLocal.md)
 
 ## Scrum
 * Backlog in [Trello](https://trello.com/b/149C501e/ohtu-miniproject)
