@@ -13,4 +13,6 @@ Acceptance Criteria as Cucumber Features:
 - As a deliverable we have a working web application with full CRUD functionality for book tips.
 
 Acceptance Criteria as Cucumber Features:
-- TODO
+- [Acceptance Criteria 1: delete tip](src/test/resources/ohtutips/03_delete.feature)
+- Acceptance Criteria 2: modify tip
+- Acceptance Criteria 3: sort tips
