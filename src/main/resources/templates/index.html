@@ -62,7 +62,8 @@
                 document.getElementById("book-tips").innerHTML = tipList;
 
                 function listTips(tip) {
-                    tipList = tipList + "<li><a href='/book_tip/" + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>"; 
+                    tipList = tipList + "<li><a id=" + tip.id + " href='/book_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>"; 
                 }
             }
 

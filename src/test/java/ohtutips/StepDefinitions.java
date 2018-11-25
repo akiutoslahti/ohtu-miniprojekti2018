@@ -89,6 +89,12 @@ public class StepDefinitions {
         element.sendKeys(bookTip.getTags());
     }
 
+    @Then("list of book tips is shown")
+    public void list_of_book_tips_is_shown() {
+        pageHasContent("Reading Tips Archive");
+        pageHasContent("Books");
+    }
+
     @Then("list of book tips has {int} entries")
     public void list_of_book_tips_has_entries(int amount) {
         WebElement element = driver.findElement(By.id("book-tips"));
@@ -106,17 +112,23 @@ public class StepDefinitions {
         pageHasContent(errorMsg);
     }
 
-    @Then("list of book tips is shown")
-    public void list_of_book_tips_is_shown() {
-        pageHasContent("Reading Tips Archive");
-        pageHasContent("Books");
-    }
-
     @Then("deleted one is not listed")
     public void deleted_one_is_not_listed() {
         assertFalse(bookTipListContains(oneBookTest()));
     }
 
+    @Then("book tips are ordered by id")
+    public void book_tips_are_ordered_by_id() {
+        WebElement tipsElement = driver.findElement(By.id("book-tips"));
+        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
+        int previousId = -1;
+        for(int i = 0; i < allTips.size(); i++) {
+            int currentId = Integer.parseInt(allTips.get(i).getAttribute("id"));
+            assertTrue(currentId > previousId);
+            previousId = currentId;
+        }
+    }
+    
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
     }
