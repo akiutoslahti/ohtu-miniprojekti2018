@@ -25,6 +25,11 @@ public class StepDefinitions {
     private WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME, true);
     private String baseUrl = "http://localhost:8080";
 
+    @Given("user has opened the application")
+    public void user_has_opened_the_application() {
+        driver.get(baseUrl);
+    }
+
     @Given("user has opened the application and link {string} has been clicked")
     public void user_has_opened_the_application_and_link_has_been_clicked(String linkText) {
         driver.get(baseUrl);
@@ -52,46 +57,6 @@ public class StepDefinitions {
         driver.findElement(By.tagName("form")).submit();
     }
 
-    @Then("list of book tips has {int} entries")
-    public void list_of_book_tips_has_entries(int amount) {
-        WebElement element = driver.findElement(By.id("book-tips"));
-        List<WebElement> list = element.findElements(By.xpath(".//li"));
-        assertEquals(amount, list.size());
-    }
-
-    @Then("one of them is the newly created one")
-    public void one_of_them_is_the_newly_created_one() {
-        assertTrue(bookTipListContains(oneBookTest()));
-    }
-
-    @When("all necessary book tip fields have not been filled")
-    public void all_necessary_book_tip_fields_have_not_been_filled() {
-        BookTip bookTip = oneBookTest();
-        WebElement element = driver.findElement(By.name("author"));
-        element.sendKeys(bookTip.getAuthor());
-        element = driver.findElement(By.name("title"));
-        element.sendKeys(bookTip.getTitle());
-        element = driver.findElement(By.name("type"));
-        element.sendKeys(bookTip.getType());
-        element.sendKeys(bookTip.getTags());
-    }
-
-    @Then("error message {string} is shown")
-    public void error_message_is_shown(String errorMsg) {
-        pageHasContent(errorMsg);
-    }
-
-    @Given("user has opened the application")
-    public void user_has_opened_the_application() {
-        driver.get(baseUrl);
-    }
-
-    @Then("list of book tips is shown")
-    public void list_of_book_tips_is_shown() {
-        pageHasContent("Reading Tips Archive");
-        pageHasContent("Books");
-    }
-
     @When("user navigates to book tip details")
     public void user_navigates_to_book_tip_details() {
         BookTip bookTip = oneBookTest();
@@ -110,6 +75,41 @@ public class StepDefinitions {
         Alert alert = driver.switchTo().alert();
         alert.accept();
         Thread.sleep(500);
+    }
+
+    @When("all necessary book tip fields have not been filled")
+    public void all_necessary_book_tip_fields_have_not_been_filled() {
+        BookTip bookTip = oneBookTest();
+        WebElement element = driver.findElement(By.name("author"));
+        element.sendKeys(bookTip.getAuthor());
+        element = driver.findElement(By.name("title"));
+        element.sendKeys(bookTip.getTitle());
+        element = driver.findElement(By.name("type"));
+        element.sendKeys(bookTip.getType());
+        element.sendKeys(bookTip.getTags());
+    }
+
+    @Then("list of book tips has {int} entries")
+    public void list_of_book_tips_has_entries(int amount) {
+        WebElement element = driver.findElement(By.id("book-tips"));
+        List<WebElement> list = element.findElements(By.xpath(".//li"));
+        assertEquals(amount, list.size());
+    }
+
+    @Then("one of them is the newly created one")
+    public void one_of_them_is_the_newly_created_one() {
+        assertTrue(bookTipListContains(oneBookTest()));
+    }
+
+    @Then("error message {string} is shown")
+    public void error_message_is_shown(String errorMsg) {
+        pageHasContent(errorMsg);
+    }
+
+    @Then("list of book tips is shown")
+    public void list_of_book_tips_is_shown() {
+        pageHasContent("Reading Tips Archive");
+        pageHasContent("Books");
     }
 
     @Then("deleted one is not listed")
@@ -143,37 +143,8 @@ public class StepDefinitions {
         bookTip.setTags("Fantasy");
         bookTip.setPrerequisiteCourses("");
         bookTip.setRelatedCourses("");
-        
+
         return bookTip;
-    }
-    
-    private ArrayList<BookTip> twoBookTest() {
-        
-        ArrayList<BookTip> bookTips = new ArrayList<>();
-        
-        BookTip bookTip1 = new BookTip();
-        bookTip1.setTitle("The Hobbit or There and Back Again");
-        bookTip1.setAuthor("J. R. R. Tolkien");
-        bookTip1.setType("Book");
-        bookTip1.setIsbn("978-0618002214");
-        bookTip1.setTags("Fantasy");
-        bookTip1.setPrerequisiteCourses("");
-        bookTip1.setRelatedCourses("");
-
-        bookTips.add(bookTip1);
-
-        BookTip bookTip2 = new BookTip();
-        bookTip2.setTitle("The Martian");
-        bookTip2.setAuthor("Weir, Andy");
-        bookTip2.setType("Book");
-        bookTip2.setIsbn("978-0091956134");
-        bookTip2.setTags("Science Fiction");
-        bookTip2.setPrerequisiteCourses("");
-        bookTip2.setRelatedCourses("");
-        
-        bookTips.add(bookTip2);
-
-        return bookTips;
     }
 
 }
