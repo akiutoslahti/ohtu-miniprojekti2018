@@ -4,7 +4,6 @@ import com.gargoylesoftware.htmlunit.BrowserVersion;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import java.util.ArrayList;
 import java.util.List;
 import ohtutips.domain.BookTip;
 import static org.junit.Assert.*;
@@ -70,10 +69,28 @@ public class StepDefinitions {
     }
 
     @When("clicks delete button")
-    public void clicks_button() throws Throwable {
+    public void clicks_delete() throws Throwable {
         driver.findElement(By.name("delete-tip")).click();
         Alert alert = driver.switchTo().alert();
         alert.accept();
+        Thread.sleep(500);
+    }
+    
+    @When("'sort by title' is clicked")
+    public void clicks_sort_by_title() throws Throwable {
+        driver.findElement(By.id("titleSort")).click();
+        Thread.sleep(500);
+    }
+
+    @When("'sort by author' is clicked")
+    public void clicks_sort_by_author() throws Throwable {
+        driver.findElement(By.id("authorSort")).click();
+        Thread.sleep(500);
+    }
+
+    @When("'sort by id' is clicked")
+    public void clicks_sort_by_id() throws Throwable {
+        driver.findElement(By.id("idSort")).click();
         Thread.sleep(500);
     }
 
@@ -117,8 +134,8 @@ public class StepDefinitions {
         assertFalse(bookTipListContains(oneBookTest()));
     }
 
-    @Then("book tips are ordered by id")
-    public void book_tips_are_ordered_by_id() {
+    @Then("book tips are sorted by id")
+    public void book_tips_are_sorted_by_id() {
         WebElement tipsElement = driver.findElement(By.id("book-tips"));
         List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
         int previousId = -1;
@@ -127,6 +144,26 @@ public class StepDefinitions {
             assertTrue(currentId > previousId);
             previousId = currentId;
         }
+    }
+    
+    @Then("book tips are sorted by author")
+    public void book_tips_are_sorted_by_author() {
+        WebElement tipsElement = driver.findElement(By.id("book-tips"));
+        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
+        assertEquals("Ready Player One by Cline, Ernest", allTips.get(0).getText());
+        assertEquals("Introduction to the Theory of Computation by Sipser, Michael", allTips.get(1).getText());
+        assertEquals("Lord Of The Rings by Tolkien, J. R. R.", allTips.get(2).getText());
+
+    }
+    
+    @Then("book tips are sorted by title")
+    public void book_tips_are_sorted_by_title() {
+        WebElement tipsElement = driver.findElement(By.id("book-tips"));
+        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
+        assertEquals("Introduction to the Theory of Computation by Sipser, Michael", allTips.get(0).getText());
+        assertEquals("Lord Of The Rings by Tolkien, J. R. R.", allTips.get(1).getText());
+        assertEquals("Ready Player One by Cline, Ernest", allTips.get(2).getText());
+
     }
     
     private void pageHasContent(String content) {
