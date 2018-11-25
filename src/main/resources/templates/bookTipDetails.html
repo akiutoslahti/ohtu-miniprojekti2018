@@ -8,33 +8,121 @@
         <a href="/">back</a>
         <h1>Book tip details</h1>
 
-        <p>
-            <span th:text="'Author: ' + ${book.author}"/>
-            <span style="white-space: pre-line">
-            </span>
-            <span th:text="'Title: ' + ${book.title}"/>
-            <span style="white-space: pre-line">
-            </span>
-            <span th:text="'Type: ' + ${book.type}"/>
-            <span style="white-space: pre-line">
-            </span>
-            <span th:text="'ISBN: ' + ${book.isbn}"/>
-            <span style="white-space: pre-line">
-            </span>
-            <span th:text="'Tags: ' + ${book.tags}"/>
-            <span style="white-space: pre-line">
-            </span>
-            <span th:text="'Prerequisite courses: ' + ${book.prerequisiteCourses}"/>
-            <span style="white-space: pre-line">
-            </span>
-            <span th:text="'Related courses: ' + ${book.relatedCourses}"/>
+        <p id="book-tip-details"></p>
+        <p id="buttons">
         </p>
 
-        <form th:onsubmit="return confirm(/*[['Do you really want to delete ' 
-              + ${book.title} + ' by ' + ${book.author} + '?']]*/'')" 
-              th:action="@{/book_tip/{id}(id=${book.id})}" method="POST">
-            <input type="hidden" name="_method" value="DELETE"/>
-            <input name="delete-tip" type="submit" value="Delete"/>
-        </form>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var book = /*[[${book}]]*/ 'book';
+            /*]]>*/
+
+            function addDeleteButton() {
+                var deleteButton = document.createElement("button");
+                deleteButton.id = "delete-button";
+                deleteButton.innerHTML = "Delete"
+                deleteButton.onclick = deleteBook
+                document.getElementById("buttons").appendChild(deleteButton);
+            }
+
+            function removeDeleteButton() {
+                var deleteButton = document.getElementById("delete-button");
+                if (deleteButton) {
+                    deleteButton.parentNode.removeChild(deleteButton);
+                }
+            }
+
+            function addEditButton() {
+                var editButton = document.createElement("button");
+                editButton.id = "edit-button";
+                editButton.innerHTML = "Edit"
+                editButton.onclick = editEnabled
+                document.getElementById("buttons").appendChild(editButton);
+            }
+
+            function removeEditButton() {
+                var editButton = document.getElementById("edit-button");
+                if (editButton) {
+                    editButton.parentNode.removeChild(editButton);
+                }
+            }
+
+            function addSaveButton() {
+                var saveButton = document.createElement("button");
+                saveButton.id = "save-button";
+                saveButton.innerHTML = "Save"
+                saveButton.onclick = saveBook
+                document.getElementById("buttons").appendChild(saveButton);
+            }
+
+            function removeSaveButton() {
+                var saveButton = document.getElementById("save-button");
+                if (saveButton) {
+                    saveButton.parentNode.removeChild(saveButton);
+                }
+            }
+
+            function addCancelButton() {
+                var cancelButton = document.createElement("button");
+                cancelButton.id = "cancel-button";
+                cancelButton.innerHTML = "Cancel"
+                cancelButton.onclick = editDisabled
+                document.getElementById("buttons").appendChild(cancelButton);
+            }
+
+            function removeCancelButton() {
+                var cancelButton = document.getElementById("cancel-button");
+                if (cancelButton) {
+                    cancelButton.parentNode.removeChild(cancelButton);
+                }
+            }
+
+            function editDisabled() {
+                emptyElements();
+                document.getElementById("book-tip-details").innerHTML =
+                        "Author: " + book.author + "<br/>"
+                        + "Title: " + book.title + "<br/>"
+                        + "Type: " + book.type + "<br/>"
+                        + "ISBN: " + book.isbn + "<br/>"
+                        + "Tags: " + book.Tags + "<br/>"
+                        + "Prerequisite courses: " + book.prerequisiteCourses + "<br/>"
+                        + "Related courses: " + book.relatedCourses + "<br/>";
+                addDeleteButton();
+                addEditButton();
+            }
+
+            function editEnabled() {
+                emptyElements();
+                document.getElementById("book-tip-details").innerHTML =
+                        "Author: <input id='author' value='" + book.author + "'/><br/>"
+                        + "Title: <input id='title' value='" + book.title + "'/><br/>"
+                        + "Type: <input id='type' value='" + book.type + "'/><br/>"
+                        + "ISBN: <input id='isbn' value='" + book.isbn + "'/><br/>"
+                        + "Tags: <input id='tags' value='" + book.tags + "'/><br/>"
+                        + "Prerequisite courses: <input id='prerequisite-courses' value='" + book.prerequisiteCourses + "'/><br/>"
+                        + "Related courses: <input id='relate-courses' value='" + book.relatedCourses + "'/><br/>";
+                addSaveButton();
+                addCancelButton();
+            }
+
+            function emptyElements() {
+                document.getElementById("book-tip-details").innerHTML = "";
+                document.getElementById("buttons").innerHTML = "";
+            }
+
+            function deleteBook() {
+                var confirmation = confirm("Do you really want to delete book tip: "
+                        + book.title + " by " + book.author + "?");
+                if (confirmation) {
+                    console.log("implement delete");
+                }
+            }
+
+            function saveBook() {
+                console.log("implement save");
+            }
+
+            editDisabled();
+        </script>
     </body>
 </html>
