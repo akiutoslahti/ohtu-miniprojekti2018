@@ -30,7 +30,9 @@
             <span th:text="'Related courses: ' + ${book.relatedCourses}"/>
         </p>
 
-        <form th:onsubmit="return confirm(/*[['Do you really want to delete ' + ${book.title} + ' by ' + ${book.author} + '?']]*/'')" th:action="@{/book_tip/{id}(id=${book.id})}" method="POST">
+        <form th:onsubmit="return confirm(/*[['Do you really want to delete ' 
+              + ${book.title} + ' by ' + ${book.author} + '?']]*/'')" 
+              th:action="@{/book_tip/{id}(id=${book.id})}" method="POST">
             <input type="hidden" name="_method" value="DELETE"/>
             <input name="delete-tip" type="submit" value="Delete"/>
         </form>
