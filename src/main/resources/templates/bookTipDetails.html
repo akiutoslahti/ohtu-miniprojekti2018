@@ -7,7 +7,11 @@
     <body>
         <a href="/">back</a>
         <h1>Book tip details</h1>
-
+        
+        <ul th:each="error : ${errors}">
+            <li th:text="${error}">here</li>
+        </ul>
+        
         <p id="book-tip-details"></p>
         <p id="buttons">
         </p>
@@ -84,7 +88,7 @@
                         + "Title: " + book.title + "<br/>"
                         + "Type: " + book.type + "<br/>"
                         + "ISBN: " + book.isbn + "<br/>"
-                        + "Tags: " + book.Tags + "<br/>"
+                        + "Tags: " + book.tags + "<br/>"
                         + "Prerequisite courses: " + book.prerequisiteCourses + "<br/>"
                         + "Related courses: " + book.relatedCourses + "<br/>";
                 addDeleteButton();
@@ -94,13 +98,18 @@
             function editEnabled() {
                 emptyElements();
                 document.getElementById("book-tip-details").innerHTML =
-                        "Author: <input id='author' value='" + book.author + "'/><br/>"
-                        + "Title: <input id='title' value='" + book.title + "'/><br/>"
-                        + "Type: <input id='type' value='" + book.type + "'/><br/>"
-                        + "ISBN: <input id='isbn' value='" + book.isbn + "'/><br/>"
-                        + "Tags: <input id='tags' value='" + book.tags + "'/><br/>"
-                        + "Prerequisite courses: <input id='prerequisite-courses' value='" + book.prerequisiteCourses + "'/><br/>"
-                        + "Related courses: <input id='relate-courses' value='" + book.relatedCourses + "'/><br/>";
+                        /*<![CDATA[*/
+                        "<form name='editForm' method='POST' action='/book_tip/[[${book.id}]]'>"
+                        /*]]>*/
+                        + "(*)Author: <input name='author' value='" + book.author + "'/><br/>"
+                        + "(*)Title: <input name='title' value='" + book.title + "'/><br/>"
+                        + "(*)Type: <input name='type' value='" + book.type + "'/><br/>"
+                        + "(*)ISBN: <input name='isbn' value='" + book.isbn + "'/><br/>"
+                        + "(*)Tags: <input name='tags' value='" + book.tags + "'/><br/>"
+                        + "Prerequisite courses: <input name='prerequisiteCourses' value='" + book.prerequisiteCourses + "'/><br/>"
+                        + "Related courses: <input name='relatedCourses' value='" + book.relatedCourses + "'/><br/>"
+                        + "<input type='hidden' name='_method' value='PUT'>"
+                        + "<\/form>";
                 addSaveButton();
                 addCancelButton();
             }
@@ -119,7 +128,7 @@
             }
 
             function saveBook() {
-                console.log("implement save");
+                document.editForm.submit();
             }
 
             editDisabled();
