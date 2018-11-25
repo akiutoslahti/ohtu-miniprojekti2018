@@ -71,7 +71,7 @@ public class StepDefinitions {
 
     @When("clicks delete button")
     public void clicks_button() throws Throwable {
-        driver.findElement(By.name("delete-tip")).click();
+        driver.findElement(By.id("delete-button")).click();
         Alert alert = driver.switchTo().alert();
         alert.accept();
         Thread.sleep(500);
