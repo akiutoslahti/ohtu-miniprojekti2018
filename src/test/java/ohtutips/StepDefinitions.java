@@ -68,12 +68,31 @@ public class StepDefinitions {
         pageHasContent("Title: " + bookTip.getTitle());
         pageHasContent("ISBN: " + bookTip.getIsbn());
     }
+    
+    @When("user navigates to any book tip details")
+    public void user_navigates_to_any_book_tip_details() {
+        WebElement element = driver.findElement(By.id("book-tips"));
+        element = element.findElement(By.xpath(".//a[1]"));
+        element.click();
+    }
 
     @When("clicks delete button")
     public void clicks_button() throws Throwable {
         driver.findElement(By.id("delete-button")).click();
         Alert alert = driver.switchTo().alert();
         alert.accept();
+        Thread.sleep(500);
+    }
+    
+    @When("clicks Edit button")
+    public void clicks_edit_button() throws Throwable {
+        driver.findElement(By.id("edit-button")).click();
+        Thread.sleep(500);
+    }
+    
+    @When("clicks Save button")
+    public void clicks_save_button() throws Throwable {
+        driver.findElement(By.id("save-button")).click();
         Thread.sleep(500);
     }
 
@@ -115,6 +134,25 @@ public class StepDefinitions {
     @Then("deleted one is not listed")
     public void deleted_one_is_not_listed() {
         assertFalse(bookTipListContains(oneBookTest()));
+    }
+    
+    @When("enters valid book title")
+    public void enters_valid_book_title() {
+        WebElement element = driver.findElement(By.name("title"));
+        element.clear();
+        element.sendKeys("The Hitchhiker's Guide to the Galaxy");
+    }
+
+    @Then("changed book title is shown")
+    public void changed_book_title_is_shown() {
+        driver.findElement(By.linkText("back")).click();
+        pageHasContent("The Hitchhiker's Guide to the Galaxy");
+    }
+
+    @When("empties title field")
+    public void empties_title_field() {
+        WebElement element = driver.findElement(By.name("title"));
+        element.clear();
     }
 
     private void pageHasContent(String content) {
