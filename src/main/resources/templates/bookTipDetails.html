@@ -25,6 +25,9 @@
                 var deleteButton = document.createElement("button");
                 deleteButton.id = "delete-button";
                 deleteButton.innerHTML = "Delete"
+                            + "<form name='deleteForm' method='POST' action='/book_tip/[[${book.id}]]'>"
+                            + "<input type='hidden' name='_method' value='DELETE'>"
+                            + "<\/form>";
                 deleteButton.onclick = deleteBook
                 document.getElementById("buttons").appendChild(deleteButton);
             }
@@ -98,9 +101,7 @@
             function editEnabled() {
                 emptyElements();
                 document.getElementById("book-tip-details").innerHTML =
-                        /*<![CDATA[*/
                         "<form name='editForm' method='POST' action='/book_tip/[[${book.id}]]'>"
-                        /*]]>*/
                         + "(*)Author: <input name='author' value='" + book.author + "'/><br/>"
                         + "(*)Title: <input name='title' value='" + book.title + "'/><br/>"
                         + "(*)Type: <input name='type' value='" + book.type + "'/><br/>"
@@ -124,6 +125,7 @@
                         + book.title + " by " + book.author + "?");
                 if (confirmation) {
                     console.log("implement delete");
+                    document.deleteForm.submit();
                 }
             }
 
