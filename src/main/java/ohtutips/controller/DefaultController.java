@@ -23,16 +23,12 @@ public class DefaultController {
 
     @PostConstruct
     public void init() {
-
         if (ds.getJdbcUrl().contains("jdbc:h2:mem:testdb")) {
-
             ArrayList<BookTip> tips = initialBooks();
             for (BookTip tip : tips) {
                 bookTipRepository.save(tip);
             }
-
         }
-
     }
 
     @RequestMapping(value = "/*", method = RequestMethod.GET)
@@ -66,7 +62,7 @@ public class DefaultController {
         bookTip2.setRelatedCourses("");
 
         tips.add(bookTip2);
-        
+
         BookTip bookTip3 = new BookTip();
         bookTip3.setTitle("Introduction to the Theory of Computation");
         bookTip3.setAuthor("Sipser, Michael");

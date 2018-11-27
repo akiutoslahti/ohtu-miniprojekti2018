@@ -5,12 +5,12 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Entity
 public class BookTip extends AbstractPersistable<Long> {
-    
+
     private String author;
     private String title;
     private String Type;
     private String isbn;
-    
+
     // Will be replaced when the database is complete
     private String tags;
     private String prerequisiteCourses;
@@ -71,5 +71,5 @@ public class BookTip extends AbstractPersistable<Long> {
     public String getType() {
         return Type;
     }
-    
+
 }
