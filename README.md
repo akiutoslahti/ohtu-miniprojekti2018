@@ -22,4 +22,6 @@
 ## Pipeline Tools
 * Continuous integration: [Travis CI](https://travis-ci.org/akiutoslahti/ohtu-miniprojekti2018) 
 * Code coverage: [Codecov](https://codecov.io/gh/akiutoslahti/ohtu-miniprojekti2018)
-* App online: [Heroku](https://ohtutips.herokuapp.com/)
+* App online:
+    * [Latest release](https://ohtutips.herokuapp.com/)
+    * [Dev branch](https://ohtutips-dev.herokuapp.com/)
