@@ -3,7 +3,9 @@ package ohtutips.controller;
 import com.zaxxer.hikari.HikariDataSource;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
+import ohtutips.domain.BlogTip;
 import ohtutips.domain.BookTip;
+import ohtutips.repository.BlogTipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +21,21 @@ public class DefaultController {
     private BookTipRepository bookTipRepository;
 
     @Autowired
+    private BlogTipRepository blogTipRepository;
+
+    @Autowired
     private HikariDataSource ds;
 
     @PostConstruct
     public void init() {
         if (ds.getJdbcUrl().contains("jdbc:h2:mem:testdb")) {
-            ArrayList<BookTip> tips = initialBooks();
-            for (BookTip tip : tips) {
+            ArrayList<BookTip> bookTips = initialBooks();
+            for (BookTip tip : bookTips) {
                 bookTipRepository.save(tip);
+            }
+            ArrayList<BlogTip> blogTips = initialBlogs();
+            for (BlogTip tip : blogTips) {
+                blogTipRepository.save(tip);
             }
         }
     }
@@ -38,7 +47,7 @@ public class DefaultController {
         return "index";
     }
 
-    public ArrayList<BookTip> initialBooks() {
+    private ArrayList<BookTip> initialBooks() {
         ArrayList<BookTip> tips = new ArrayList<>();
 
         BookTip bookTip1 = new BookTip();
@@ -70,6 +79,22 @@ public class DefaultController {
         bookTip3.setRelatedCourses("");
 
         tips.add(bookTip3);
+
+        return tips;
+    }
+
+    private ArrayList<BlogTip> initialBlogs() {
+        ArrayList<BlogTip> tips = new ArrayList<>();
+
+        BlogTip blogTip1 = new BlogTip();
+        blogTip1.setTitle("The New Methodology");
+        blogTip1.setAuthor("Fowler, Martin");
+        blogTip1.setURL("https://martinfowler.com/articles/newMethodology.html");
+        blogTip1.setTags("Agile Development");
+        blogTip1.setPrerequisiteCourses("");
+        blogTip1.setRelatedCourses("");
+
+        tips.add(blogTip1);
 
         return tips;
     }

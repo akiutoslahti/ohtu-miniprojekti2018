@@ -1,20 +1,19 @@
 package ohtutips.domain;
 
-import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
-@Entity
+@MappedSuperclass
 public abstract class Tip extends AbstractPersistable<Long> {
-    
+
     private String author;
     private String title;
     private boolean studied;
-    
-    // Will be replaced when the database is complete
+
     private String tags;
     private String prerequisiteCourses;
     private String relatedCourses;
-    
+
     public String getTitle() {
         return title;
     }
@@ -31,10 +30,10 @@ public abstract class Tip extends AbstractPersistable<Long> {
         this.author = author;
     }
 
-    public boolean isStudied() {
+    public boolean getStudied() {
         return studied;
     }
-    
+
     public void setStudied(boolean studied) {
         this.studied = studied;
     }

@@ -15,5 +15,4 @@ public class BookTip extends Tip {
         return isbn;
     }
 
-
 }
