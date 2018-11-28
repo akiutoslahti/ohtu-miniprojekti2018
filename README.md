@@ -7,6 +7,7 @@
 
 ## Documentation
 * [How to start developing](documentation/Development.md)
+* [Database migrations](documentation/Migrations.md)
 * [Build pipeline](documentation/IntegrationAndBuild.md)
 * [How to run application locally](documentation/RunLocal.md)
 
