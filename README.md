@@ -15,6 +15,7 @@
    * [Product Backlog](https://trello.com/b/149C501e/product-backlog)
    * [Sprint #1](https://trello.com/b/ZYeSXy5k/sprint-1)
    * [Sprint #2](https://trello.com/b/3VATUkc9/sprint-2)
+   * [Sprint #3](https://trello.com/b/qxg8Fz5g/sprint-3)
 * [Burndown Chart](https://docs.google.com/spreadsheets/d/1k_zhpgvVd8Xq-XXRJ9vQeVHRLzwot7oc-jfq42d4XPU/edit?ts=5bed3f04#gid=0)
 * [Sprint Goals](documentation/SprintGoals.md)
 * [Definition of Done](documentation/DefinitionOfDone.md)
