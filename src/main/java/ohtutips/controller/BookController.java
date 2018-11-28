@@ -63,25 +63,26 @@ public class BookController {
         bookTipRepository.deleteById(id);
         return "redirect:/";
     }
-    
+
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.PUT)
-    public String modifyBookTip(@PathVariable long id, Model model, 
-            @RequestParam String author, @RequestParam String title, 
+    public String modifyBookTip(@PathVariable long id, Model model,
+            @RequestParam String author, @RequestParam String title,
             @RequestParam String isbn,
             @RequestParam String tags, @RequestParam String prerequisiteCourses,
             @RequestParam String relatedCourses) {
-        System.out.println("modifying " + id );
-        List<String> errors = new ArrayList<>();
+
         if (author.trim().isEmpty() || title.trim().isEmpty()
                 || isbn.trim().isEmpty()
                 || tags.trim().isEmpty()) {
+            List<String> errors = new ArrayList<>();
+
             errors.add("Please do not empty fields marked with (*).");
 
             model.addAttribute("errors", errors);
             model.addAttribute("book", bookTipRepository.findById(id).get());
             return "bookTipDetails";
         }
-        
+
         BookTip bookTip = bookTipRepository.findById(id).get();
         bookTip.setAuthor(author);
         bookTip.setTitle(title);
@@ -91,7 +92,7 @@ public class BookController {
         bookTip.setRelatedCourses(relatedCourses);
 
         bookTipRepository.save(bookTip);
-        
+
         return "redirect:/book_tip/" + id;
     }
 }

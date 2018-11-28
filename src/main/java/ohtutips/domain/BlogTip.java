@@ -7,11 +7,11 @@ public class BlogTip extends Tip {
 
     private String url;
 
-    public void setURL(String url) {
+    public void setUrl(String url) {
         this.url = url;
     }
 
-    public String getURL() {
+    public String getUrl() {
         return url;
     }
 

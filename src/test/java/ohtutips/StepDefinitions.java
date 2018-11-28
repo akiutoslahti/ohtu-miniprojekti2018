@@ -1,12 +1,15 @@
 package ohtutips;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.util.List;
 import ohtutips.domain.BookTip;
-import static org.junit.Assert.*;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -184,18 +187,24 @@ public class StepDefinitions {
     public void book_tips_are_sorted_by_author() {
         WebElement tipsElement = driver.findElement(By.id("book-tips"));
         List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold", allTips.get(0).getText());
-        assertEquals("The C programming language by Kernighan, Brian W.", allTips.get(1).getText());
-        assertEquals("Introduction to the Theory of Computation by Sipser, Michael", allTips.get(2).getText());
+        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold",
+                allTips.get(0).getText());
+        assertEquals("The C programming language by Kernighan, Brian W.",
+                allTips.get(1).getText());
+        assertEquals("Introduction to the Theory of Computation by Sipser, Michael",
+                allTips.get(2).getText());
     }
 
     @Then("book tips are sorted by title")
     public void book_tips_are_sorted_by_title() {
         WebElement tipsElement = driver.findElement(By.id("book-tips"));
         List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Introduction to the Theory of Computation by Sipser, Michael", allTips.get(0).getText());
-        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold", allTips.get(1).getText());
-        assertEquals("The C programming language by Kernighan, Brian W.", allTips.get(2).getText());
+        assertEquals("Introduction to the Theory of Computation by Sipser, Michael",
+                allTips.get(0).getText());
+        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold",
+                allTips.get(1).getText());
+        assertEquals("The C programming language by Kernighan, Brian W.",
+                allTips.get(2).getText());
 
     }
 
