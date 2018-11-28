@@ -89,7 +89,6 @@
                 document.getElementById("book-tip-details").innerHTML =
                         "Author: " + book.author + "<br/>"
                         + "Title: " + book.title + "<br/>"
-                        + "Type: " + book.type + "<br/>"
                         + "ISBN: " + book.isbn + "<br/>"
                         + "Tags: " + book.tags + "<br/>"
                         + "Prerequisite courses: " + book.prerequisiteCourses + "<br/>"
@@ -104,7 +103,6 @@
                         "<form name='editForm' method='POST' action='/book_tip/[[${book.id}]]'>"
                         + "(*)Author: <input name='author' value='" + book.author + "'/><br/>"
                         + "(*)Title: <input name='title' value='" + book.title + "'/><br/>"
-                        + "(*)Type: <input name='type' value='" + book.type + "'/><br/>"
                         + "(*)ISBN: <input name='isbn' value='" + book.isbn + "'/><br/>"
                         + "(*)Tags: <input name='tags' value='" + book.tags + "'/><br/>"
                         + "Prerequisite courses: <input name='prerequisiteCourses' value='" + book.prerequisiteCourses + "'/><br/>"

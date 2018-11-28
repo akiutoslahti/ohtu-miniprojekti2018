@@ -43,8 +43,6 @@ public class StepDefinitions {
         element.sendKeys(bookTip.getAuthor());
         element = driver.findElement(By.name("title"));
         element.sendKeys(bookTip.getTitle());
-        element = driver.findElement(By.name("type"));
-        element.sendKeys(bookTip.getType());
         element = driver.findElement(By.name("isbn"));
         element.sendKeys(bookTip.getIsbn());
         element = driver.findElement(By.name("tags"));
@@ -119,8 +117,7 @@ public class StepDefinitions {
         element.sendKeys(bookTip.getAuthor());
         element = driver.findElement(By.name("title"));
         element.sendKeys(bookTip.getTitle());
-        element = driver.findElement(By.name("type"));
-        element.sendKeys(bookTip.getType());
+        element = driver.findElement(By.name("isbn"));
         element.sendKeys(bookTip.getTags());
     }
 
@@ -224,7 +221,6 @@ public class StepDefinitions {
         BookTip bookTip = new BookTip();
         bookTip.setTitle("Silmarillion");
         bookTip.setAuthor("J. R. R. Tolkien");
-        bookTip.setType("Book");
         bookTip.setIsbn("978-0345325815");
         bookTip.setTags("Fantasy");
         bookTip.setPrerequisiteCourses("");

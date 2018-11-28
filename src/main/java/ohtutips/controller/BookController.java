@@ -32,14 +32,14 @@ public class BookController {
 
     @RequestMapping(value = "/book_tip", method = RequestMethod.POST)
     public String addBookTip(Model model, @RequestParam String author,
-            @RequestParam String title, @RequestParam String type,
+            @RequestParam String title,
             @RequestParam String isbn, @RequestParam String tags,
             @RequestParam String prerequisiteCourses,
             @RequestParam String relatedCourses) {
 
         List<String> errors = new ArrayList<>();
         if (author.trim().isEmpty() || title.trim().isEmpty()
-                || type.trim().isEmpty() || isbn.trim().isEmpty()
+                || isbn.trim().isEmpty()
                 || tags.trim().isEmpty()) {
             errors.add("Please fill all fields marked with (*).");
 
@@ -51,7 +51,6 @@ public class BookController {
         bookTip.setAuthor(author);
         bookTip.setTitle(title);
         bookTip.setIsbn(isbn);
-        bookTip.setType(type);
         bookTip.setTags(tags);
         bookTip.setPrerequisiteCourses(prerequisiteCourses);
         bookTip.setRelatedCourses(relatedCourses);
@@ -69,13 +68,13 @@ public class BookController {
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.PUT)
     public String modifyBookTip(@PathVariable long id, Model model, 
             @RequestParam String author, @RequestParam String title, 
-            @RequestParam String type, @RequestParam String isbn,
+            @RequestParam String isbn,
             @RequestParam String tags, @RequestParam String prerequisiteCourses,
             @RequestParam String relatedCourses) {
         System.out.println("modifying " + id );
         List<String> errors = new ArrayList<>();
         if (author.trim().isEmpty() || title.trim().isEmpty()
-                || type.trim().isEmpty() || isbn.trim().isEmpty()
+                || isbn.trim().isEmpty()
                 || tags.trim().isEmpty()) {
             errors.add("Please do not empty fields marked with (*).");
 
@@ -88,7 +87,6 @@ public class BookController {
         bookTip.setAuthor(author);
         bookTip.setTitle(title);
         bookTip.setIsbn(isbn);
-        bookTip.setType(type);
         bookTip.setTags(tags);
         bookTip.setPrerequisiteCourses(prerequisiteCourses);
         bookTip.setRelatedCourses(relatedCourses);

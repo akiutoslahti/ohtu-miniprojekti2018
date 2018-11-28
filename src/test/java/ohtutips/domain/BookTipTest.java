@@ -28,13 +28,6 @@ public class BookTipTest {
     }
 
     @Test
-    public void setGetTypeTest() {
-        assertNull(this.testBook.getType());
-        this.testBook.setType("test type");
-        assertEquals("test type", this.testBook.getType());
-    }
-    
-    @Test
     public void setGetIsbnTest() {
         assertNull(this.testBook.getIsbn());
         this.testBook.setIsbn("test isbn");

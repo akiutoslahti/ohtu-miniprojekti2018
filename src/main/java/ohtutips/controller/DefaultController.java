@@ -44,7 +44,6 @@ public class DefaultController {
         BookTip bookTip1 = new BookTip();
         bookTip1.setTitle("Lord Of The Rings");
         bookTip1.setAuthor("Tolkien, J. R. R.");
-        bookTip1.setType("Book");
         bookTip1.setIsbn("978-0544003415");
         bookTip1.setTags("Fantasy");
         bookTip1.setPrerequisiteCourses("");
@@ -55,7 +54,6 @@ public class DefaultController {
         BookTip bookTip2 = new BookTip();
         bookTip2.setTitle("Ready Player One");
         bookTip2.setAuthor("Cline, Ernest");
-        bookTip2.setType("Book");
         bookTip2.setIsbn("978-0099560432");
         bookTip2.setTags("Science Fiction");
         bookTip2.setPrerequisiteCourses("");
@@ -66,7 +64,6 @@ public class DefaultController {
         BookTip bookTip3 = new BookTip();
         bookTip3.setTitle("Introduction to the Theory of Computation");
         bookTip3.setAuthor("Sipser, Michael");
-        bookTip3.setType("Book");
         bookTip3.setIsbn("978-1133187790");
         bookTip3.setTags("Computer Science");
         bookTip3.setPrerequisiteCourses("");
