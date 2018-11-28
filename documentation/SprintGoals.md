@@ -16,3 +16,10 @@ Acceptance Criteria as Cucumber Features:
 - [Acceptance Criteria 1: delete tip](/src/test/resources/ohtutips/03_delete.feature)
 - [Acceptance Criteria 2: modify tip](/src/test/resources/ohtutips/05_modify.feature)
 - [Acceptance Criteria 3: sort tips](/src/test/resources/ohtutips/04_sort_tips.feature)
+
+
+### Sprint 3
+- To expand application to cover blog tips, add "studied/not-studied" tracking, and to allow filtering of tips.
+
+Acceptance Criteria as Cucumber Features:
+- TODO
