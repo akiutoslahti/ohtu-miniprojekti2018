@@ -184,10 +184,9 @@ public class StepDefinitions {
     public void book_tips_are_sorted_by_author() {
         WebElement tipsElement = driver.findElement(By.id("book-tips"));
         List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Ready Player One by Cline, Ernest", allTips.get(0).getText());
-        assertEquals("Introduction to the Theory of Computation by Sipser, Michael", allTips.get(1).getText());
-        assertEquals("Lord Of The Rings by Tolkien, J. R. R.", allTips.get(2).getText());
-
+        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold", allTips.get(0).getText());
+        assertEquals("The C programming language by Kernighan, Brian W.", allTips.get(1).getText());
+        assertEquals("Introduction to the Theory of Computation by Sipser, Michael", allTips.get(2).getText());
     }
 
     @Then("book tips are sorted by title")
@@ -195,8 +194,8 @@ public class StepDefinitions {
         WebElement tipsElement = driver.findElement(By.id("book-tips"));
         List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
         assertEquals("Introduction to the Theory of Computation by Sipser, Michael", allTips.get(0).getText());
-        assertEquals("Lord Of The Rings by Tolkien, J. R. R.", allTips.get(1).getText());
-        assertEquals("Ready Player One by Cline, Ernest", allTips.get(2).getText());
+        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold", allTips.get(1).getText());
+        assertEquals("The C programming language by Kernighan, Brian W.", allTips.get(2).getText());
 
     }
 
@@ -219,10 +218,10 @@ public class StepDefinitions {
     private BookTip oneBookTest() {
 
         BookTip bookTip = new BookTip();
-        bookTip.setTitle("Silmarillion");
-        bookTip.setAuthor("J. R. R. Tolkien");
-        bookTip.setIsbn("978-0345325815");
-        bookTip.setTags("Fantasy");
+        bookTip.setTitle("Introduction to algorithms");
+        bookTip.setAuthor("Cormen, Thomas H.");
+        bookTip.setIsbn("978-0-262-03384-8");
+        bookTip.setTags("Algorithms");
         bookTip.setPrerequisiteCourses("");
         bookTip.setRelatedCourses("");
 

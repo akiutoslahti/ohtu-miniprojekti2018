@@ -51,20 +51,20 @@ public class DefaultController {
         ArrayList<BookTip> tips = new ArrayList<>();
 
         BookTip bookTip1 = new BookTip();
-        bookTip1.setTitle("Lord Of The Rings");
-        bookTip1.setAuthor("Tolkien, J. R. R.");
-        bookTip1.setIsbn("978-0544003415");
-        bookTip1.setTags("Fantasy");
+        bookTip1.setTitle("Structure and Interpretation of Computer Programs");
+        bookTip1.setAuthor("Abelson, Harold");
+        bookTip1.setIsbn("978-0262510875");
+        bookTip1.setTags("Programming");
         bookTip1.setPrerequisiteCourses("");
         bookTip1.setRelatedCourses("");
 
         tips.add(bookTip1);
 
         BookTip bookTip2 = new BookTip();
-        bookTip2.setTitle("Ready Player One");
-        bookTip2.setAuthor("Cline, Ernest");
-        bookTip2.setIsbn("978-0099560432");
-        bookTip2.setTags("Science Fiction");
+        bookTip2.setTitle("The C programming language");
+        bookTip2.setAuthor("Kernighan, Brian W.");
+        bookTip2.setIsbn("0-13-110370-9 ");
+        bookTip2.setTags("Programming");
         bookTip2.setPrerequisiteCourses("");
         bookTip2.setRelatedCourses("");
 
@@ -95,6 +95,26 @@ public class DefaultController {
         blogTip1.setRelatedCourses("");
 
         tips.add(blogTip1);
+
+        BlogTip blogTip2 = new BlogTip();
+        blogTip2.setTitle("Dependency Injection Demystified");
+        blogTip2.setAuthor("Shore, James");
+        blogTip2.setURL("https://www.jamesshore.com/Blog/Dependency-Injection-Demystified.html");
+        blogTip2.setTags("Programming");
+        blogTip2.setPrerequisiteCourses("");
+        blogTip2.setRelatedCourses("");
+
+        tips.add(blogTip2);
+
+        BlogTip blogTip3 = new BlogTip();
+        blogTip3.setTitle("Make The Product Backlog DEEP");
+        blogTip3.setAuthor("Pichler, Roman");
+        blogTip3.setURL("https://www.romanpichler.com/blog/make-the-product-backlog-deep/");
+        blogTip3.setTags("Agile Development");
+        blogTip3.setPrerequisiteCourses("");
+        blogTip3.setRelatedCourses("");
+
+        tips.add(blogTip3);
 
         return tips;
     }
