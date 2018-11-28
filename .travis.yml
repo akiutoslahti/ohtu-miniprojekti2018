@@ -10,3 +10,8 @@ deploy:
   app: ohtutips
   on:
     repo: akiutoslahti/ohtu-miniprojekti2018
+    branch: master
+  app: ohtutips-dev
+  on:
+    repo: akiutoslahti/ohtu-miniprojekti2018
+    branch: dev
