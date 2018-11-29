@@ -27,14 +27,13 @@ public class StepDefinitions {
     private WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME, true);
     private String baseUrl = "http://localhost:8080";
 
-    @Given("user has opened the application")
+    @Given("application has been opened")
     public void user_has_opened_the_application() {
         driver.get(baseUrl);
     }
 
-    @Given("user has opened the application and link {string} has been clicked")
-    public void user_has_opened_the_application_and_link_has_been_clicked(String linkText) {
-        driver.get(baseUrl);
+    @Given("link {string} has been clicked")
+    public void link_has_been_clicked(String linkText) {
         WebElement element = driver.findElement(By.linkText(linkText));
         element.click();
     }
@@ -52,11 +51,6 @@ public class StepDefinitions {
         element.sendKeys(bookTip.getTags());
     }
 
-    @When("book tip has been submitted")
-    public void book_tip_has_been_submitted() {
-        driver.findElement(By.tagName("form")).submit();
-    }
-
     @When("user navigates to book tip details")
     public void user_navigates_to_book_tip_details() {
         BookTip bookTip = oneBookTest();
@@ -69,48 +63,26 @@ public class StepDefinitions {
         pageHasContent("ISBN: " + bookTip.getIsbn());
     }
 
-    @When("user navigates to any book tip details")
+    @When("any book tip is navigated to")
     public void user_navigates_to_any_book_tip_details() {
         WebElement element = driver.findElement(By.id("book-tips"));
         element = element.findElement(By.xpath(".//a[1]"));
         element.click();
     }
 
-    @When("clicks delete button")
-    public void clicks_delete() throws Throwable {
-        driver.findElement(By.id("delete-button")).click();
-        Alert alert = driver.switchTo().alert();
-        alert.accept();
-        Thread.sleep(500);
+    @When("sort by {string} is clicked")
+    public void sort_by_is_clicked(String sortId) {
+        driver.findElement(By.id(sortId + "Sort")).click();
     }
 
-    @When("'sort by title' is clicked")
-    public void clicks_sort_by_title() throws Throwable {
-        driver.findElement(By.id("titleSort")).click();
-        Thread.sleep(500);
-    }
-
-    @When("'sort by author' is clicked")
-    public void clicks_sort_by_author() throws Throwable {
-        driver.findElement(By.id("authorSort")).click();
-        Thread.sleep(500);
-    }
-
-    @When("'sort by id' is clicked")
-    public void clicks_sort_by_id() throws Throwable {
-        driver.findElement(By.id("idSort")).click();
-    }
-
-    @When("clicks Edit button")
-    public void clicks_edit_button() throws Throwable {
-        driver.findElement(By.id("edit-button")).click();
-        Thread.sleep(500);
-    }
-
-    @When("clicks Save button")
-    public void clicks_save_button() throws Throwable {
-        driver.findElement(By.id("save-button")).click();
-        Thread.sleep(500);
+    @When("{string} button has been clicked")
+    public void button_has_been_clicked(String buttonId) throws Throwable {
+        driver.findElement(By.id(buttonId.toLowerCase() + "-button")).click();
+        if (buttonId.toLowerCase().equals("delete")) {
+            Alert alert = driver.switchTo().alert();
+            alert.accept();
+            Thread.sleep(100);
+        }
     }
 
     @When("all necessary book tip fields have not been filled")
@@ -122,6 +94,19 @@ public class StepDefinitions {
         element.sendKeys(bookTip.getTitle());
         element = driver.findElement(By.name("isbn"));
         element.sendKeys(bookTip.getTags());
+    }
+
+    @When("valid title has been entered")
+    public void enters_valid_book_title() {
+        WebElement element = driver.findElement(By.name("title"));
+        element.clear();
+        element.sendKeys("The Hitchhiker's Guide to the Galaxy");
+    }
+
+    @When("title field has been emptied")
+    public void empties_title_field() {
+        WebElement element = driver.findElement(By.name("title"));
+        element.clear();
     }
 
     @Then("list of book tips is shown")
@@ -152,23 +137,10 @@ public class StepDefinitions {
         assertFalse(bookTipListContains(oneBookTest()));
     }
 
-    @When("enters valid book title")
-    public void enters_valid_book_title() {
-        WebElement element = driver.findElement(By.name("title"));
-        element.clear();
-        element.sendKeys("The Hitchhiker's Guide to the Galaxy");
-    }
-
     @Then("changed book title is shown")
     public void changed_book_title_is_shown() {
         driver.findElement(By.linkText("back")).click();
         pageHasContent("The Hitchhiker's Guide to the Galaxy");
-    }
-
-    @When("empties title field")
-    public void empties_title_field() {
-        WebElement element = driver.findElement(By.name("title"));
-        element.clear();
     }
 
     @Then("book tips are sorted by id")
