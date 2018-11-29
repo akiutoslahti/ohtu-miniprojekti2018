@@ -9,15 +9,27 @@
 
         <h2>Books</h2>
 
-        <a href="/book_tip">add a book tip</a>
+        
         <p>
         Sort:
-            <button id="titleSort" onclick="sortByTitle()">By Title</button>
-            <button id="authorSort" onclick="sortByAuthor()">By Author</button>
-            <button id="idSort" onclick="sortByAdded()">By Added</button>
+            <button id="titleSort" onclick="sortByTitle(booktips)">By Title</button>
+            <button id="authorSort" onclick="sortByAuthor(booktips)">By Author</button>
+            <button id="idSort" onclick="sortByAdded(booktips)">By Added</button>
         </p>
         <ul id="book-tips"></ul>
+        <a href="/book_tip">add a book tip</a>
         
+        <h2>Blogs</h2>
+
+        <p>
+        Sort:
+            <button id="titleSort" onclick="sortByTitle(blogtips)">By Title</button>
+            <button id="authorSort" onclick="sortByAuthor(blogtips)">By Author</button>
+            <button id="idSort" onclick="sortByAdded(blogtips)">By Added</button>
+        </p>
+        <ul id="blog-tips"></ul>
+        <a href="/blog_tip">add a blog tip</a>
+    
         <script th:inline="javascript">
             var booktips=[
             /*[# th:each="book : ${books}"]*/
@@ -25,10 +37,16 @@
             /*[/]*/
             ];
             
+            var blogtips=[
+            /*[# th:each="blog : ${blogs}"]*/
+                {id:[[${blog.id}]], title:[[${blog.title}]], author:[[${blog.author}]]},
+            /*[/]*/
+            ];
+            
             displayTips();
             
-            function sortByTitle() {
-                booktips.sort(function(a, b){
+            function sortByTitle(tipList) {
+                tipList.sort(function(a, b){
                     var x = a.title.toLowerCase();
                     var y = b.title.toLowerCase();
                     if (x < y) {return -1;}
@@ -38,8 +56,8 @@
                 displayTips();
             }
             
-            function sortByAuthor() {
-                booktips.sort(function(a, b){
+            function sortByAuthor(tipList) {
+                tipList.sort(function(a, b){
                     var x = a.author.toLowerCase();
                     var y = b.author.toLowerCase();
                     if (x < y) {return -1;}
@@ -49,20 +67,30 @@
                 displayTips();
             }
             
-            function sortByAdded() {
-                booktips.sort(function(a, b){
+            function sortByAdded(tipList) {
+                tipList.sort(function(a, b){
                     return a.id - b.id;
                 });
                 displayTips();
             }
 
             function displayTips() {
-                var tipList = "";
-                booktips.forEach(listTips);
-                document.getElementById("book-tips").innerHTML = tipList;
+                var bookTipList = "";
+                var blogTipList = "";
+                
+                booktips.forEach(listBookTips);
+                document.getElementById("book-tips").innerHTML = bookTipList;
+                
+                blogtips.forEach(listBlogTips);
+                document.getElementById("blog-tips").innerHTML = blogTipList;
 
-                function listTips(tip) {
-                    tipList = tipList + "<li><a id=" + tip.id + " href='/book_tip/" 
+                function listBookTips(tip) {
+                    bookTipList = bookTipList + "<li><a id=" + tip.id + " href='/book_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>"; 
+                }
+                
+                function listBlogTips(tip) {
+                    blogTipList = blogTipList + "<li><a id=" + tip.id + " href='/blog_tip/" 
                             + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>"; 
                 }
             }

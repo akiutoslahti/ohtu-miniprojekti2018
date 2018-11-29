@@ -44,6 +44,8 @@ public class DefaultController {
     public String list(Model model) {
         model.addAttribute("books", bookTipRepository.findAll(
                 new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("blogs", blogTipRepository.findAll(
+                new Sort(Sort.Direction.ASC, "id")));
         return "index";
     }
 
