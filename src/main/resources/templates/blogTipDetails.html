@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Book tip details</title>
+        <title>Blog tip details</title>
     </head>
 
     <body>
         <a href="/">back</a>
-        <h1>Book tip details</h1>
+        <h1>Blog tip details</h1>
         
         <ul th:each="error : ${errors}">
             <li th:text="${error}">here</li>
         </ul>
         
-        <div id="book-tip-details"></div>
+        <div id="blog-tip-details"></div>
         <div id="buttons">
         </div>
 
         <script th:inline="javascript">
             /*<![CDATA[*/
-            var book = /*[[${book}]]*/ 'book';
+            var blog = /*[[${blog}]]*/ 'blog';
             /*]]>*/
 
             function addDeleteButton() {
                 var deleteButton = document.createElement("button");
                 deleteButton.id = "delete-button";
                 deleteButton.innerHTML = "Delete"
-                            + "<form name='deleteForm' method='POST' action='/book_tip/[[${book.id}]]'>"
+                            + "<form name='deleteForm' method='POST' action='/blog_tip/[[${blog.id}]]'>"
                             + "<input type='hidden' name='_method' value='DELETE'>"
                             + "<\/form>";
                 deleteButton.onclick = deleteBook
@@ -86,27 +86,27 @@
 
             function editDisabled() {
                 emptyElements();
-                document.getElementById("book-tip-details").innerHTML =
-                        "Author: " + book.author + "<br/>"
-                        + "Title: " + book.title + "<br/>"
-                        + "ISBN: " + book.isbn + "<br/>"
-                        + "Tags: " + book.tags + "<br/>"
-                        + "Prerequisite courses: " + book.prerequisiteCourses + "<br/>"
-                        + "Related courses: " + book.relatedCourses + "<br/>";
+                document.getElementById("blog-tip-details").innerHTML =
+                        "Author: " + blog.author + "<br/>"
+                        + "Title: " + blog.title + "<br/>"
+                        + "URL: " + blog.url + "<br/>"
+                        + "Tags: " + blog.tags + "<br/>"
+                        + "Prerequisite courses: " + blog.prerequisiteCourses + "<br/>"
+                        + "Related courses: " + blog.relatedCourses + "<br/>";
                 addDeleteButton();
                 addEditButton();
             }
 
             function editEnabled() {
                 emptyElements();
-                document.getElementById("book-tip-details").innerHTML =
-                        "<form name='editForm' method='POST' action='/book_tip/[[${book.id}]]'>"
-                        + "(*)Author: <input name='author' value='" + book.author + "'/><br/>"
-                        + "(*)Title: <input name='title' value='" + book.title + "'/><br/>"
-                        + "(*)ISBN: <input name='isbn' value='" + book.isbn + "'/><br/>"
-                        + "(*)Tags: <input name='tags' value='" + book.tags + "'/><br/>"
-                        + "Prerequisite courses: <input name='prerequisiteCourses' value='" + book.prerequisiteCourses + "'/><br/>"
-                        + "Related courses: <input name='relatedCourses' value='" + book.relatedCourses + "'/><br/>"
+                document.getElementById("blog-tip-details").innerHTML =
+                        "<form name='editForm' method='POST' action='/blog_tip/[[${blog.id}]]'>"
+                        + "(*)Author: <input name='author' value='" + blog.author + "'/><br/>"
+                        + "(*)Title: <input name='title' value='" + blog.title + "'/><br/>"
+                        + "(*)ISBN: <input name='url' value='" + blog.url + "'/><br/>"
+                        + "(*)Tags: <input name='tags' value='" + blog.tags + "'/><br/>"
+                        + "Prerequisite courses: <input name='prerequisiteCourses' value='" + blog.prerequisiteCourses + "'/><br/>"
+                        + "Related courses: <input name='relatedCourses' value='" + blog.relatedCourses + "'/><br/>"
                         + "<input type='hidden' name='_method' value='PUT'>"
                         + "<\/form>";
                 addSaveButton();
@@ -114,13 +114,13 @@
             }
 
             function emptyElements() {
-                document.getElementById("book-tip-details").innerHTML = "";
+                document.getElementById("blog-tip-details").innerHTML = "";
                 document.getElementById("buttons").innerHTML = "";
             }
 
             function deleteBook() {
-                var confirmation = confirm("Do you really want to delete book tip: "
-                        + book.title + " by " + book.author + "?");
+                var confirmation = confirm("Do you really want to delete blog tip: "
+                        + blog.title + " by " + blog.author + "?");
                 if (confirmation) {
                     document.deleteForm.submit();
                 }
