@@ -1,17 +1,18 @@
-Feature: As a user, I can modify any existing tip.
+Feature: As a user, I can modify any existing blog.
     
-    Scenario: Book tips can be modified
+    Scenario: Blog tips can be modified
         Given application has been opened
-        When any book tip is navigated to
+        When any 'blog' tip is navigated to
         And 'Edit' button has been clicked
-        And valid title has been entered
+        And valid 'blog' title has been entered
         And 'Save' button has been clicked
-        Then changed book title is shown
+        Then changed 'blog' title is shown
 
     Scenario: Invalid modifications are prevented
         Given application has been opened
-        When any book tip is navigated to
+        When any 'blog' tip is navigated to
         And 'Edit' button has been clicked
         And title field has been emptied
         And 'Save' button has been clicked
         Then error message 'Please do not empty fields marked with (*).' is shown
+

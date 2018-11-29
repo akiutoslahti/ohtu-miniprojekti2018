@@ -3,13 +3,16 @@ package ohtutips;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.util.List;
+import ohtutips.domain.BlogTip;
 import ohtutips.domain.BookTip;
+import ohtutips.domain.Tip;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -38,41 +41,67 @@ public class StepDefinitions {
         element.click();
     }
 
-    @When("all necessary book tip fields have been filled")
-    public void all_necessary_book_tip_fields_have_been_filled() {
-        BookTip bookTip = oneBookTest();
+    @When("all necessary {string} tip fields have been filled")
+    public void all_necessary_tip_fields_have_been_filled(String tipType) {
+        Tip testTip = null;
+        if (tipType.equals("book")) {
+            testTip = oneBookTest();
+        } else if (tipType.equals("blog")) {
+            testTip = oneBlogTest();
+        } else {
+            fail();
+        }
+
         WebElement element = driver.findElement(By.name("author"));
-        element.sendKeys(bookTip.getAuthor());
+        element.sendKeys(testTip.getAuthor());
         element = driver.findElement(By.name("title"));
-        element.sendKeys(bookTip.getTitle());
-        element = driver.findElement(By.name("isbn"));
-        element.sendKeys(bookTip.getIsbn());
+        element.sendKeys(testTip.getTitle());
         element = driver.findElement(By.name("tags"));
-        element.sendKeys(bookTip.getTags());
+        element.sendKeys(testTip.getTags());
+
+        if (tipType.equals("book")) {
+            element = driver.findElement(By.name("isbn"));
+            element.sendKeys(oneBookTest().getIsbn());
+        } else {
+            element = driver.findElement(By.name("url"));
+            element.sendKeys(oneBlogTest().getUrl());
+        }
     }
 
-    @When("user navigates to book tip details")
-    public void user_navigates_to_book_tip_details() {
-        BookTip bookTip = oneBookTest();
+    @When("user navigates to {string} tip details")
+    public void user_navigates_to_tip_details(String tipType) {
+        Tip testTip = null;
+        if (tipType.equals("book")) {
+            testTip = oneBookTest();
+        } else if (tipType.equals("blog")) {
+            testTip = oneBlogTest();
+        } else {
+            fail();
+        }
+
         WebElement element = driver.findElement(
-                By.linkText(bookTip.getTitle() + " by " + bookTip.getAuthor()));
+                By.linkText(testTip.getTitle() + " by " + testTip.getAuthor()));
         element.click();
-        pageHasContent("Book tip details");
-        pageHasContent("Author: " + bookTip.getAuthor());
-        pageHasContent("Title: " + bookTip.getTitle());
-        pageHasContent("ISBN: " + bookTip.getIsbn());
+        pageHasContent(tipType.substring(0, 1).toUpperCase()
+                + tipType.substring(1) + " tip details");
+        pageHasContent("Author: " + testTip.getAuthor());
+        pageHasContent("Title: " + testTip.getTitle());
+        pageHasContent("Tags: " + testTip.getTags());
     }
 
-    @When("any book tip is navigated to")
-    public void user_navigates_to_any_book_tip_details() {
-        WebElement element = driver.findElement(By.id("book-tips"));
+    @When("any {string} tip is navigated to")
+    public void any_tip_is_navigated_to(String tipType) {
+        WebElement element = driver.findElement(By.id(tipType + "-tips"));
         element = element.findElement(By.xpath(".//a[1]"));
         element.click();
     }
 
-    @When("sort by {string} is clicked")
-    public void sort_by_is_clicked(String sortId) {
-        driver.findElement(By.id(sortId + "Sort")).click();
+    @When("sort {string} by {string} is clicked")
+    public void sort_by_is_clicked(String tipTypes, String sortId) {
+        String id = tipTypes.substring(0, tipTypes.length() - 1);
+        id += sortId.substring(0, 1).toUpperCase() + sortId.substring(1);
+        id += "Sort";
+        driver.findElement(By.id(id)).click();
     }
 
     @When("{string} button has been clicked")
@@ -85,22 +114,30 @@ public class StepDefinitions {
         }
     }
 
-    @When("all necessary book tip fields have not been filled")
-    public void all_necessary_book_tip_fields_have_not_been_filled() {
-        BookTip bookTip = oneBookTest();
+    @When("all necessary {string} tip fields have not been filled")
+    public void all_necessary_tip_fields_have_not_been_filled(String tipType) {
+        Tip testTip = null;
+        if (tipType.equals("book")) {
+            testTip = oneBookTest();
+        } else if (tipType.equals("blog")) {
+            testTip = oneBlogTest();
+        } else {
+            fail();
+        }
+
         WebElement element = driver.findElement(By.name("author"));
-        element.sendKeys(bookTip.getAuthor());
+        element.sendKeys(testTip.getAuthor());
         element = driver.findElement(By.name("title"));
-        element.sendKeys(bookTip.getTitle());
-        element = driver.findElement(By.name("isbn"));
-        element.sendKeys(bookTip.getTags());
+        element.sendKeys(testTip.getTitle());
+        element = driver.findElement(By.name("tags"));
+        element.sendKeys(testTip.getTags());
     }
 
-    @When("valid title has been entered")
-    public void enters_valid_book_title() {
+    @When("valid {string} title has been entered")
+    public void enters_valid_title(String tipType) {
         WebElement element = driver.findElement(By.name("title"));
         element.clear();
-        element.sendKeys("The Hitchhiker's Guide to the Galaxy");
+        element.sendKeys("This is a valid" + tipType + "title");
     }
 
     @When("title field has been emptied")
@@ -109,22 +146,26 @@ public class StepDefinitions {
         element.clear();
     }
 
-    @Then("list of book tips is shown")
-    public void list_of_book_tips_is_shown() {
+    @Then("list of {string} tips is shown")
+    public void list_of_tips_is_shown(String tipType) {
         pageHasContent("Reading Tips Archive");
-        pageHasContent("Books");
+        pageHasContent(tipType.substring(0, 1).toUpperCase() + tipType.substring(1));
     }
 
-    @Then("list of book tips has {int} entries")
-    public void list_of_book_tips_has_entries(int amount) {
-        WebElement element = driver.findElement(By.id("book-tips"));
+    @Then("list of {string} tips has {int} entries")
+    public void list_of_tips_has_entries(String tipType, int amount) {
+        WebElement element = driver.findElement(By.id(tipType + "-tips"));
         List<WebElement> list = element.findElements(By.xpath(".//li"));
         assertEquals(amount, list.size());
     }
 
-    @Then("one of them is the newly created one")
-    public void one_of_them_is_the_newly_created_one() {
-        assertTrue(bookTipListContains(oneBookTest()));
+    @Then("one of {string} is the newly created one")
+    public void one_of_is_the_newly_created_one(String tipType) {
+        if (tipType.equals("books")) {
+            assertTrue(tipListContains(oneBookTest()));
+        } else if (tipType.equals("blogs")) {
+            assertTrue(tipListContains(oneBlogTest()));
+        }
     }
 
     @Then("error message {string} is shown")
@@ -132,22 +173,29 @@ public class StepDefinitions {
         pageHasContent(errorMsg);
     }
 
-    @Then("deleted one is not listed")
-    public void deleted_one_is_not_listed() {
-        assertFalse(bookTipListContains(oneBookTest()));
+    @Then("deleted {string} is not listed")
+    public void deleted_is_not_listed(String tipType) {
+        if (tipType.equals("book")) {
+            assertFalse(tipListContains(oneBookTest()));
+        } else if (tipType.equals("blog")) {
+            assertFalse(tipListContains(oneBlogTest()));
+        } else {
+            fail();
+        }
     }
 
-    @Then("changed book title is shown")
-    public void changed_book_title_is_shown() {
+    @Then("changed {string} title is shown")
+    public void changed_title_is_shown(String tipType) {
         driver.findElement(By.linkText("back")).click();
-        pageHasContent("The Hitchhiker's Guide to the Galaxy");
+        pageHasContent("This is a valid" + tipType + "title");
     }
 
-    @Then("book tips are sorted by id")
-    public void book_tips_are_sorted_by_id() {
-        WebElement tipsElement = driver.findElement(By.id("book-tips"));
+    @Then("{string} tips are sorted by id")
+    public void tips_are_sorted_by_id(String tipType) {
+        WebElement tipsElement = driver.findElement(By.id(tipType + "-tips"));
         List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
         int previousId = -1;
+
         for (int i = 0; i < allTips.size(); i++) {
             int currentId = Integer.parseInt(allTips.get(i).getAttribute("id"));
             assertTrue(currentId > previousId);
@@ -180,16 +228,48 @@ public class StepDefinitions {
 
     }
 
+    @Then("blog tips are sorted by author")
+    public void blog_tips_are_sorted_by_author() {
+        WebElement tipsElement = driver.findElement(By.id("blog-tips"));
+        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
+        assertEquals("The New Methodology by Fowler, Martin",
+                allTips.get(0).getText());
+        assertEquals("Make The Product Backlog DEEP by Pichler, Roman",
+                allTips.get(1).getText());
+        assertEquals("Dependency Injection Demystified by Shore, James",
+                allTips.get(2).getText());
+    }
+
+    @Then("blog tips are sorted by title")
+    public void blog_tips_are_sorted_by_title() {
+        WebElement tipsElement = driver.findElement(By.id("blog-tips"));
+        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
+        assertEquals("Dependency Injection Demystified by Shore, James",
+                allTips.get(0).getText());
+        assertEquals("Make The Product Backlog DEEP by Pichler, Roman",
+                allTips.get(1).getText());
+        assertEquals("The New Methodology by Fowler, Martin",
+                allTips.get(2).getText());
+    }
+
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
     }
 
-    private boolean bookTipListContains(BookTip bookTip) {
-        WebElement element = driver.findElement(By.id("book-tips"));
+    private boolean tipListContains(Tip testTip) {
+        WebElement element;
+        if (testTip instanceof BookTip) {
+            element = driver.findElement(By.id("book-tips"));
+        } else if (testTip instanceof BlogTip) {
+            element = driver.findElement(By.id("blog-tips"));
+        } else {
+            return false;
+        }
+
         List<WebElement> list = element.findElements(By.xpath(".//li"));
-        for (WebElement tip : list) {
-            if (tip.getText().contains(bookTip.getTitle())
-                    && tip.getText().contains(bookTip.getAuthor())) {
+        for (WebElement tipElement : list) {
+            if (tipElement.getText().contains(testTip.getTitle())
+                    && tipElement.getText().contains(testTip.getAuthor())) {
                 return true;
             }
         }
@@ -207,6 +287,19 @@ public class StepDefinitions {
         bookTip.setRelatedCourses("");
 
         return bookTip;
+    }
+
+    private BlogTip oneBlogTest() {
+
+        BlogTip blogTip = new BlogTip();
+        blogTip.setTitle("The Three Rules of TDD");
+        blogTip.setAuthor("Uncle Bob");
+        blogTip.setUrl("http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd");
+        blogTip.setTags("TDD");
+        blogTip.setPrerequisiteCourses("");
+        blogTip.setRelatedCourses("");
+
+        return blogTip;
     }
 
 }
