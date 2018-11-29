@@ -48,6 +48,11 @@ public class DefaultController {
                 new Sort(Sort.Direction.ASC, "id")));
         return "index";
     }
+    
+    @RequestMapping(value = "/new_tip", method = RequestMethod.GET)
+    public String new_tip(Model model) {
+        return "addTip";
+    }
 
     private ArrayList<BookTip> initialBooks() {
         ArrayList<BookTip> tips = new ArrayList<>();

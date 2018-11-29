@@ -24,11 +24,6 @@ public class BlogController {
         return "blogTipDetails";
     }
 
-    @RequestMapping(value = "/blog_tip", method = RequestMethod.GET)
-    public String blogTipForm() {
-        return "addBlogTip";
-    }
-
     @RequestMapping(value = "/blog_tip", method = RequestMethod.POST)
     public String addBlogTip(Model model, @RequestParam String author,
             @RequestParam String title,
@@ -43,7 +38,7 @@ public class BlogController {
             errors.add("Please fill all fields marked with (*).");
 
             model.addAttribute("errors", errors);
-            return "addBlogTip";
+            return "addTip";
         }
 
         BlogTip blogTip = new BlogTip();

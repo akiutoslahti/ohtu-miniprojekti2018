@@ -24,11 +24,6 @@ public class BookController {
         return "bookTipDetails";
     }
 
-    @RequestMapping(value = "/book_tip", method = RequestMethod.GET)
-    public String bookTipForm() {
-        return "addBookTip";
-    }
-
     @RequestMapping(value = "/book_tip", method = RequestMethod.POST)
     public String addBookTip(Model model, @RequestParam String author,
             @RequestParam String title,
@@ -43,7 +38,7 @@ public class BookController {
             errors.add("Please fill all fields marked with (*).");
 
             model.addAttribute("errors", errors);
-            return "addBookTip";
+            return "addTip";
         }
 
         BookTip bookTip = new BookTip();

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Add a reading tip</title>
+    </head>
+
+    <body>
+        <a href="/">back</a>
+        <h1>Add a reading tip</h1>
+
+        <div id="buttons">
+            <button id="addBook" onclick="bookForm()">Add Book</button>
+            <button id="addBlog" onclick="blogForm()">Add Blog</button>
+        </div>
+        
+        <ul th:each="error : ${errors}">
+            <li th:text="${error}">here</li>
+        </ul>
+        <br/> 
+        <div id="addForm">Pick a tip type.</div>
+        
+        <script th:inline="javascript">
+            
+            function bookForm() {
+                document.getElementById("addBook").disabled = true;
+                document.getElementById("addBlog").disabled = false;
+                document.getElementById("addForm").innerHTML =
+                        "<form method='POST' action='/book_tip'>"
+                        + "(*)Author: <input type='text' name='author'/><br/>"
+                        + "(*)Title: <input type='text' name='title'/><br/>"
+                        + "(*)ISBN: <input type='text' name='isbn'/><br/>"
+                        + "(*)Tags: <input type='text' name='tags'/><br/>"
+                        + "Prerequisite courses: <input type='text' name='prerequisiteCourses'/><br/>"
+                        + "Related courses: <input type='text' name='relatedCourses'/><br/>"
+                        + "<input type='submit' value='Submit book tip'/>"
+                        + "</form>";
+            }
+            
+            function blogForm() {
+                document.getElementById("addBook").disabled = false;
+                document.getElementById("addBlog").disabled = true;
+                document.getElementById("addForm").innerHTML =
+                        "<form method='POST' action='/blog_tip'>"
+                        + "(*)Author: <input type='text' name='author'/><br/>"
+                        + "(*)Title: <input type='text' name='title'/><br/>"
+                        + "(*)URL: <input type='text' name='url'/><br/>"
+                        + "(*)Tags: <input type='text' name='tags'/><br/>"
+                        + "Prerequisite courses: <input type='text' name='prerequisiteCourses'/><br/>"
+                        + "Related courses: <input type='text' name='relatedCourses'/><br/>"
+                        + "<input type='submit' value='Submit blog tip'/>"
+                        + "</form>";
+            }
+            
+        </script>
+        
+    </body>
+</html>
