@@ -107,7 +107,7 @@ public class StepDefinitions {
         if (buttonId.toLowerCase().equals("delete")) {
             Alert alert = driver.switchTo().alert();
             alert.accept();
-            Thread.sleep(100);
+            Thread.sleep(200);
         }
     }
 
