@@ -8,18 +8,18 @@ Feature: as a user, I can sort blog tips by author or title
     Scenario: blog tips can be sorted by author
         Given application has been opened
         And list of 'blog' tips is shown
-        When sort 'blogs' by 'author' is clicked
+        When sort by 'author' is clicked
         Then blog tips are sorted by author
 
     Scenario: blog tips can be sorted by title
         Given application has been opened
         And list of 'blog' tips is shown
-        When sort 'blogs' by 'title' is clicked
+        When sort by 'title' is clicked
         Then blog tips are sorted by title
 
     Scenario: blog tips can be sorted by id
         Given application has been opened
         And list of 'blog' tips is shown
-        And sort 'blogs' by 'title' is clicked
-        When sort 'blogs' by 'id' is clicked
+        And sort by 'title' is clicked
+        When sort by 'id' is clicked
         Then 'blog' tips are sorted by id

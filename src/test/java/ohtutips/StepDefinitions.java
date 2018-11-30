@@ -42,7 +42,7 @@ public class StepDefinitions {
     }
 
     @When("all necessary {string} tip fields have been filled")
-    public void all_necessary_tip_fields_have_been_filled(String tipType) {
+    public void all_necessary_tip_fields_have_been_filled(String tipType) throws Throwable {
         Tip testTip = null;
         if (tipType.equals("book")) {
             testTip = oneBookTest();
@@ -96,12 +96,9 @@ public class StepDefinitions {
         element.click();
     }
 
-    @When("sort {string} by {string} is clicked")
-    public void sort_by_is_clicked(String tipTypes, String sortId) {
-        String id = tipTypes.substring(0, tipTypes.length() - 1);
-        id += sortId.substring(0, 1).toUpperCase() + sortId.substring(1);
-        id += "Sort";
-        driver.findElement(By.id(id)).click();
+    @When("sort by {string} is clicked")
+    public void sort_by_is_clicked(String sortId) {
+        driver.findElement(By.id(sortId + "Sort")).click();
     }
 
     @When("{string} button has been clicked")
@@ -115,7 +112,7 @@ public class StepDefinitions {
     }
 
     @When("all necessary {string} tip fields have not been filled")
-    public void all_necessary_tip_fields_have_not_been_filled(String tipType) {
+    public void all_necessary_tip_fields_have_not_been_filled(String tipType) throws Throwable {
         Tip testTip = null;
         if (tipType.equals("book")) {
             testTip = oneBookTest();
