@@ -101,7 +101,7 @@
                 function listBookTips(tip) {
                     bookTipList = bookTipList + "<li>"
                             + '<iframe name="hiddenframe' + tip.id + '" style="display: none;"></iframe>'
-                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" th:action="/book_tip/' + tip.id + '/study"' 
+                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" action="/book_tip/' + tip.id + '/study"' 
                             + ' target="hiddenframe' + tip.id + '">';
                     
                     if(tip.studied) {
@@ -125,7 +125,7 @@
                 function listBlogTips(tip) {
                     blogTipList = blogTipList + "<li>"
                             + '<iframe name="hiddenframe' + tip.id + '" style="display: none;"></iframe>'
-                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" th:action="/blog_tip/' + tip.id + '/study"' 
+                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" action="/blog_tip/' + tip.id + '/study"' 
                             + ' target="hiddenframe' + tip.id + '">';
                     
                     if(tip.studied) {
