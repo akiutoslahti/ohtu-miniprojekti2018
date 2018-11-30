@@ -8,6 +8,14 @@
         <button id="back-button" onclick="back()">Back</button>
         <h1>Blog tip details</h1>
 
+        <iframe name="hiddenframe" style="display: none;"></iframe>
+        <b>Studied:</b>
+        <form style="display: inline-block"  id="studied" method="POST" th:action="@{/blog_tip/{id}/study(id=${blog.id})}" target="hiddenframe">
+            <input th:if="${not blog.studied}" type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>
+            <input th:if="${blog.studied}" type="checkbox" name="studied" value="1" onchange="this.form.submit()" checked="checked"/>
+            <input id="studiedHidden" type="hidden" value="0" name="studied"/>
+        </form>
+        
         <ul th:each="error : ${errors}">
             <li th:text="${error}">here</li>
         </ul>

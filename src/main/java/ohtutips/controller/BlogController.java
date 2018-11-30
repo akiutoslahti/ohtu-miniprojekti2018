@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class BlogController {
@@ -89,5 +90,19 @@ public class BlogController {
         blogTipRepository.save(blogTip);
 
         return "redirect:/blog_tip/" + id;
+    }
+    
+    @RequestMapping(value = "/blog_tip/{id}/study", method = RequestMethod.POST)
+    @ResponseBody
+    public void study(@PathVariable long id, @RequestParam Integer studied) {
+        BlogTip bt = blogTipRepository.findById(id).get();
+        
+        if (studied == 1) {
+            bt.setStudied(true);
+        } else {
+            bt.setStudied(false);
+        }
+        
+        blogTipRepository.save(bt);
     }
 }

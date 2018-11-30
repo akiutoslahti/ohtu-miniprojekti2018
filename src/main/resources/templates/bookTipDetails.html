@@ -8,6 +8,14 @@
         <button id="back-button" onclick="back()">Back</button>
         <h1>Book tip details</h1>
 
+        <iframe name="hiddenframe" style="display: none;"></iframe>
+        <b>Studied:</b>
+        <form style="display: inline-block"  id="studied" method="POST" th:action="@{/book_tip/{id}/study(id=${book.id})}" target="hiddenframe">
+            <input th:if="${not book.studied}" type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>
+            <input th:if="${book.studied}" type="checkbox" name="studied" value="1" onchange="this.form.submit()" checked="checked"/>
+            <input id="studiedHidden" type="hidden" value="0" name="studied"/>
+        </form>
+        
         <ul th:each="error : ${errors}">
             <li th:text="${error}">here</li>
         </ul>
@@ -15,7 +23,7 @@
         <div id="book-tip-details"></div>
         <div id="buttons">
         </div>
-
+        
         <script th:inline="javascript">
 
             function back() {
@@ -134,6 +142,7 @@
             function saveBook() {
                 document.editForm.submit();
             }
+            
 
             editDisabled();
         </script>

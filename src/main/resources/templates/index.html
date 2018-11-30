@@ -32,13 +32,13 @@
             
             var booktips=[
             /*[# th:each="book : ${books}"]*/
-                {id:[[${book.id}]], title:[[${book.title}]], author:[[${book.author}]]},
+                {id:[[${book.id}]], title:[[${book.title}]], author:[[${book.author}]], studied:[[${book.studied}]]},
             /*[/]*/
             ];
             
             var blogtips=[
             /*[# th:each="blog : ${blogs}"]*/
-                {id:[[${blog.id}]], title:[[${blog.title}]], author:[[${blog.author}]]},
+                {id:[[${blog.id}]], title:[[${blog.title}]], author:[[${blog.author}]], studied:[[${blog.studied}]]},
             /*[/]*/
             ];
             
@@ -99,13 +99,50 @@
                 document.getElementById("blog-tips").innerHTML = blogTipList;
 
                 function listBookTips(tip) {
-                    bookTipList = bookTipList + "<li><a id=" + tip.id + " href='/book_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>"; 
+                    bookTipList = bookTipList + "<li>"
+                            + '<iframe name="hiddenframe' + tip.id + '" style="display: none;"></iframe>'
+                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" th:action="/book_tip/' + tip.id + '/study"' 
+                            + ' target="hiddenframe' + tip.id + '">';
+                    
+                    if(tip.studied) {
+                        bookTipList = bookTipList 
+                                + ' <input type="checkbox" ' 
+                                + ' name="studied" value="1" onchange="this.form.submit()" checked="checked"/>';
+                    } else {
+                        bookTipList = bookTipList 
+                                + ' <input "'
+                                + ' type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>';
+                    }
+                    
+                    bookTipList = bookTipList + ' <input type="hidden" value="0" name="studied"/>'
+                            + '</form>'
+                            + "<a id=" + tip.id + " href='/book_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a>"
+                            + "</li>"; 
+                    
                 }
                 
                 function listBlogTips(tip) {
-                    blogTipList = blogTipList + "<li><a id=" + tip.id + " href='/blog_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>"; 
+                    blogTipList = blogTipList + "<li>"
+                            + '<iframe name="hiddenframe' + tip.id + '" style="display: none;"></iframe>'
+                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" th:action="/blog_tip/' + tip.id + '/study"' 
+                            + ' target="hiddenframe' + tip.id + '">';
+                    
+                    if(tip.studied) {
+                        blogTipList = blogTipList 
+                                + ' <input type="checkbox" ' 
+                                + ' name="studied" value="1" onchange="this.form.submit()" checked="checked"/>';
+                    } else {
+                        blogTipList = blogTipList
+                                + ' <input "'
+                                + ' type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>';
+                    }
+                    
+                    blogTipList = blogTipList + ' <input type="hidden" value="0" name="studied"/>'
+                            + '</form>'
+                            + "<a id=" + tip.id + " href='/blog_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a>" 
+                            + "</li>"; ; 
                 }
             }
 
