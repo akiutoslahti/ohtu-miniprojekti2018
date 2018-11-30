@@ -35,10 +35,9 @@ public class StepDefinitions {
         driver.get(baseUrl);
     }
 
-    @Given("link {string} has been clicked")
-    public void link_has_been_clicked(String linkText) {
-        WebElement element = driver.findElement(By.linkText(linkText));
-        element.click();
+    @Given("button add new reading tip has been clicked")
+    public void button_add_new_reading_tip_has_been_clicked() {
+        driver.findElement(By.id("add-new-reading-tip")).click();
     }
 
     @When("all necessary {string} tip fields have been filled")
@@ -183,7 +182,7 @@ public class StepDefinitions {
 
     @Then("changed {string} title is shown")
     public void changed_title_is_shown(String tipType) {
-        driver.findElement(By.linkText("back")).click();
+        driver.findElement(By.id("back-button")).click();
         pageHasContent("This is a valid" + tipType + "title");
     }
 

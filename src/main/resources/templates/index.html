@@ -7,13 +7,13 @@
     <body>
         <h1>Reading Tips Archive</h1>
 
-        <a href="/new_tip">add new reading tip</a>
+        <button id="add-new-reading-tip" onclick="newTip()">Add new reading tip</button>
         
         <p>
-        Sort:
-            <button id="titleSort" onclick="titleSort()">By Title</button>
-            <button id="authorSort" onclick="authorSort()">By Author</button>
-            <button id="idSort" onclick="addedSort()">By Added</button>
+        Sort by:
+            <button id="titleSort" onclick="titleSort()">Title</button>
+            <button id="authorSort" onclick="authorSort()">Author</button>
+            <button id="idSort" onclick="addedSort()">Added</button>
         </p>
         
         <h2>Books</h2>
@@ -25,6 +25,11 @@
         <ul id="blog-tips"></ul>
     
         <script th:inline="javascript">
+            
+            function newTip() {
+                window.location.href="/new_tip";
+            }
+            
             var booktips=[
             /*[# th:each="book : ${books}"]*/
                 {id:[[${book.id}]], title:[[${book.title}]], author:[[${book.author}]]},
