@@ -95,6 +95,15 @@ public class StepDefinitions {
         element.click();
     }
 
+    @When("{string} tip number {int} is navigated to")
+    public void certain_tip_is_navigated_to(String tipType, int id) {
+        WebElement element = driver.findElement(By.id(tipType + "-tips"));
+        List<WebElement> list = element.findElements(By.xpath(".//a[1]"));
+        WebElement certainElement = list.get(id);
+        certainElement.click();
+        pageHasContent(tipType + "-tip-details");
+    }
+
     @When("sort by {string} is clicked")
     public void sort_by_is_clicked(String sortId) {
         driver.findElement(By.id(sortId + "Sort")).click();
@@ -140,6 +149,44 @@ public class StepDefinitions {
     public void empties_title_field() {
         WebElement element = driver.findElement(By.name("title"));
         element.clear();
+    }
+
+    @When("{string} tip number {int} is {string} studied")
+    public void tip_studied_status(String tipType, int id, String status) throws Throwable {
+        WebElement element = driver.findElement(By.id(tipType + "-tips"));
+        List<WebElement> list = element.findElements(By.xpath(".//li"));
+        WebElement checkElement = list.get(id).findElement(By.id("studiedcheck"));
+        if (status.equals("not")) {
+            assertFalse(checkElement.isSelected());
+        } else {
+            assertTrue(checkElement.isSelected());
+        }
+    }
+
+    @When("{string} tip is {string} studied")
+    public void tip_studied_status(String tipType, String status) throws Throwable {
+        WebElement checkElement = driver.findElement(By.id("studiedcheck"));
+        if (status.equals("not")) {
+            assertFalse(checkElement.isSelected());
+        } else {
+            assertTrue(checkElement.isSelected());
+        }
+    }
+
+    @When("{string} tip number {int} studied is clicked")
+    public void tip_studied_status_changed(String tipType, int id) throws Throwable {
+        WebElement element = driver.findElement(By.id(tipType + "-tips"));
+        List<WebElement> list = element.findElements(By.xpath(".//li"));
+        WebElement checkElement = list.get(id).findElement(By.id("studiedcheck"));
+        checkElement.click();
+        Thread.sleep(500);
+    }
+
+    @When("{string} tip studied is clicked")
+    public void tip_studied_status_changed(String tipType) throws Throwable {
+        WebElement checkElement = driver.findElement(By.id("studiedcheck"));
+        checkElement.click();
+        Thread.sleep(500);
     }
 
     @Then("list of {string} tips is shown")

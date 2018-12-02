@@ -107,11 +107,11 @@
                     if(tip.studied) {
                         bookTipList = bookTipList 
                                 + ' <input type="checkbox" ' 
-                                + ' name="studied" value="1" onchange="this.form.submit()" checked="checked"/>';
+                                + ' name="studied" id="studiedcheck" value="1" onchange="this.form.submit()" checked="checked"/>';
                     } else {
                         bookTipList = bookTipList 
                                 + ' <input'
-                                + ' type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>';
+                                + ' type="checkbox" id="studiedcheck" name="studied" value="1" onchange="this.form.submit()"/>';
                     }
                     
                     bookTipList = bookTipList + ' <input type="hidden" value="0" name="studied"/>'
@@ -131,11 +131,11 @@
                     if(tip.studied) {
                         blogTipList = blogTipList 
                                 + ' <input type="checkbox"' 
-                                + ' name="studied" value="1" onchange="this.form.submit()" checked="checked"/>';
+                                + ' name="studied" id="studiedcheck" value="1" onchange="this.form.submit()" checked="checked"/>';
                     } else {
                         blogTipList = blogTipList
                                 + ' <input'
-                                + ' type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>';
+                                + ' type="checkbox" id="studiedcheck" name="studied" value="1" onchange="this.form.submit()"/>';
                     }
                     
                     blogTipList = blogTipList + ' <input type="hidden" value="0" name="studied"/>'
