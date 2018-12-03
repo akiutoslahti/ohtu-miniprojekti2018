@@ -31,7 +31,7 @@ Feature: As a user, I can mark any existing book read or unread.
         And 'Back' button has been clicked
         Then 'book' tip number 1 is 'already' studied
 
-    Scenario: Read books can be marked as uread on the main page
+    Scenario: Read books can be marked as unread on the main page
         Given application has been opened
         When list of 'book' tips is shown
         And 'book' tip number 1 is 'already' studied
