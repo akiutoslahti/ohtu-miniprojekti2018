@@ -18,6 +18,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,6 +30,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class StepDefinitions {
 
     private final WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME, true);
+//    private final WebDriver driver = new ChromeDriver();
     private final String baseUrl = "http://localhost:8080";
 
     @Given("application has been opened")
@@ -210,7 +212,18 @@ public class StepDefinitions {
 
     @Then("all tips contain {string}")
     public void all_tips_contain_string(String filter) {
-
+        WebElement element = driver.findElement(By.id("book-tips"));
+        List<WebElement> list = element.findElements(By.xpath(".//a"));
+        for(WebElement el : list) {
+            assertTrue(el.getText().replace(" by ", "").toLowerCase().contains(filter));
+        }
+        
+        element = driver.findElement(By.id("blog-tips"));
+        list = element.findElements(By.xpath(".//a"));
+        for(WebElement el : list) {
+            assertTrue(el.getText().replace(" by ", "").toLowerCase().contains(filter));
+        }
+        
     }
 
     @Then("list of {string} tips is shown")
