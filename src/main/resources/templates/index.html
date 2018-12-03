@@ -17,7 +17,7 @@
         </p>
         
         <p>
-            <input type="text" placeholder="Filter tips" id="filter" />
+            <input type="text" placeholder="Filter tips" onkeyup="displayTips()" id="filterInput" />
         </p>
         
         <h2>Books</h2>
@@ -29,6 +29,11 @@
         <ul id="blog-tips"></ul>
     
         <script th:inline="javascript">
+            function filterTipList(tipList) {
+                var input = document.getElementById('filterInput').value.toLowerCase();
+                return tipList.filter(tip => tip.title.toLowerCase().includes(input) || tip.author.toLowerCase().includes(input));
+            }
+            
             
             function newTip() {
                 window.location.href="/new_tip";
@@ -96,10 +101,15 @@
                 var bookTipList = "";
                 var blogTipList = "";
                 
-                booktips.forEach(listBookTips);
+                var filteredBookList, filteredBlogList;
+                
+                filteredBookList = filterTipList(booktips)
+                filteredBlogList = filterTipList(blogtips)
+                
+                filteredBookList.forEach(listBookTips);
                 document.getElementById("book-tips").innerHTML = bookTipList;
                 
-                blogtips.forEach(listBlogTips);
+                filteredBlogList.forEach(listBlogTips);
                 document.getElementById("blog-tips").innerHTML = blogTipList;
 
                 function listBookTips(tip) {
