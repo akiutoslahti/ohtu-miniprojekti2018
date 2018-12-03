@@ -7,11 +7,6 @@ deploy:
   provider: heroku
   api_key:
     secure: "CwGUfrkmtQ+nIuUT9jDMrtTYL3TFW5NsWUhRj9RQ7wFGaZyj62eaMcx6G5+IvM0P2WUmhj+c/As5HzkjFD7HWJUJ1rEEBUNA2ZXQeQ/gJV2fyrkjCTV4rFFdTCzJQFWmojiyUJ+m71+n+M1vfq+utsVP1WQo3ClUB5mL1LtdDFgAZ9tWsaT5ci80gFu4VV4NH5H3bCZD5WbXidbHom79KKyzhqKTBn0OWflhOjAhih5a01KWVdVIh0FfZcU73c5VBktBK09VSli7eTSyB0betA2aBkq1/i49SJd7nzjkEbzN0EWtHqBCnPx2sOgj2LwDvK1co/51CDVw0JfPMFyVah1VT1BaVM3rVGkYE6L/KP/HeWm0YPXU3u5lCS2oSOCAkj8ZZzcscLhmOVM0pBCfAHsVO/1CodZDldH3l7FGwzHon1h2iE+03VLMus3I5LZJM/JtHLtO3LOVsEnvKVYJ/DMRNdKwOivDSlUlq9Knru0onWzFAqZlFFoVlz0Fbx7/XhsXpNWvlQyITavAlEV3QpKBYaQCEflMJzP7BDlQHmdTF0bWaaZo/ZQUMICaVle91imXXwof72zz8n7WIFf6BLxINKPFRC4SA61uCYoRA8CD8Zw3g/yrm8xo/Ruk7NuFIZnMmhWEHsIUexiG/+pNPIOCFsKmwc+nKFitUFb+xAk="
-  app: ohtutips
-  on:
-    repo: akiutoslahti/ohtu-miniprojekti2018
-    branch: master
-  app: ohtutips-dev
-  on:
-    repo: akiutoslahti/ohtu-miniprojekti2018
-    branch: dev
+  app: 
+    master: ohtutips
+    dev: ohtutips-dev
