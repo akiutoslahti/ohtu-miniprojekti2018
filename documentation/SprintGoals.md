@@ -21,8 +21,10 @@ Acceptance Criteria as Cucumber Features:
 - To expand application to cover blog tips, add "studied/not-studied" tracking, and to allow filtering of tips.
 
 Acceptance Criteria as Cucumber Features:
-- [Acceptance Criteria 1: list all blog tips](/src/test/resources/ohtutips/06_list_all_blogs.feature)
-- [Acceptance Criteria 2: add a new blog tip](/src/test/resources/ohtutips/07_add_new_blog.feature)
-- [Acceptance Criteria 3: delete blog tip](/src/test/resources/ohtutips/08_delete_blog.feature)
-- [Acceptance Criteria 4: sort blog tips](/src/test/resources/ohtutips/09_sort_blog_tips.feature)
-- [Acceptance Criteria 5: modify blog tip](/src/test/resources/ohtutips/10_modify_blog.feature)
+- [Acceptance Criteria 1: list all blog tips](/src/test/resources/ohtutips/07_list_all_blogs.feature)
+- [Acceptance Criteria 2: add a new blog tip](/src/test/resources/ohtutips/08_add_new_blog.feature)
+- [Acceptance Criteria 3: delete blog tip](/src/test/resources/ohtutips/09_delete_blog.feature)
+- [Acceptance Criteria 4: sort blog tips](/src/test/resources/ohtutips/10_sort_blog_tips.feature)
+- [Acceptance Criteria 5: modify blog tip](/src/test/resources/ohtutips/11_modify_blog.feature)
+- [Acceptance Criteria 6: mark book tip read](/src/test/resources/ohtutips/06_mark_book_read_or_unread.feature)
+- [Acceptance Criteria 7: mark blog tip read](/src/test/resources/ohtutips/12_mark_blog_read_or_unread.feature)
