@@ -15,6 +15,7 @@ import ohtutips.domain.BookTip;
 import ohtutips.domain.Tip;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -27,8 +28,8 @@ import org.springframework.test.context.ContextConfiguration;
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class StepDefinitions {
 
-    private WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME, true);
-    private String baseUrl = "http://localhost:8080";
+    private final WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME, true);
+    private final String baseUrl = "http://localhost:8080";
 
     @Given("application has been opened")
     public void user_has_opened_the_application() {
@@ -38,6 +39,24 @@ public class StepDefinitions {
     @Given("button add new reading tip has been clicked")
     public void button_add_new_reading_tip_has_been_clicked() {
         driver.findElement(By.id("add-new-reading-tip")).click();
+    }
+
+    @When("valid filter {string} is applied")
+    public void valid_filter_string_is_typed_into_filter_field(String filter) {
+        enter_filter_string(filter);
+    }
+
+    @When("invalid filter {string} is applied")
+    public void invalid_filter_string_is_typed_into_filter_field(String filter) {
+        enter_filter_string(filter);
+    }
+
+    @When("filter is removed")
+    public void filter_is_removed() {
+        WebElement element = driver.findElement(By.id("filterInput"));
+        // Sending backspaces instead of .clear to simulate typing and trigger JS
+        element.sendKeys(Keys.BACK_SPACE);
+        element.sendKeys(Keys.BACK_SPACE);
     }
 
     @When("all necessary {string} tip fields have been filled")
@@ -189,6 +208,11 @@ public class StepDefinitions {
         Thread.sleep(500);
     }
 
+    @Then("all tips contain {string}")
+    public void all_tips_contain_string(String filter) {
+
+    }
+
     @Then("list of {string} tips is shown")
     public void list_of_tips_is_shown(String tipType) {
         pageHasContent("Reading Tips Archive");
@@ -317,6 +341,12 @@ public class StepDefinitions {
             }
         }
         return false;
+    }
+
+    private void enter_filter_string(String filter) {
+        WebElement element = driver.findElement(By.id("filterInput"));
+        element.clear();
+        element.sendKeys(filter);
     }
 
     private BookTip oneBookTest() {
