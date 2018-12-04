@@ -97,11 +97,7 @@ public class BookController {
     public void study(@PathVariable long id, @RequestParam Integer studied) {
         BookTip bt = bookTipRepository.findById(id).get();
         
-        if (studied == 1) {
-            bt.setStudied(true);
-        } else {
-            bt.setStudied(false);
-        }
+        bt.setStudied(studied == 1);
         
         bookTipRepository.save(bt);
     }
