@@ -28,3 +28,4 @@ Acceptance Criteria as Cucumber Features:
 - [Acceptance Criteria 5: modify blog tip](/src/test/resources/ohtutips/11_modify_blog.feature)
 - [Acceptance Criteria 6: mark book tip read](/src/test/resources/ohtutips/06_mark_book_read_or_unread.feature)
 - [Acceptance Criteria 7: mark blog tip read](/src/test/resources/ohtutips/12_mark_blog_read_or_unread.feature)
+- [Acceptance Criteria 8: filter tips](/src/test/resources/ohtutips/13_filter_tips.feature)
