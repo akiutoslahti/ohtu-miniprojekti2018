@@ -2,6 +2,10 @@ package ohtutips.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import ohtutips.domain.BookTip;
 import ohtutips.repository.BookTipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,8 @@ public class BookController {
 
     @Autowired
     private BookTipRepository bookTipRepository;
+    
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.GET)
     public String bookTipDetails(Model model, @PathVariable long id) {
@@ -33,14 +39,6 @@ public class BookController {
             @RequestParam String relatedCourses) {
 
         List<String> errors = new ArrayList<>();
-        if (author.trim().isEmpty() || title.trim().isEmpty()
-                || isbn.trim().isEmpty()
-                || tags.trim().isEmpty()) {
-            errors.add("Please fill all fields marked with (*).");
-
-            model.addAttribute("errors", errors);
-            return "addTip";
-        }
 
         BookTip bookTip = new BookTip();
         bookTip.setAuthor(author);
@@ -49,6 +47,16 @@ public class BookController {
         bookTip.setTags(tags);
         bookTip.setPrerequisiteCourses(prerequisiteCourses);
         bookTip.setRelatedCourses(relatedCourses);
+        
+        Set<ConstraintViolation<BookTip>> violations = validator.validate(bookTip);
+        for (ConstraintViolation<BookTip> violation : violations) {
+            errors.add(violation.getMessage());
+        }
+        
+        if (!errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            return "addTip";
+        }
 
         bookTipRepository.save(bookTip);
         return "redirect:/";
@@ -67,17 +75,7 @@ public class BookController {
             @RequestParam String tags, @RequestParam String prerequisiteCourses,
             @RequestParam String relatedCourses) {
 
-        if (author.trim().isEmpty() || title.trim().isEmpty()
-                || isbn.trim().isEmpty()
-                || tags.trim().isEmpty()) {
-            List<String> errors = new ArrayList<>();
-
-            errors.add("Please do not empty fields marked with (*).");
-
-            model.addAttribute("errors", errors);
-            model.addAttribute("book", bookTipRepository.findById(id).get());
-            return "bookTipDetails";
-        }
+        List<String> errors = new ArrayList<>();
 
         BookTip bookTip = bookTipRepository.findById(id).get();
         bookTip.setAuthor(author);
@@ -86,6 +84,16 @@ public class BookController {
         bookTip.setTags(tags);
         bookTip.setPrerequisiteCourses(prerequisiteCourses);
         bookTip.setRelatedCourses(relatedCourses);
+        
+        Set<ConstraintViolation<BookTip>> violations = validator.validate(bookTip);
+        for (ConstraintViolation<BookTip> violation : violations) {
+            errors.add(violation.getMessage());
+        }
+        
+        if (!errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            return "addTip";
+        }
 
         bookTipRepository.save(bookTip);
 

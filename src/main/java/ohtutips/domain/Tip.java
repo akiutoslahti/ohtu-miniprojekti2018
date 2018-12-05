@@ -1,15 +1,23 @@
 package ohtutips.domain;
 
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @MappedSuperclass
 public abstract class Tip extends AbstractPersistable<Long> {
-
+    
+    @NotBlank(message = "Author should not be empty")
+    @Size(max = 200, message = "Author should be less than 200 characters long")
     private String author;
+    @NotBlank(message = "Title should not be empty")
+    @Size(max = 200, message = "Title should be less than 200 characters long")
     private String title;
     private boolean studied;
-
+    
+    @NotBlank(message = "Tags should not be empty")
+    @Size(max = 200, message = "Tags should be less than 200 characters long")
     private String tags;
     private String prerequisiteCourses;
     private String relatedCourses;

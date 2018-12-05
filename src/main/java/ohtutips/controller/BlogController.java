@@ -2,6 +2,10 @@ package ohtutips.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import ohtutips.domain.BlogTip;
 import ohtutips.repository.BlogTipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,8 @@ public class BlogController {
 
     @Autowired
     private BlogTipRepository blogTipRepository;
+    
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @RequestMapping(value = "/blog_tip/{id}", method = RequestMethod.GET)
     public String blogTipDetails(Model model, @PathVariable long id) {
@@ -33,14 +39,6 @@ public class BlogController {
             @RequestParam String relatedCourses) {
 
         List<String> errors = new ArrayList<>();
-        if (author.trim().isEmpty() || title.trim().isEmpty()
-                || url.trim().isEmpty()
-                || tags.trim().isEmpty()) {
-            errors.add("Please fill all fields marked with (*).");
-
-            model.addAttribute("errors", errors);
-            return "addTip";
-        }
 
         BlogTip blogTip = new BlogTip();
         blogTip.setAuthor(author);
@@ -49,6 +47,16 @@ public class BlogController {
         blogTip.setTags(tags);
         blogTip.setPrerequisiteCourses(prerequisiteCourses);
         blogTip.setRelatedCourses(relatedCourses);
+        
+        Set<ConstraintViolation<BlogTip>> violations = validator.validate(blogTip);
+        for (ConstraintViolation<BlogTip> violation : violations) {
+            errors.add(violation.getMessage());
+        }
+        
+        if (!errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            return "addTip";
+        }
 
         blogTipRepository.save(blogTip);
         return "redirect:/";
@@ -67,17 +75,7 @@ public class BlogController {
             @RequestParam String tags, @RequestParam String prerequisiteCourses,
             @RequestParam String relatedCourses) {
 
-        if (author.trim().isEmpty() || title.trim().isEmpty()
-                || url.trim().isEmpty()
-                || tags.trim().isEmpty()) {
-            List<String> errors = new ArrayList<>();
-
-            errors.add("Please do not empty fields marked with (*).");
-
-            model.addAttribute("errors", errors);
-            model.addAttribute("blog", blogTipRepository.findById(id).get());
-            return "blogTipDetails";
-        }
+        List<String> errors = new ArrayList<>();
 
         BlogTip blogTip = blogTipRepository.findById(id).get();
         blogTip.setAuthor(author);
@@ -86,6 +84,16 @@ public class BlogController {
         blogTip.setTags(tags);
         blogTip.setPrerequisiteCourses(prerequisiteCourses);
         blogTip.setRelatedCourses(relatedCourses);
+        
+        Set<ConstraintViolation<BlogTip>> violations = validator.validate(blogTip);
+        for (ConstraintViolation<BlogTip> violation : violations) {
+            errors.add(violation.getMessage());
+        }
+        
+        if (!errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            return "addTip";
+        }
 
         blogTipRepository.save(blogTip);
 
