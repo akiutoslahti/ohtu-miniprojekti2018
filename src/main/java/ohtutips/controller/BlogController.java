@@ -78,6 +78,7 @@ public class BlogController {
         List<String> errors = new ArrayList<>();
 
         BlogTip blogTip = blogTipRepository.findById(id).get();
+        String oldAuthor = blogTip.getAuthor();
         blogTip.setAuthor(author);
         blogTip.setTitle(title);
         blogTip.setUrl(url);
@@ -91,8 +92,10 @@ public class BlogController {
         }
         
         if (!errors.isEmpty()) {
+            blogTip.setAuthor(oldAuthor);
             model.addAttribute("errors", errors);
-            return "addTip";
+            model.addAttribute("blog", blogTipRepository.findById(id).get());
+            return "blogTipDetails";
         }
 
         blogTipRepository.save(blogTip);

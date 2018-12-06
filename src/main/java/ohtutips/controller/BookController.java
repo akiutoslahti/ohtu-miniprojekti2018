@@ -78,6 +78,7 @@ public class BookController {
         List<String> errors = new ArrayList<>();
 
         BookTip bookTip = bookTipRepository.findById(id).get();
+        String oldAuthor = bookTip.getAuthor();
         bookTip.setAuthor(author);
         bookTip.setTitle(title);
         bookTip.setIsbn(isbn);
@@ -91,8 +92,10 @@ public class BookController {
         }
         
         if (!errors.isEmpty()) {
+            bookTip.setAuthor(oldAuthor);
             model.addAttribute("errors", errors);
-            return "addTip";
+            model.addAttribute("book", bookTipRepository.findById(id).get());
+            return "bookTipDetails";
         }
 
         bookTipRepository.save(bookTip);
