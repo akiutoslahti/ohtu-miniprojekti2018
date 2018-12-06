@@ -294,69 +294,6 @@ public class StepDefinitions {
         }
     }
 
-    /*
-    //
-    // Depends on actual test data
-    //
-    @Then("book tips are sorted by author")
-    public void book_tips_are_sorted_by_author() {
-        WebElement tipsElement = driver.findElement(By.id("book-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold",
-                allTips.get(0).getText());
-        assertEquals("The C programming language by Kernighan, Brian W.",
-                allTips.get(1).getText());
-        assertEquals("Introduction to the Theory of Computation by Sipser, Michael",
-                allTips.get(2).getText());
-    }
-
-    //
-    // Depends on actual test data
-    //
-    @Then("book tips are sorted by title")
-    public void book_tips_are_sorted_by_title() {
-        WebElement tipsElement = driver.findElement(By.id("book-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Introduction to the Theory of Computation by Sipser, Michael",
-                allTips.get(0).getText());
-        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold",
-                allTips.get(1).getText());
-        assertEquals("The C programming language by Kernighan, Brian W.",
-                allTips.get(2).getText());
-
-    }
-
-    //
-    // Depends on actual test data
-    //
-    @Then("blog tips are sorted by author")
-    public void blog_tips_are_sorted_by_author() {
-        WebElement tipsElement = driver.findElement(By.id("blog-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("The New Methodology by Fowler, Martin",
-                allTips.get(0).getText());
-        assertEquals("Make The Product Backlog DEEP by Pichler, Roman",
-                allTips.get(1).getText());
-        assertEquals("Dependency Injection Demystified by Shore, James",
-                allTips.get(2).getText());
-    }
-
-    //
-    // Depends on actual test data
-    //
-    @Then("blog tips are sorted by title")
-    public void blog_tips_are_sorted_by_title() {
-        WebElement tipsElement = driver.findElement(By.id("blog-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Dependency Injection Demystified by Shore, James",
-                allTips.get(0).getText());
-        assertEquals("Make The Product Backlog DEEP by Pichler, Roman",
-                allTips.get(1).getText());
-        assertEquals("The New Methodology by Fowler, Martin",
-                allTips.get(2).getText());
-    }
-    */
-    
     @Then("{string} tips are sorted by {string}")
     public void tips_are_sorted_by(String tipType, String sortedBy) {
         WebElement tipsElement = driver.findElement(By.id(tipType + "-tips"));
