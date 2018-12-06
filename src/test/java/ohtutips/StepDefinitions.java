@@ -348,7 +348,7 @@ public class StepDefinitions {
         BookTip bookTip = new BookTip();
         bookTip.setTitle("Introduction to algorithms");
         bookTip.setAuthor("Cormen, Thomas H.");
-        bookTip.setIsbn("978-0-262-03384-8");
+        bookTip.setIsbn("978-0262033848");
         bookTip.setTags("Algorithms");
         bookTip.setDescription("");
 

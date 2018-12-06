@@ -15,5 +15,5 @@ Feature: as a user, i can add a blog tip to the system.
         And 'AddBlog' button has been clicked
         When all necessary 'blog' tip fields have not been filled
         And 'Submit' button has been clicked
-        Then error message 'Please fill all fields marked with (*).' is shown
+        Then error message 'URL should not be empty' is shown
 

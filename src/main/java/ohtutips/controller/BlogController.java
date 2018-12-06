@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import ohtutips.domain.LinkTip;
 import ohtutips.repository.LinkTipRepository;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +22,8 @@ public class BlogController {
 
     @Autowired
     private LinkTipRepository linkTipRepository;
+    
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @RequestMapping(value = "/blog_tip/{id}", method = RequestMethod.GET)
     public String blogTipDetails(Model model, @PathVariable long id) {
@@ -31,14 +37,6 @@ public class BlogController {
             @RequestParam String tags, @RequestParam String description) {
 
         List<String> errors = new ArrayList<>();
-        if (author.trim().isEmpty() || title.trim().isEmpty()
-                || url.trim().isEmpty()
-                || tags.trim().isEmpty()) {
-            errors.add("Please fill all fields marked with (*).");
-
-            model.addAttribute("errors", errors);
-            return "addTip";
-        }
 
         LinkTip blogTip = new LinkTip();
         blogTip.setAuthor(author);
@@ -47,6 +45,16 @@ public class BlogController {
         blogTip.setUrl(url);
         blogTip.setTags(tags);
         blogTip.setDescription(description);
+        
+        Set<ConstraintViolation<LinkTip>> violations = validator.validate(blogTip);
+        for (ConstraintViolation<LinkTip> violation : violations) {
+            errors.add(violation.getMessage());
+        }
+        
+        if (!errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            return "addTip";
+        }
 
         linkTipRepository.save(blogTip);
         return "redirect:/";
@@ -64,24 +72,26 @@ public class BlogController {
             @RequestParam String url, @RequestParam String tags,
             @RequestParam String description) {
 
-        if (author.trim().isEmpty() || title.trim().isEmpty()
-                || url.trim().isEmpty()
-                || tags.trim().isEmpty()) {
-            List<String> errors = new ArrayList<>();
-
-            errors.add("Please do not empty fields marked with (*).");
-
-            model.addAttribute("errors", errors);
-            model.addAttribute("blog", linkTipRepository.findById(id).get());
-            return "blogTipDetails";
-        }
-
         LinkTip blogTip = linkTipRepository.findById(id).get();
+        List<String> errors = new ArrayList<>();
+        String oldAuthor = blogTip.getAuthor();
         blogTip.setAuthor(author);
         blogTip.setTitle(title);
         blogTip.setUrl(url);
         blogTip.setTags(tags);
         blogTip.setDescription(description);
+        
+        Set<ConstraintViolation<LinkTip>> violations = validator.validate(blogTip);
+        for (ConstraintViolation<LinkTip> violation : violations) {
+            errors.add(violation.getMessage());
+        }
+        
+        if (!errors.isEmpty()) {
+            blogTip.setAuthor(oldAuthor);
+            model.addAttribute("errors", errors);
+            model.addAttribute("blog", linkTipRepository.findById(id).get());
+            return "blogTipDetails";
+        }
 
         linkTipRepository.save(blogTip);
 

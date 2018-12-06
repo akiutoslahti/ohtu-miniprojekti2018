@@ -14,5 +14,5 @@ Feature: As a user, I can modify any existing blog.
         And 'Edit' button has been clicked
         And title field has been emptied
         And 'Save' button has been clicked
-        Then error message 'Please do not empty fields marked with (*).' is shown
+        Then error message 'Title should not be empty' is shown
 

@@ -15,4 +15,4 @@ Feature: as a user, i can add a book tip to the system.
         And 'AddBook' button has been clicked
         When all necessary 'book' tip fields have not been filled
         And 'Submit' button has been clicked
-        Then error message 'Please fill all fields marked with (*).' is shown
+        Then error message 'ISBN should not be less than 10 characters or more than 14 characters' is shown
