@@ -104,7 +104,8 @@
                         + "Title: " + book.title + "<br/>"
                         + "ISBN: " + book.isbn + "<br/>"
                         + "Tags: " + book.tags + "<br/>"
-                        + "<textarea rows='4' cols='50' readonly>" + book.description + "</textarea></br>";
+                        + "<textarea rows='4' cols='50' readonly placeholder='Description'>"
+                        + book.description + "</textarea></br>";
                 addDeleteButton();
                 addEditButton();
             }
@@ -117,7 +118,8 @@
                         + "(*)Title: <input name='title' value='" + book.title + "'/><br/>"
                         + "(*)ISBN: <input name='isbn' value='" + book.isbn + "'/><br/>"
                         + "(*)Tags: <input name='tags' value='" + book.tags + "'/><br/>"
-                        + "<textarea rows='4' cols='50' form=editForm name='description' wrap='hard'>" + book.description + "</textarea></br>"
+                        + "<textarea rows='4' cols='50' form=editForm name='description' wrap='hard' placeholder='Description'>" 
+                        + book.description + "</textarea></br>"
                         + "<input type='hidden' name='_method' value='PUT'>"
                         + "<\/form>";
                 addSaveButton();

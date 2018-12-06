@@ -104,7 +104,8 @@
                         + "Title: " + blog.title + "<br/>"
                         + "URL: <a href='" + blog.url + "'>" + blog.url + "</a><br/>"
                         + "Tags: " + blog.tags + "<br/>"
-                        + "<textarea rows='4' cols='50' readonly>" + blog.description + "</textarea></br>";
+                        + "<textarea rows='4' cols='50' readonly placeholder='Description'>" 
+                        + blog.description + "</textarea></br>";
                 addDeleteButton();
                 addEditButton();
             }
@@ -117,7 +118,8 @@
                         + "(*)Title: <input name='title' value='" + blog.title + "'/><br/>"
                         + "(*)ISBN: <input name='url' value='" + blog.url + "'/><br/>"
                         + "(*)Tags: <input name='tags' value='" + blog.tags + "'/><br/>"
-                        + "<textarea rows='4' cols='50' form=editForm name='description' wrap='hard'>" + blog.description + "</textarea></br>"
+                        + "<textarea rows='4' cols='50' form=editForm name='description' wrap='hard' placeholder='Description'>" 
+                        + blog.description + "</textarea></br>"
                         + "<input type='hidden' name='_method' value='PUT'>"
                         + "<\/form>";
                 addSaveButton();

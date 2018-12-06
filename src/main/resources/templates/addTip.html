@@ -29,12 +29,13 @@
                 document.getElementById("addbook-button").disabled = true;
                 document.getElementById("addblog-button").disabled = false;
                 document.getElementById("addForm").innerHTML =
-                        "<form method='POST' action='/book_tip'>"
+                        "<form id='postForm' method='POST' action='/book_tip'>"
                         + "(*)Author: <input type='text' name='author'/><br/>"
                         + "(*)Title: <input type='text' name='title'/><br/>"
                         + "(*)ISBN: <input type='text' name='isbn'/><br/>"
                         + "(*)Tags: <input type='text' name='tags'/><br/>"
-                        + "Description: <input type='text' name='description'/><br/>"
+                        + "<textarea rows='4' cols='50' form=postForm name='description' wrap='hard' placeholder='Description'>"
+                        + "</textarea></br>"
                         + "<input id='submit-button' type='submit' value='Submit book tip'/>"
                         + "</form>";
             }
@@ -43,12 +44,13 @@
                 document.getElementById("addbook-button").disabled = false;
                 document.getElementById("addblog-button").disabled = true;
                 document.getElementById("addForm").innerHTML =
-                        "<form method='POST' action='/blog_tip'>"
+                        "<form id='postForm' method='POST' action='/blog_tip'>"
                         + "(*)Author: <input type='text' name='author'/><br/>"
                         + "(*)Title: <input type='text' name='title'/><br/>"
                         + "(*)URL: <input type='text' name='url'/><br/>"
                         + "(*)Tags: <input type='text' name='tags'/><br/>"
-                        + "Description: <input type='text' name='description'/><br/>"
+                        + "<textarea rows='4' cols='50' form=postForm name='description' wrap='hard' placeholder='Description'>"
+                        + "</textarea></br>"
                         + "<input id='submit-button' type='submit' value='Submit blog tip'/>"
                         + "</form>";
             }
