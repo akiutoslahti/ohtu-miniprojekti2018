@@ -13,10 +13,12 @@ UPDATE book_tip SET studied=false WHERE studied IS NULL;
 ALTER TABLE book_tip DROP COLUMN prerequisite_courses;  
 ALTER TABLE book_tip DROP COLUMN related_courses;  
 ALTER TABLE book_tip ADD COLUMN description VARCHAR(255);  
+UPDATE book_tip SET description='' WHERE description IS NULL;  
   
 ALTER TABLE blog_tip DROP COLUMN prerequisite_courses;  
 ALTER TABLE blog_tip DROP COLUMN related_courses;  
 ALTER TABLE blog_tip ADD COLUMN description VARCHAR(255);  
+UPDATE book_tip SET description='' WHERE description IS NULL;  
 ALTER TABLE blog_tip ADD COLUMN type VARCHAR(255);  
 UPDATE blog_tip SET type='blog' WHERE type IS NULL;  
   
