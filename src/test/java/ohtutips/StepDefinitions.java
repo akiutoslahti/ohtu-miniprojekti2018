@@ -43,22 +43,18 @@ public class StepDefinitions {
         driver.findElement(By.id("add-new-reading-tip")).click();
     }
 
-    @When("valid filter {string} is applied")
-    public void valid_filter_string_is_typed_into_filter_field(String filter) {
+    @When("filter {string} is applied")
+    public void filter_string_is_typed_into_filter_field(String filter) {
         enter_filter_string(filter);
     }
 
-    @When("invalid filter {string} is applied")
-    public void invalid_filter_string_is_typed_into_filter_field(String filter) {
-        enter_filter_string(filter);
-    }
-
-    @When("filter is removed")
-    public void filter_is_removed() {
+    @When("{int} last characters from filter are removed")
+    public void last_chars_from_filter_are_removed(int chars) {
         WebElement element = driver.findElement(By.id("filterInput"));
         // Sending backspaces instead of .clear to simulate typing and trigger JS
-        element.sendKeys(Keys.BACK_SPACE);
-        element.sendKeys(Keys.BACK_SPACE);
+        for (int i = 0; i < chars; i++) {
+            element.sendKeys(Keys.BACK_SPACE);
+        }
     }
 
     @When("all necessary {string} tip fields have been filled")
@@ -116,6 +112,9 @@ public class StepDefinitions {
         element.click();
     }
 
+    //
+    // Depends on the number of tips
+    //
     @When("{string} tip number {int} is navigated to")
     public void certain_tip_is_navigated_to(String tipType, int id) {
         WebElement element = driver.findElement(By.id(tipType + "-tips"));
@@ -172,6 +171,9 @@ public class StepDefinitions {
         element.clear();
     }
 
+    //
+    // Depends on the number of tips
+    //
     @When("{string} tip number {int} is {string} studied")
     public void tip_studied_status(String tipType, int id, String status) throws Throwable {
         WebElement element = driver.findElement(By.id(tipType + "-tips"));
@@ -184,6 +186,9 @@ public class StepDefinitions {
         }
     }
 
+    //
+    // Depends on the number of tips
+    //
     @When("{string} tip is {string} studied")
     public void tip_studied_status(String tipType, String status) throws Throwable {
         WebElement checkElement = driver.findElement(By.id("studiedcheck"));
@@ -194,6 +199,9 @@ public class StepDefinitions {
         }
     }
 
+    //
+    // Depends on the number of tips
+    //
     @When("{string} tip number {int} studied is clicked")
     public void tip_studied_status_changed(String tipType, int id) throws Throwable {
         WebElement element = driver.findElement(By.id(tipType + "-tips"));
@@ -232,6 +240,9 @@ public class StepDefinitions {
         pageHasContent(tipType.substring(0, 1).toUpperCase() + tipType.substring(1));
     }
 
+    //
+    // Depends on how many rows in database + possible filters
+    //
     @Then("list of {string} tips has {int} entries")
     public void list_of_tips_has_entries(String tipType, int amount) {
         WebElement element = driver.findElement(By.id(tipType + "-tips"));
@@ -283,53 +294,23 @@ public class StepDefinitions {
         }
     }
 
-    @Then("book tips are sorted by author")
-    public void book_tips_are_sorted_by_author() {
-        WebElement tipsElement = driver.findElement(By.id("book-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold",
-                allTips.get(0).getText());
-        assertEquals("The C programming language by Kernighan, Brian W.",
-                allTips.get(1).getText());
-        assertEquals("Introduction to the Theory of Computation by Sipser, Michael",
-                allTips.get(2).getText());
-    }
-
-    @Then("book tips are sorted by title")
-    public void book_tips_are_sorted_by_title() {
-        WebElement tipsElement = driver.findElement(By.id("book-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Introduction to the Theory of Computation by Sipser, Michael",
-                allTips.get(0).getText());
-        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold",
-                allTips.get(1).getText());
-        assertEquals("The C programming language by Kernighan, Brian W.",
-                allTips.get(2).getText());
-
-    }
-
-    @Then("blog tips are sorted by author")
-    public void blog_tips_are_sorted_by_author() {
-        WebElement tipsElement = driver.findElement(By.id("blog-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("The New Methodology by Fowler, Martin",
-                allTips.get(0).getText());
-        assertEquals("Make The Product Backlog DEEP by Pichler, Roman",
-                allTips.get(1).getText());
-        assertEquals("Dependency Injection Demystified by Shore, James",
-                allTips.get(2).getText());
-    }
-
-    @Then("blog tips are sorted by title")
-    public void blog_tips_are_sorted_by_title() {
-        WebElement tipsElement = driver.findElement(By.id("blog-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Dependency Injection Demystified by Shore, James",
-                allTips.get(0).getText());
-        assertEquals("Make The Product Backlog DEEP by Pichler, Roman",
-                allTips.get(1).getText());
-        assertEquals("The New Methodology by Fowler, Martin",
-                allTips.get(2).getText());
+    @Then("{string} tips are sorted by {string}")
+    public void tips_are_sorted_by(String tipType, String sortedBy) {
+        WebElement tipsElement = driver.findElement(By.id(tipType + "-tips"));
+        List<WebElement> tips = tipsElement.findElements(By.xpath(".//a"));
+        String previous = "";
+        for (WebElement tip : tips) {
+            String fullText = tip.getText();
+            if (sortedBy.equals("title")) {
+                String title = fullText.substring(0, fullText.indexOf(" by "));
+                assertTrue(previous.compareToIgnoreCase(title) <= 0);
+                previous = title;
+            } else {
+                String author = fullText.substring(fullText.indexOf(" by ") + 4, fullText.length());
+                assertTrue(previous.compareToIgnoreCase(author) <= 0);
+                previous = author;
+            }
+        }
     }
 
     private void pageHasContent(String content) {
