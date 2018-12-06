@@ -28,12 +28,15 @@
 
         <ul id="blog-tips"></ul>
     
+        <h2>Videos</h2>
+
+        <ul id="tube-tips"></ul>
+    
         <script th:inline="javascript">
             function filterTipList(tipList) {
                 var input = document.getElementById('filterInput').value.toLowerCase();
                 return tipList.filter(tip => tip.title.toLowerCase().includes(input) || tip.author.toLowerCase().includes(input));
             }
-            
             
             function newTip() {
                 window.location.href="/new_tip";
@@ -51,21 +54,30 @@
             /*[/]*/
             ];
             
+            var tubetips=[
+            /*[# th:each="tube : ${tubes}"]*/
+                {id:[[${tube.id}]], title:[[${tube.title}]], author:[[${tube.author}]], studied:[[${tube.studied}]]},
+            /*[/]*/
+            ];
+            
             displayTips();
             
             function titleSort() {
                 sortByTitle(booktips);
                 sortByTitle(blogtips);
+                sortByTitle(tubetips);
             }
             
             function authorSort() {
                 sortByAuthor(booktips);
                 sortByAuthor(blogtips);
+                sortByAuthor(tubetips);
             }
             
             function addedSort() {
                 sortByAdded(booktips);
                 sortByAdded(blogtips);
+                sortByAdded(tubetips);
             }
             
             function sortByTitle(tipList) {
@@ -100,17 +112,22 @@
             function displayTips() {
                 var bookTipList = "";
                 var blogTipList = "";
+                var tubeTipList = "";
                 
-                var filteredBookList, filteredBlogList;
+                var filteredBookList, filteredBlogList, filteredTubeList;
                 
                 filteredBookList = filterTipList(booktips)
                 filteredBlogList = filterTipList(blogtips)
+                filteredTubeList = filterTipList(tubetips)
                 
                 filteredBookList.forEach(listBookTips);
                 document.getElementById("book-tips").innerHTML = bookTipList;
                 
                 filteredBlogList.forEach(listBlogTips);
                 document.getElementById("blog-tips").innerHTML = blogTipList;
+
+                filteredTubeList.forEach(listTubeTips);
+                document.getElementById("tube-tips").innerHTML = tubeTipList;
 
                 function listBookTips(tip) {
                     bookTipList = bookTipList + "<li>"
@@ -158,7 +175,31 @@
                             + tip.id + "'>" + tip.title + " by " + tip.author + "</a>" 
                             + "</li>"; ; 
                 }
-            }
+                
+                function listTubeTips(tip) {
+                    tubeTipList = tubeTipList + "<li>"
+                            + '<iframe name="hiddenframe' + tip.id + '" style="display: none;"></iframe>'
+                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" action="/tube_tip/' + tip.id + '/study"' 
+                            + ' target="hiddenframe' + tip.id + '">';
+                    
+                    if(tip.studied) {
+                        tubeTipList = tubeTipList 
+                                + ' <input type="checkbox"' 
+                                + ' name="studied" id="studiedcheck" value="1" onchange="this.form.submit()" checked="checked"/>';
+                    } else {
+                        tubeTipList = tubeTipList
+                                + ' <input'
+                                + ' type="checkbox" id="studiedcheck" name="studied" value="1" onchange="this.form.submit()"/>';
+                    }
+                    
+                    tubeTipList = tubeTipList + ' <input type="hidden" value="0" name="studied"/>'
+                            + '</form>'
+                            + "<a id=" + tip.id + " href='/tube_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a>" 
+                            + "</li>"; ; 
+                }
+
+        }
 
         </script> 
                

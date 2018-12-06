@@ -11,6 +11,7 @@
         <div id="buttons">
             <button id="addbook-button" onclick="bookForm()">Add Book</button>
             <button id="addblog-button" onclick="blogForm()">Add Blog</button>
+            <button id="addtube-button" onclick="tubeForm()">Add Tube</button>
         </div>
 
         <ul th:each="error : ${errors}">
@@ -28,6 +29,7 @@
             function bookForm() {
                 document.getElementById("addbook-button").disabled = true;
                 document.getElementById("addblog-button").disabled = false;
+                document.getElementById("addtube-button").disabled = false;
                 document.getElementById("addForm").innerHTML =
                         "<form id='postForm' method='POST' action='/book_tip'>"
                         + "(*)Author: <input type='text' name='author'/><br/>"
@@ -43,6 +45,7 @@
             function blogForm() {
                 document.getElementById("addbook-button").disabled = false;
                 document.getElementById("addblog-button").disabled = true;
+                document.getElementById("addtube-button").disabled = false;
                 document.getElementById("addForm").innerHTML =
                         "<form id='postForm' method='POST' action='/blog_tip'>"
                         + "(*)Author: <input type='text' name='author'/><br/>"
@@ -52,6 +55,22 @@
                         + "<textarea rows='4' cols='50' form=postForm name='description' wrap='hard' placeholder='Description'>"
                         + "</textarea></br>"
                         + "<input id='submit-button' type='submit' value='Submit blog tip'/>"
+                        + "</form>";
+            }
+
+            function tubeForm() {
+                document.getElementById("addbook-button").disabled = false;
+                document.getElementById("addblog-button").disabled = false;
+                document.getElementById("addtube-button").disabled = true;
+                document.getElementById("addForm").innerHTML =
+                        "<form id='postForm' method='POST' action='/tube_tip'>"
+                        + "(*)Author: <input type='text' name='author'/><br/>"
+                        + "(*)Title: <input type='text' name='title'/><br/>"
+                        + "(*)URL: <input type='text' name='url'/><br/>"
+                        + "(*)Tags: <input type='text' name='tags'/><br/>"
+                        + "<textarea rows='4' cols='50' form=postForm name='description' wrap='hard' placeholder='Description'>"
+                        + "</textarea></br>"
+                        + "<input id='submit-button' type='submit' value='Submit tube tip'/>"
                         + "</form>";
             }
 

@@ -37,6 +37,10 @@ public class DefaultController {
             for (LinkTip tip : blogTips) {
                 linkTipRepository.save(tip);
             }
+            ArrayList<LinkTip> tubeTips = initialTubes();
+            for (LinkTip tip : tubeTips) {
+                linkTipRepository.save(tip);
+            }
         }
     }
 
@@ -46,6 +50,8 @@ public class DefaultController {
                 new Sort(Sort.Direction.ASC, "id")));
         model.addAttribute("blogs", linkTipRepository.findByType(
                 "blog", new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("tubes", linkTipRepository.findByType(
+                "tube", new Sort(Sort.Direction.ASC, "id")));
         return "index";
     }
     
@@ -121,4 +127,21 @@ public class DefaultController {
         return tips;
     }
 
+    private ArrayList<LinkTip> initialTubes() {
+        ArrayList<LinkTip> tips = new ArrayList<>();
+
+        LinkTip tubeTip1 = new LinkTip();
+
+        tips.add(tubeTip1);
+
+        tubeTip1.setTitle("Turing & The Halting Problem");
+        tubeTip1.setAuthor("Computerphile");
+        tubeTip1.setUrl("https://www.youtube.com/watch?v=macM_MtS_w4");
+        tubeTip1.setTags("Computer Science");
+        tubeTip1.setType("tube");
+        tubeTip1.setDescription("Alan Turing almost accidentally created the blueprint "
+                + "for the modern day digital computer...");
+
+        return tips;
+    }
 }
