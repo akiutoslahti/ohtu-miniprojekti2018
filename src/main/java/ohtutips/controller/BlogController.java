@@ -2,8 +2,8 @@ package ohtutips.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import ohtutips.domain.BlogTip;
-import ohtutips.repository.BlogTipRepository;
+import ohtutips.domain.LinkTip;
+import ohtutips.repository.LinkTipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,20 +17,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class BlogController {
 
     @Autowired
-    private BlogTipRepository blogTipRepository;
+    private LinkTipRepository linkTipRepository;
 
     @RequestMapping(value = "/blog_tip/{id}", method = RequestMethod.GET)
     public String blogTipDetails(Model model, @PathVariable long id) {
-        model.addAttribute("blog", blogTipRepository.findById(id).get());
+        model.addAttribute("blog", linkTipRepository.findById(id).get());
         return "blogTipDetails";
     }
 
     @RequestMapping(value = "/blog_tip", method = RequestMethod.POST)
     public String addBlogTip(Model model, @RequestParam String author,
-            @RequestParam String title,
-            @RequestParam String url, @RequestParam String tags,
-            @RequestParam String prerequisiteCourses,
-            @RequestParam String relatedCourses) {
+            @RequestParam String title, @RequestParam String url, 
+            @RequestParam String tags, @RequestParam String description) {
 
         List<String> errors = new ArrayList<>();
         if (author.trim().isEmpty() || title.trim().isEmpty()
@@ -42,30 +40,29 @@ public class BlogController {
             return "addTip";
         }
 
-        BlogTip blogTip = new BlogTip();
+        LinkTip blogTip = new LinkTip();
         blogTip.setAuthor(author);
         blogTip.setTitle(title);
+        blogTip.setType("blog");
         blogTip.setUrl(url);
         blogTip.setTags(tags);
-        blogTip.setPrerequisiteCourses(prerequisiteCourses);
-        blogTip.setRelatedCourses(relatedCourses);
+        blogTip.setDescription(description);
 
-        blogTipRepository.save(blogTip);
+        linkTipRepository.save(blogTip);
         return "redirect:/";
     }
 
     @RequestMapping(value = "/blog_tip/{id}", method = RequestMethod.DELETE)
     public String deleteBlogTip(@PathVariable long id) {
-        blogTipRepository.deleteById(id);
+        linkTipRepository.deleteById(id);
         return "redirect:/";
     }
 
     @RequestMapping(value = "/blog_tip/{id}", method = RequestMethod.PUT)
     public String modifyBlogTip(@PathVariable long id, Model model,
             @RequestParam String author, @RequestParam String title,
-            @RequestParam String url,
-            @RequestParam String tags, @RequestParam String prerequisiteCourses,
-            @RequestParam String relatedCourses) {
+            @RequestParam String url, @RequestParam String tags,
+            @RequestParam String description) {
 
         if (author.trim().isEmpty() || title.trim().isEmpty()
                 || url.trim().isEmpty()
@@ -75,19 +72,18 @@ public class BlogController {
             errors.add("Please do not empty fields marked with (*).");
 
             model.addAttribute("errors", errors);
-            model.addAttribute("blog", blogTipRepository.findById(id).get());
+            model.addAttribute("blog", linkTipRepository.findById(id).get());
             return "blogTipDetails";
         }
 
-        BlogTip blogTip = blogTipRepository.findById(id).get();
+        LinkTip blogTip = linkTipRepository.findById(id).get();
         blogTip.setAuthor(author);
         blogTip.setTitle(title);
         blogTip.setUrl(url);
         blogTip.setTags(tags);
-        blogTip.setPrerequisiteCourses(prerequisiteCourses);
-        blogTip.setRelatedCourses(relatedCourses);
+        blogTip.setDescription(description);
 
-        blogTipRepository.save(blogTip);
+        linkTipRepository.save(blogTip);
 
         return "redirect:/blog_tip/" + id;
     }
@@ -95,7 +91,7 @@ public class BlogController {
     @RequestMapping(value = "/blog_tip/{id}/study", method = RequestMethod.POST)
     @ResponseBody
     public void study(@PathVariable long id, @RequestParam Integer studied) {
-        BlogTip bt = blogTipRepository.findById(id).get();
+        LinkTip bt = linkTipRepository.findById(id).get();
         
         if (studied == 1) {
             bt.setStudied(true);
@@ -103,6 +99,6 @@ public class BlogController {
             bt.setStudied(false);
         }
         
-        blogTipRepository.save(bt);
+        linkTipRepository.save(bt);
     }
 }

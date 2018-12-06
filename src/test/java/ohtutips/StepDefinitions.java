@@ -10,8 +10,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.util.List;
-import ohtutips.domain.BlogTip;
 import ohtutips.domain.BookTip;
+import ohtutips.domain.LinkTip;
 import ohtutips.domain.Tip;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -340,7 +340,7 @@ public class StepDefinitions {
         WebElement element;
         if (testTip instanceof BookTip) {
             element = driver.findElement(By.id("book-tips"));
-        } else if (testTip instanceof BlogTip) {
+        } else if (testTip instanceof LinkTip) {
             element = driver.findElement(By.id("blog-tips"));
         } else {
             return false;
@@ -369,21 +369,19 @@ public class StepDefinitions {
         bookTip.setAuthor("Cormen, Thomas H.");
         bookTip.setIsbn("978-0-262-03384-8");
         bookTip.setTags("Algorithms");
-        bookTip.setPrerequisiteCourses("");
-        bookTip.setRelatedCourses("");
+        bookTip.setDescription("");
 
         return bookTip;
     }
 
-    private BlogTip oneBlogTest() {
+    private LinkTip oneBlogTest() {
 
-        BlogTip blogTip = new BlogTip();
+        LinkTip blogTip = new LinkTip();
         blogTip.setTitle("The Three Rules of TDD");
         blogTip.setAuthor("Uncle Bob");
         blogTip.setUrl("http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd");
         blogTip.setTags("TDD");
-        blogTip.setPrerequisiteCourses("");
-        blogTip.setRelatedCourses("");
+        blogTip.setDescription("");
 
         return blogTip;
     }

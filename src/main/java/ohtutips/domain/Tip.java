@@ -9,10 +9,8 @@ public abstract class Tip extends AbstractPersistable<Long> {
     private String author;
     private String title;
     private boolean studied;
-
     private String tags;
-    private String prerequisiteCourses;
-    private String relatedCourses;
+    private String description;
 
     public String getTitle() {
         return title;
@@ -38,28 +36,20 @@ public abstract class Tip extends AbstractPersistable<Long> {
         this.studied = studied;
     }
 
-    public void setPrerequisiteCourses(String prerequisiteCourses) {
-        this.prerequisiteCourses = prerequisiteCourses;
-    }
-
-    public void setRelatedCourses(String relatedCourses) {
-        this.relatedCourses = relatedCourses;
-    }
-
     public void setTags(String tags) {
         this.tags = tags;
     }
 
-    public String getPrerequisiteCourses() {
-        return prerequisiteCourses;
-    }
-
-    public String getRelatedCourses() {
-        return relatedCourses;
-    }
-
     public String getTags() {
         return tags;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

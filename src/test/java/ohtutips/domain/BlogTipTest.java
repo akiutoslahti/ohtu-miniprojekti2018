@@ -7,11 +7,11 @@ import org.junit.Test;
 
 public class BlogTipTest {
 
-    private BlogTip testBlog;
+    private LinkTip testBlog;
 
     @Before
     public void setUp() {
-        testBlog = new BlogTip();
+        testBlog = new LinkTip();
     }
 
     @Test

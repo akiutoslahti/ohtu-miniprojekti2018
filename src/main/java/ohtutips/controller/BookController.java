@@ -27,10 +27,8 @@ public class BookController {
 
     @RequestMapping(value = "/book_tip", method = RequestMethod.POST)
     public String addBookTip(Model model, @RequestParam String author,
-            @RequestParam String title,
-            @RequestParam String isbn, @RequestParam String tags,
-            @RequestParam String prerequisiteCourses,
-            @RequestParam String relatedCourses) {
+            @RequestParam String title, @RequestParam String isbn, 
+            @RequestParam String tags, @RequestParam String description) {
 
         List<String> errors = new ArrayList<>();
         if (author.trim().isEmpty() || title.trim().isEmpty()
@@ -47,8 +45,7 @@ public class BookController {
         bookTip.setTitle(title);
         bookTip.setIsbn(isbn);
         bookTip.setTags(tags);
-        bookTip.setPrerequisiteCourses(prerequisiteCourses);
-        bookTip.setRelatedCourses(relatedCourses);
+        bookTip.setDescription(description);
 
         bookTipRepository.save(bookTip);
         return "redirect:/";
@@ -63,9 +60,8 @@ public class BookController {
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.PUT)
     public String modifyBookTip(@PathVariable long id, Model model,
             @RequestParam String author, @RequestParam String title,
-            @RequestParam String isbn,
-            @RequestParam String tags, @RequestParam String prerequisiteCourses,
-            @RequestParam String relatedCourses) {
+            @RequestParam String isbn, @RequestParam String tags, 
+            @RequestParam String description) {
 
         if (author.trim().isEmpty() || title.trim().isEmpty()
                 || isbn.trim().isEmpty()
@@ -84,8 +80,7 @@ public class BookController {
         bookTip.setTitle(title);
         bookTip.setIsbn(isbn);
         bookTip.setTags(tags);
-        bookTip.setPrerequisiteCourses(prerequisiteCourses);
-        bookTip.setRelatedCourses(relatedCourses);
+        bookTip.setDescription(description);
 
         bookTipRepository.save(bookTip);
 

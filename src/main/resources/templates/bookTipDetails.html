@@ -8,6 +8,10 @@
         <button id="back-button" onclick="back()">Back</button>
         <h1>Book tip details</h1>
 
+        <ul th:each="error : ${errors}">
+            <li th:text="${error}">here</li>
+        </ul>
+
         <iframe name="hiddenframe" style="display: none;"></iframe>
         <b>Studied:</b>
         <form style="display: inline-block"  id="studied" method="POST" th:action="@{/book_tip/{id}/study(id=${book.id})}" target="hiddenframe">
@@ -15,15 +19,11 @@
             <input th:if="${book.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()" checked="checked"/>
             <input id="studiedHidden" type="hidden" value="0" name="studied"/>
         </form>
-        
-        <ul th:each="error : ${errors}">
-            <li th:text="${error}">here</li>
-        </ul>
 
         <div id="book-tip-details"></div>
         <div id="buttons">
         </div>
-        
+
         <script th:inline="javascript">
 
             function back() {
@@ -104,8 +104,7 @@
                         + "Title: " + book.title + "<br/>"
                         + "ISBN: " + book.isbn + "<br/>"
                         + "Tags: " + book.tags + "<br/>"
-                        + "Prerequisite courses: " + book.prerequisiteCourses + "<br/>"
-                        + "Related courses: " + book.relatedCourses + "<br/>";
+                        + "<textarea rows='4' cols='50' readonly>" + book.description + "</textarea></br>";
                 addDeleteButton();
                 addEditButton();
             }
@@ -113,13 +112,12 @@
             function editEnabled() {
                 emptyElements();
                 document.getElementById("book-tip-details").innerHTML =
-                        "<form name='editForm' method='POST' action='/book_tip/[[${book.id}]]'>"
+                        "<form id='editForm' name='editForm' method='POST' action='/book_tip/[[${book.id}]]'>"
                         + "(*)Author: <input name='author' value='" + book.author + "'/><br/>"
                         + "(*)Title: <input name='title' value='" + book.title + "'/><br/>"
                         + "(*)ISBN: <input name='isbn' value='" + book.isbn + "'/><br/>"
                         + "(*)Tags: <input name='tags' value='" + book.tags + "'/><br/>"
-                        + "Prerequisite courses: <input name='prerequisiteCourses' value='" + book.prerequisiteCourses + "'/><br/>"
-                        + "Related courses: <input name='relatedCourses' value='" + book.relatedCourses + "'/><br/>"
+                        + "<textarea rows='4' cols='50' form=editForm name='description' wrap='hard'>" + book.description + "</textarea></br>"
                         + "<input type='hidden' name='_method' value='PUT'>"
                         + "<\/form>";
                 addSaveButton();
@@ -142,7 +140,7 @@
             function saveBook() {
                 document.editForm.submit();
             }
-            
+
 
             editDisabled();
         </script>
