@@ -22,7 +22,7 @@ public class BlogController {
 
     @Autowired
     private LinkTipRepository linkTipRepository;
-    
+
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @RequestMapping(value = "/blog_tip/{id}", method = RequestMethod.GET)
@@ -33,7 +33,7 @@ public class BlogController {
 
     @RequestMapping(value = "/blog_tip", method = RequestMethod.POST)
     public String addBlogTip(Model model, @RequestParam String author,
-            @RequestParam String title, @RequestParam String url, 
+            @RequestParam String title, @RequestParam String url,
             @RequestParam String tags, @RequestParam String description) {
 
         List<String> errors = new ArrayList<>();
@@ -45,12 +45,12 @@ public class BlogController {
         blogTip.setUrl(url);
         blogTip.setTags(tags);
         blogTip.setDescription(description);
-        
+
         Set<ConstraintViolation<LinkTip>> violations = validator.validate(blogTip);
         for (ConstraintViolation<LinkTip> violation : violations) {
             errors.add(violation.getMessage());
         }
-        
+
         if (!errors.isEmpty()) {
             model.addAttribute("errors", errors);
             return "addTip";
@@ -73,42 +73,39 @@ public class BlogController {
             @RequestParam String description) {
 
         LinkTip blogTip = linkTipRepository.findById(id).get();
-        List<String> errors = new ArrayList<>();
-        String oldAuthor = blogTip.getAuthor();
         blogTip.setAuthor(author);
         blogTip.setTitle(title);
         blogTip.setUrl(url);
         blogTip.setTags(tags);
         blogTip.setDescription(description);
-        
-        Set<ConstraintViolation<LinkTip>> violations = validator.validate(blogTip);
-        for (ConstraintViolation<LinkTip> violation : violations) {
-            errors.add(violation.getMessage());
-        }
-        
-        if (!errors.isEmpty()) {
-            blogTip.setAuthor(oldAuthor);
+
+        try {
+            linkTipRepository.save(blogTip);
+        } catch (Exception e) {
+            List<String> errors = new ArrayList<>();
+            Set<ConstraintViolation<LinkTip>> violations = validator.validate(blogTip);
+            for (ConstraintViolation<LinkTip> violation : violations) {
+                errors.add(violation.getMessage());
+            }
             model.addAttribute("errors", errors);
             model.addAttribute("blog", linkTipRepository.findById(id).get());
             return "blogTipDetails";
         }
 
-        linkTipRepository.save(blogTip);
-
         return "redirect:/blog_tip/" + id;
     }
-    
+
     @RequestMapping(value = "/blog_tip/{id}/study", method = RequestMethod.POST)
     @ResponseBody
     public void study(@PathVariable long id, @RequestParam Integer studied) {
         LinkTip bt = linkTipRepository.findById(id).get();
-        
+
         if (studied == 1) {
             bt.setStudied(true);
         } else {
             bt.setStudied(false);
         }
-        
+
         linkTipRepository.save(bt);
     }
 }

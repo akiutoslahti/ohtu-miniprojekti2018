@@ -22,7 +22,7 @@ public class BookController {
 
     @Autowired
     private BookTipRepository bookTipRepository;
-    
+
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.GET)
@@ -33,7 +33,7 @@ public class BookController {
 
     @RequestMapping(value = "/book_tip", method = RequestMethod.POST)
     public String addBookTip(Model model, @RequestParam String author,
-            @RequestParam String title, @RequestParam String isbn, 
+            @RequestParam String title, @RequestParam String isbn,
             @RequestParam String tags, @RequestParam String description) {
 
         List<String> errors = new ArrayList<>();
@@ -44,12 +44,12 @@ public class BookController {
         bookTip.setIsbn(isbn);
         bookTip.setTags(tags);
         bookTip.setDescription(description);
-        
+
         Set<ConstraintViolation<BookTip>> violations = validator.validate(bookTip);
         for (ConstraintViolation<BookTip> violation : violations) {
             errors.add(violation.getMessage());
         }
-        
+
         if (!errors.isEmpty()) {
             model.addAttribute("errors", errors);
             return "addTip";
@@ -68,47 +68,43 @@ public class BookController {
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.PUT)
     public String modifyBookTip(@PathVariable long id, Model model,
             @RequestParam String author, @RequestParam String title,
-            @RequestParam String isbn, @RequestParam String tags, 
+            @RequestParam String isbn, @RequestParam String tags,
             @RequestParam String description) {
 
-        List<String> errors = new ArrayList<>();
-
         BookTip bookTip = bookTipRepository.findById(id).get();
-        String oldAuthor = bookTip.getAuthor();
         bookTip.setAuthor(author);
         bookTip.setTitle(title);
         bookTip.setIsbn(isbn);
         bookTip.setTags(tags);
         bookTip.setDescription(description);
-        
-        Set<ConstraintViolation<BookTip>> violations = validator.validate(bookTip);
-        for (ConstraintViolation<BookTip> violation : violations) {
-            errors.add(violation.getMessage());
-        }
-        
-        if (!errors.isEmpty()) {
-            bookTip.setAuthor(oldAuthor);
+
+        try {
+            bookTipRepository.save(bookTip);
+        } catch (Exception e) {
+            List<String> errors = new ArrayList<>();
+            Set<ConstraintViolation<BookTip>> violations = validator.validate(bookTip);
+            for (ConstraintViolation<BookTip> violation : violations) {
+                errors.add(violation.getMessage());
+            }
             model.addAttribute("errors", errors);
             model.addAttribute("book", bookTipRepository.findById(id).get());
             return "bookTipDetails";
         }
 
-        bookTipRepository.save(bookTip);
-
         return "redirect:/book_tip/" + id;
     }
-    
+
     @RequestMapping(value = "/book_tip/{id}/study", method = RequestMethod.POST)
     @ResponseBody
     public void study(@PathVariable long id, @RequestParam Integer studied) {
         BookTip bt = bookTipRepository.findById(id).get();
-        
+
         if (studied == 1) {
             bt.setStudied(true);
         } else {
             bt.setStudied(false);
         }
-        
+
         bookTipRepository.save(bt);
     }
 }
