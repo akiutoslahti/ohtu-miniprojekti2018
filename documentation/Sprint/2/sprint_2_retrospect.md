@@ -8,5 +8,5 @@ We started with Mad, Sad, Glad again, but since all but one cards were in "Glad"
 * We delivered what was asked in great fashion and without deadline driven development!
 
 ### Mad Topics
-* Silent Failing on web tests: <form> hiding inside a <p> element caused tests to fail for apparently no reason. This was a pain to debug.
+* Silent Failing on web tests: &lt;form> disappearing inside a &lt;p> element caused tests to fail for apparently no reason. This was a pain to debug.
 	* We discussed about adding HTML-validating system to our process, but decided that's of low priority, especially since we were unsure if it would catch this kind of a problem. On a more general level, it's relevant to consider the whole render process and be aware of e.g. JS affecting the end result.
