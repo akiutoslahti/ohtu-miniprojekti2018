@@ -199,11 +199,11 @@ public class StepDefinitions {
     public void tip_studied_status(String tipType, int id, String status) throws Throwable {
         WebElement element = driver.findElement(By.id(tipType + TIPS));
         List<WebElement> list = element.findElements(By.xpath(".//li"));
-        WebElement checkElement = list.get(id).findElement(By.id("studiedcheck"));
+        List<WebElement> delTags = list.get(id).findElements(By.tagName("del"));
         if (status.equals("not")) {
-            assertFalse(checkElement.isSelected());
+            assertTrue(delTags.isEmpty());
         } else {
-            assertTrue(checkElement.isSelected());
+            assertFalse(delTags.isEmpty());
         }
     }
 
@@ -237,6 +237,12 @@ public class StepDefinitions {
         WebElement checkElement = driver.findElement(By.id("studiedcheck"));
         checkElement.click();
         Thread.sleep(500);
+    }
+    
+    @When("show studied is clicked")
+    public void studied_filtering_changed() throws Throwable {
+        WebElement checkElement = driver.findElement(By.id("includeStudied"));
+        checkElement.click();
     }
 
     @Then("all tips contain {string}")
