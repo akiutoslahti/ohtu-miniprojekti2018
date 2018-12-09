@@ -17,7 +17,8 @@
         </p>
         
         <p>
-            <input type="text" placeholder="Filter tips" onkeyup="displayTips()" id="filterInput" />
+            <input type="text" placeholder="Filter tips" onkeyup="filterAndDisplayTips()" id="filterInput" />
+            <label><input type="checkbox" id="includeStudied" onchange="filterAndDisplayTips()" />Include Studied</label>
         </p>
         
         <h2>Books</h2>
@@ -33,14 +34,6 @@
         <ul id="tube-tips"></ul>
     
         <script th:inline="javascript">
-            function filterTipList(tipList) {
-                var input = document.getElementById('filterInput').value.toLowerCase();
-                return tipList.filter(tip => tip.title.toLowerCase().includes(input) || tip.author.toLowerCase().includes(input));
-            }
-            
-            function newTip() {
-                window.location.href="/new_tip";
-            }
             
             var booktips=[
             /*[# th:each="book : ${books}"]*/
@@ -59,25 +52,59 @@
                 {id:[[${tube.id}]], title:[[${tube.title}]], author:[[${tube.author}]], studied:[[${tube.studied}]]},
             /*[/]*/
             ];
+    
+            var filteredBookList, filteredBlogList, filteredTubeList;
             
-            displayTips();
+            filterAndDisplayTips();
+    
+            function filterByContent(tipList) {
+                var input = document.getElementById('filterInput').value.toLowerCase();
+                
+                return tipList.filter(tip => tip.title.toLowerCase().includes(input) || tip.author.toLowerCase().includes(input));
+            }
+            
+            function filterByStudied(tipList) {
+                if (document.getElementById("includeStudied").checked) {
+                    return tipList;
+                } else {
+                    return tipList.filter(tip => !tip.studied);
+                }
+            }
+            
+            function filterTipLists() {
+                filteredBookList = filterByContent(filterByStudied(booktips))
+                filteredBlogList = filterByContent(filterByStudied(blogtips))
+                filteredTubeList = filterByContent(filterByStudied(tubetips))
+            }
+            
+            function filterAndDisplayTips() {
+                filterTipLists();
+                displayTips();
+            }
+            
+            function newTip() {
+                window.location.href="/new_tip";
+            }
             
             function titleSort() {
                 sortByTitle(booktips);
                 sortByTitle(blogtips);
                 sortByTitle(tubetips);
+                filterAndDisplayTips();
             }
             
             function authorSort() {
                 sortByAuthor(booktips);
                 sortByAuthor(blogtips);
                 sortByAuthor(tubetips);
+                filterAndDisplayTips();
             }
             
             function addedSort() {
                 sortByAdded(booktips);
                 sortByAdded(blogtips);
                 sortByAdded(tubetips);
+                filterAndDisplayTips();
             }
             
             function sortByTitle(tipList) {
@@ -88,7 +115,6 @@
                     if (x > y) {return 1;}
                     return 0;
                 });
-                displayTips();
             }
             
             function sortByAuthor(tipList) {
@@ -99,26 +125,23 @@
                     if (x > y) {return 1;}
                     return 0;
                 });
-                displayTips();
             }
             
             function sortByAdded(tipList) {
                 tipList.sort(function(a, b){
                     return a.id - b.id;
                 });
-                displayTips();
+            }
+            
+            function toggleStudied(form) {
+                form.submit();
+                //filterAndDisplayTips();
             }
 
             function displayTips() {
                 var bookTipList = "";
                 var blogTipList = "";
                 var tubeTipList = "";
-                
-                var filteredBookList, filteredBlogList, filteredTubeList;
-                
-                filteredBookList = filterTipList(booktips)
-                filteredBlogList = filterTipList(blogtips)
-                filteredTubeList = filterTipList(tubetips)
                 
                 filteredBookList.forEach(listBookTips);
                 document.getElementById("book-tips").innerHTML = bookTipList;
@@ -138,11 +161,11 @@
                     if(tip.studied) {
                         bookTipList = bookTipList 
                                 + ' <input type="checkbox" ' 
-                                + ' name="studied" id="studiedcheck" value="1" onchange="this.form.submit()" checked="checked"/>';
+                                + ' name="studied" id="studiedcheck" value="1" onchange="toggleStudied(this.form)" checked="checked"/>';
                     } else {
                         bookTipList = bookTipList 
                                 + ' <input'
-                                + ' type="checkbox" id="studiedcheck" name="studied" value="1" onchange="this.form.submit()"/>';
+                                + ' type="checkbox" id="studiedcheck" name="studied" value="1" onchange="toggleStudied(this.form)"/>';
                     }
                     
                     bookTipList = bookTipList + ' <input type="hidden" value="0" name="studied"/>'
