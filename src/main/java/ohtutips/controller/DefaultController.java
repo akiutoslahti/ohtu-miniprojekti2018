@@ -131,8 +131,12 @@ public class DefaultController {
         ArrayList<LinkTip> tips = new ArrayList<>();
 
         LinkTip tubeTip1 = new LinkTip();
+        LinkTip tubeTip2 = new LinkTip();
+        LinkTip tubeTip3 = new LinkTip();
 
         tips.add(tubeTip1);
+        tips.add(tubeTip2);
+        tips.add(tubeTip3);
 
         tubeTip1.setTitle("Turing & The Halting Problem");
         tubeTip1.setAuthor("Computerphile");
@@ -141,6 +145,21 @@ public class DefaultController {
         tubeTip1.setType("tube");
         tubeTip1.setDescription("Alan Turing almost accidentally created the blueprint "
                 + "for the modern day digital computer...");
+
+        tubeTip2.setTitle("\"Being agile and lean in constrained and regulated environments\" with Paul E. McMahon");
+        tubeTip2.setAuthor("Association for Computing Machinery (ACM)");
+        tubeTip2.setUrl("https://www.youtube.com/watch?v=bgdBeJTbkRo");
+        tubeTip2.setTags("Agile, Lean");
+        tubeTip2.setType("tube");
+        tubeTip2.setDescription("ACM SIGSOFT Webinar: Being agile and lean in constrained and regulated environments");
+
+        tubeTip3.setTitle("Robots Teaching Themselves to See");
+        tubeTip3.setAuthor("MITCSAIL");
+        tubeTip3.setUrl("https://www.youtube.com/watch?v=OplLXzxxmdA");
+        tubeTip3.setTags("Machine Learning, Robotics");
+        tubeTip3.setType("tube");
+        tubeTip3.setDescription("Video on how robotic arms can be trained quickly (approximately 20 minutes) "
+                + "for a wide variety of previously unseen and potentially non-rigid objects.");
 
         return tips;
     }

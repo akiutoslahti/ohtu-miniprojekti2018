@@ -7,7 +7,7 @@ Feature: as a user, i can add a book tip to the system.
         When all necessary 'book' tip fields have been filled
         And 'Submit' button has been clicked
         Then list of 'book' tips has 4 entries
-        And one of 'books' is the newly created one
+        And one tip of type 'book' is the newly created one
 
     Scenario: adding a new book tip is unsuccessful when all necessary information has not been provided
         Given application has been opened

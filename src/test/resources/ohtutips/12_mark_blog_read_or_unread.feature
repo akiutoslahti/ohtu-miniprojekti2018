@@ -31,7 +31,7 @@ Feature: As a user, I can mark any existing blog read or unread.
         And 'Back' button has been clicked
         Then 'blog' tip number 1 is 'already' studied
 
-    Scenario: Read blogs can be marked as uread on the main page
+    Scenario: Read blogs can be marked as unread on the main page
         Given application has been opened
         When list of 'blog' tips is shown
         And 'blog' tip number 1 is 'already' studied

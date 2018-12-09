@@ -7,7 +7,7 @@ Feature: as a user, i can add a blog tip to the system.
         When all necessary 'blog' tip fields have been filled
         And 'Submit' button has been clicked
         Then list of 'blog' tips has 4 entries
-        And one of 'blogs' is the newly created one
+        And one tip of type 'blog' is the newly created one
 
     Scenario: adding a new blog tip is unsuccessful when all necessary information has not been provided
         Given application has been opened
