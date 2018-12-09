@@ -29,3 +29,15 @@ Acceptance Criteria as Cucumber Features:
 - [Acceptance Criteria 6: mark book tip read](/src/test/resources/ohtutips/06_mark_book_read_or_unread.feature)
 - [Acceptance Criteria 7: mark blog tip read](/src/test/resources/ohtutips/12_mark_blog_read_or_unread.feature)
 - [Acceptance Criteria 8: filter tips](/src/test/resources/ohtutips/13_filter_tips.feature)
+
+### Sprint 4
+- To expand application to cover YouTube tips, to allow filtering by "studied/not studied" and to make the UI visually more pleasing
+
+Acceptance Criteria as Cucumber Features:
+- [Acceptance Criteria 1: list all youtube tips](/src/test/resources/ohtutips/14_list_all_tubes.feature)
+- [Acceptance Criteria 2: add a new youtube tip](/src/test/resources/ohtutips/15_add_new_tube.feature)
+- [Acceptance Criteria 3: delete youtube tip](/src/test/resources/ohtutips/16_delete_tube.feature)
+- [Acceptance Criteria 4: sort youtube tips](/src/test/resources/ohtutips/17_sort_tube_tips.feature)
+- [Acceptance Criteria 5: modify youtube tip](/src/test/resources/ohtutips/18_modify_tube.feature)
+- [Acceptance Criteria 6: mark youtube tip read](/src/test/resources/ohtutips/19_mark_tube_seen_or_unseen.feature)
+
