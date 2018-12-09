@@ -18,7 +18,7 @@
         
         <p>
             <input type="text" placeholder="Filter tips" onkeyup="filterAndDisplayTips()" id="filterInput" />
-            <label><input type="checkbox" id="includeStudied" onchange="filterAndDisplayTips()" />Include Studied</label>
+            <label><input type="checkbox" id="includeStudied" onchange="filterAndDisplayTips()" />show studied</label>
         </p>
         
         <h2>Books</h2>
@@ -153,73 +153,39 @@
                 document.getElementById("tube-tips").innerHTML = tubeTipList;
 
                 function listBookTips(tip) {
-                    bookTipList = bookTipList + "<li>"
-                            + '<iframe name="hiddenframe' + tip.id + '" style="display: none;"></iframe>'
-                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" action="/book_tip/' + tip.id + '/study"' 
-                            + ' target="hiddenframe' + tip.id + '">';
-                    
                     if(tip.studied) {
                         bookTipList = bookTipList 
-                                + ' <input type="checkbox" ' 
-                                + ' name="studied" id="studiedcheck" value="1" onchange="toggleStudied(this.form)" checked="checked"/>';
+                            + "<li><del><a id=" + tip.id + " href='/book_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></del></li>";
                     } else {
-                        bookTipList = bookTipList 
-                                + ' <input'
-                                + ' type="checkbox" id="studiedcheck" name="studied" value="1" onchange="toggleStudied(this.form)"/>';
-                    }
-                    
-                    bookTipList = bookTipList + ' <input type="hidden" value="0" name="studied"/>'
-                            + '</form>'
-                            + "<a id=" + tip.id + " href='/book_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a>"
-                            + "</li>"; 
-                    
+                        bookTipList = bookTipList
+                            + "<li><a id=" + tip.id + " href='/book_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>";
+                    }                 
                 }
-                
+
                 function listBlogTips(tip) {
-                    blogTipList = blogTipList + "<li>"
-                            + '<iframe name="hiddenframe' + tip.id + '" style="display: none;"></iframe>'
-                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" action="/blog_tip/' + tip.id + '/study"' 
-                            + ' target="hiddenframe' + tip.id + '">';
-                    
                     if(tip.studied) {
                         blogTipList = blogTipList 
-                                + ' <input type="checkbox"' 
-                                + ' name="studied" id="studiedcheck" value="1" onchange="this.form.submit()" checked="checked"/>';
+                            + "<li><del><a id=" + tip.id + " href='/blog_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></del></li>";
                     } else {
                         blogTipList = blogTipList
-                                + ' <input'
-                                + ' type="checkbox" id="studiedcheck" name="studied" value="1" onchange="this.form.submit()"/>';
+                            + "<li><a id=" + tip.id + " href='/blog_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>";
                     }
-                    
-                    blogTipList = blogTipList + ' <input type="hidden" value="0" name="studied"/>'
-                            + '</form>'
-                            + "<a id=" + tip.id + " href='/blog_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a>" 
-                            + "</li>"; ; 
                 }
-                
+
                 function listTubeTips(tip) {
-                    tubeTipList = tubeTipList + "<li>"
-                            + '<iframe name="hiddenframe' + tip.id + '" style="display: none;"></iframe>'
-                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" action="/tube_tip/' + tip.id + '/study"' 
-                            + ' target="hiddenframe' + tip.id + '">';
-                    
                     if(tip.studied) {
                         tubeTipList = tubeTipList 
-                                + ' <input type="checkbox"' 
-                                + ' name="studied" id="studiedcheck" value="1" onchange="this.form.submit()" checked="checked"/>';
+                            + "<li><del><a id=" + tip.id + " href='/tube_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></del></li>";
                     } else {
                         tubeTipList = tubeTipList
-                                + ' <input'
-                                + ' type="checkbox" id="studiedcheck" name="studied" value="1" onchange="this.form.submit()"/>';
+                            + "<li><a id=" + tip.id + " href='/tube_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>";
                     }
-                    
-                    tubeTipList = tubeTipList + ' <input type="hidden" value="0" name="studied"/>'
-                            + '</form>'
-                            + "<a id=" + tip.id + " href='/tube_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a>" 
-                            + "</li>"; ; 
                 }
 
         }
