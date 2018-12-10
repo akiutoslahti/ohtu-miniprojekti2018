@@ -3,6 +3,7 @@ package ohtutips.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -67,8 +68,12 @@ public class LinkController {
             String tags, String description) {
 
         System.out.println("Saving " + type + " tip");
-
+        
         List<String> errors = new ArrayList<>();
+        author = author.replace("'", "’");
+        title = title.replace("'", "’");
+        tags = tags.replace("'", "’");
+        description = description.replace("'", "’");
 
         LinkTip linkTip = new LinkTip();
         linkTip.setAuthor(author);
@@ -77,7 +82,11 @@ public class LinkController {
         linkTip.setUrl(url);
         linkTip.setTags(tags);
         linkTip.setDescription(description);
-
+        
+        if (checkForBadCharacters(author, title, tags, description)) {
+            errors.add("Please only use a-z, A-Z, åäö, Åäö, 0-9 or ('_.,:-?!\") ");
+        }
+        
         Set<ConstraintViolation<LinkTip>> violations = validator.validate(linkTip);
         for (ConstraintViolation<LinkTip> violation : violations) {
             errors.add(violation.getMessage());
@@ -115,6 +124,7 @@ public class LinkController {
             @RequestParam String author, @RequestParam String title,
             @RequestParam String url, @RequestParam String tags,
             @RequestParam String description) {
+        
         return modifyLinkTip(id, model, author, title, BLOG, url, tags, description);
     }
 
@@ -130,7 +140,21 @@ public class LinkController {
             String author, String title, String type,
             String url, String tags,
             String description) {
-
+        
+        List<String> errors = new ArrayList<>();
+        
+        author = author.replace("'", "’");
+        title = title.replace("'", "’");
+        tags = tags.replace("'", "’");
+        description = description.replace("'", "’");
+        
+        if (checkForBadCharacters(author, title, tags, description)) {
+            errors.add("Please only use a-z, A-Z, åäö, Åäö, 0-9 or ('_.,:-?!\") ");
+            model.addAttribute("errors", errors);
+            model.addAttribute(type, linkTipRepository.findById(id).get());
+            return type + "TipDetails";
+        }
+        
         LinkTip linkTip = linkTipRepository.findById(id).get();
         linkTip.setAuthor(author);
         linkTip.setTitle(title);
@@ -141,7 +165,6 @@ public class LinkController {
         try {
             linkTipRepository.save(linkTip);
         } catch (Exception e) {
-            List<String> errors = new ArrayList<>();
             Set<ConstraintViolation<LinkTip>> violations = validator.validate(linkTip);
             for (ConstraintViolation<LinkTip> violation : violations) {
                 errors.add(violation.getMessage());
@@ -175,5 +198,16 @@ public class LinkController {
         lt.setStudied(studied == 1);
         
         linkTipRepository.save(lt);
+    }
+    
+    
+    private boolean checkForBadCharacters(String author, String title, String tags, String description) {
+        
+        Pattern pattern = Pattern.compile("[a-zA-ZäöÄÖåÅ0-9[/]’_.,()?!\":\\s -]*");
+        
+        return !(pattern.matcher(author).matches() 
+                && pattern.matcher(title).matches()
+                && pattern.matcher(tags).matches()
+                && pattern.matcher(description).matches());
     }
 }
