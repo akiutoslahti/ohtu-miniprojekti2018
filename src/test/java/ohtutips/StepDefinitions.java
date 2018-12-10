@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.SilentCssErrorHandler;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -16,9 +17,7 @@ import ohtutips.domain.Tip;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-//import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
@@ -39,8 +38,16 @@ public class StepDefinitions {
     private static final String URL = "url";
     private static final String TIPS = "-tips";
 
-    private final WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME, true);
-    //private final WebDriver driver = new ChromeDriver();
+    private HtmlUnitDriver driver = new SilentHtmlUnitDriver();
+
+    private class SilentHtmlUnitDriver extends HtmlUnitDriver {
+
+        SilentHtmlUnitDriver() {
+            super(BrowserVersion.CHROME, true);
+            this.getWebClient().setCssErrorHandler(new SilentCssErrorHandler());
+        }
+    }
+
     private final String baseUrl = "http://localhost:8080";
 
     @Given("application has been opened")
@@ -110,6 +117,7 @@ public class StepDefinitions {
             testTip = oneBlogTest();
         } else if (tipType.equals(TUBE)) {
             testTip = oneTubeTest();
+            tipType = "video";
         } else {
             fail();
         }
@@ -127,7 +135,7 @@ public class StepDefinitions {
     @When("any {string} tip is navigated to")
     public void any_tip_is_navigated_to(String tipType) {
         WebElement element = driver.findElement(By.id(tipType + TIPS));
-        element = element.findElement(By.xpath(".//a[1]"));
+        element = element.findElement(By.xpath(".//a"));
         element.click();
     }
 
@@ -135,10 +143,10 @@ public class StepDefinitions {
     // Depends on the number of tips
     //
     @When("{string} tip number {int} is navigated to")
-    public void certain_tip_is_navigated_to(String tipType, int id) {
+    public void certain_tip_is_navigated_to(String tipType, int tipNumber) {
         WebElement element = driver.findElement(By.id(tipType + TIPS));
-        List<WebElement> list = element.findElements(By.xpath(".//a[1]"));
-        WebElement certainElement = list.get(id);
+        List<WebElement> list = element.findElements(By.xpath(".//a"));
+        WebElement certainElement = list.get(tipNumber - 1);
         certainElement.click();
         pageHasContent(tipType + "-tip-details");
     }
@@ -196,14 +204,13 @@ public class StepDefinitions {
     // Depends on the number of tips
     //
     @When("{string} tip number {int} is {string} studied")
-    public void tip_studied_status(String tipType, int id, String status) throws Throwable {
+    public void tip_studied_status(String tipType, int tipNumber, String status) throws Throwable {
         WebElement element = driver.findElement(By.id(tipType + TIPS));
-        List<WebElement> list = element.findElements(By.xpath(".//li"));
-        List<WebElement> delTags = list.get(id).findElements(By.tagName("del"));
+        List<WebElement> studiedElements = element.findElements(By.tagName("del"));
         if (status.equals("not")) {
-            assertTrue(delTags.isEmpty());
+            assertEquals(0, studiedElements.size());
         } else {
-            assertFalse(delTags.isEmpty());
+            assertEquals(1, studiedElements.size());
         }
     }
 
@@ -220,18 +227,6 @@ public class StepDefinitions {
         }
     }
 
-    //
-    // Depends on the number of tips
-    //
-    @When("{string} tip number {int} studied is clicked")
-    public void tip_studied_status_changed(String tipType, int id) throws Throwable {
-        WebElement element = driver.findElement(By.id(tipType + TIPS));
-        List<WebElement> list = element.findElements(By.xpath(".//li"));
-        WebElement checkElement = list.get(id).findElement(By.id("studiedcheck"));
-        checkElement.click();
-        Thread.sleep(500);
-    }
-
     @When("{string} tip studied is clicked")
     public void tip_studied_status_changed(String tipType) throws Throwable {
         WebElement checkElement = driver.findElement(By.id("studiedcheck"));
@@ -241,7 +236,8 @@ public class StepDefinitions {
 
     @When("show studied is clicked")
     public void studied_filtering_changed() throws Throwable {
-        WebElement checkElement = driver.findElement(By.id("includeStudied"));
+        WebElement checkElement = driver.findElement(By.id("studiedLabel"));
+        Thread.sleep(500);
         checkElement.click();
     }
 
@@ -269,7 +265,7 @@ public class StepDefinitions {
 
     @Then("list of {string} tips is shown")
     public void list_of_tips_is_shown(String tipType) {
-        pageHasContent("Reading Tips Archive");
+        pageHasContent("Learning Tips Archive");
         pageHasContent(tipType.substring(0, 1).toUpperCase() + tipType.substring(1));
     }
 
@@ -279,7 +275,7 @@ public class StepDefinitions {
     @Then("list of {string} tips has {int} entries")
     public void list_of_tips_has_entries(String tipType, int amount) {
         WebElement element = driver.findElement(By.id(tipType + TIPS));
-        List<WebElement> list = element.findElements(By.xpath(".//li"));
+        List<WebElement> list = element.findElements(By.xpath(".//a"));
         assertEquals(amount, list.size());
     }
 
@@ -368,7 +364,7 @@ public class StepDefinitions {
             return false;
         }
 
-        List<WebElement> list = element.findElements(By.xpath(".//li"));
+        List<WebElement> list = element.findElements(By.xpath(".//a"));
         for (WebElement tipElement : list) {
             if (tipElement.getText().contains(testTip.getTitle())
                     && tipElement.getText().contains(testTip.getAuthor())) {

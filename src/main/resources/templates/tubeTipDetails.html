@@ -1,149 +1,168 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Tube tip details</title>
-    </head>
+    <head th:replace="fragments/header :: header"></head>
 
     <body>
-        <button id="back-button" onclick="back()">Back</button>
-        <h1>Tube tip details</h1>
+        <div class="container">
+            <button th:replace="fragments/buttons :: back"></button>
+            <h1>Video tip details</h1>
 
-        <ul th:each="error : ${errors}">
-            <li th:text="${error}">here</li>
-        </ul>
+            <ul th:each="error : ${errors}">
+                <li th:text="${error}">here</li>
+            </ul>
 
-        <iframe name="hiddenframe" style="display: none;"></iframe>
-        <b>Studied:</b>
-        <form style="display: inline-block"  id="studied" method="POST" th:action="@{/tube_tip/{id}/study(id=${tube.id})}" target="hiddenframe">
-            <input th:if="${not tube.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>
-            <input th:if="${tube.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()" checked="checked"/>
-            <input id="studiedHidden" type="hidden" value="0" name="studied"/>
-        </form>
+            <iframe name="hiddenframe" style="display: none;"></iframe>
 
-        <div id="tube-tip-details"></div>
-        <div id="buttons">
+            <div th:replace="fragments/buttons :: studiedTubeCheckbox"></div>
+
+            <div id="tube-tip-details"></div>
+            <div id="buttons"></div>
+
+            <script th:inline="javascript">
+
+                function back() {
+                    window.location.href = "/";
+                }
+
+                /*<![CDATA[*/
+                var tube = /*[[${tube}]]*/ 'tube';
+                /*]]>*/
+
+                function addDeleteButton() {
+                    var deleteButton = document.createElement("button");
+                    deleteButton.id = "delete-button";
+                    deleteButton.setAttribute('type', 'button');
+                    deleteButton.setAttribute('class', 'btn btn-danger');
+                    deleteButton.innerHTML = "Delete"
+                            + "<form name='deleteForm' method='POST' action='/tube_tip/[[${tube.id}]]'>"
+                            + "<input type='hidden' name='_method' value='DELETE'>"
+                            + "<\/form>";
+                    deleteButton.onclick = deleteTube
+                    document.getElementById("buttons").appendChild(deleteButton);
+                }
+
+                function removeDeleteButton() {
+                    var deleteButton = document.getElementById("delete-button");
+                    if (deleteButton) {
+                        deleteButton.parentNode.removeChild(deleteButton);
+                    }
+                }
+
+                function addEditButton() {
+                    var editButton = document.createElement("button");
+                    editButton.id = "edit-button";
+                    editButton.setAttribute('type', 'button');
+                    editButton.setAttribute('class', 'btn btn-primary');
+                    editButton.innerHTML = "Edit";
+                    editButton.onclick = editEnabled;
+                    document.getElementById("buttons").appendChild(editButton);
+                }
+
+                function removeEditButton() {
+                    var editButton = document.getElementById("edit-button");
+                    if (editButton) {
+                        editButton.parentNode.removeChild(editButton);
+                    }
+                }
+
+                function addSaveButton() {
+                    var saveButton = document.createElement("button");
+                    saveButton.id = "save-button";
+                    saveButton.setAttribute('type', 'button');
+                    saveButton.setAttribute('class', 'btn btn-primary');                    
+                    saveButton.innerHTML = "Save";
+                    saveButton.onclick = saveTube;
+                    document.getElementById("buttons").appendChild(saveButton);
+                }
+
+                function removeSaveButton() {
+                    var saveButton = document.getElementById("save-button");
+                    if (saveButton) {
+                        saveButton.parentNode.removeChild(saveButton);
+                    }
+                }
+
+                function addCancelButton() {
+                    var cancelButton = document.createElement("button");
+                    cancelButton.id = "cancel-button";
+                    cancelButton.setAttribute('type', 'button');
+                    cancelButton.setAttribute('class', 'btn btn-secondary');
+                    cancelButton.innerHTML = "Cancel";
+                    cancelButton.onclick = editDisabled;
+                    document.getElementById("buttons").appendChild(cancelButton);
+                }
+
+                function removeCancelButton() {
+                    var cancelButton = document.getElementById("cancel-button");
+                    if (cancelButton) {
+                        cancelButton.parentNode.removeChild(cancelButton);
+                    }
+                }
+
+                function editDisabled() {
+                    emptyElements();
+                    document.getElementById("tube-tip-details").innerHTML =
+                            "Author: " + tube.author + "<br/>"
+                            + "Title: " + tube.title + "<br/>"
+                            + "URL: <a href='" + tube.url + "'>" + tube.url + "</a><br/>"
+                            + "Tags: " + tube.tags + "<br/>"
+                            + "<textarea rows='4' cols='50' readonly placeholder='Description'>" 
+                            + tube.description + "</textarea></br>";
+                    addDeleteButton();
+                    addEditButton();
+                }
+
+                function editEnabled() {
+                    emptyElements();
+                    document.getElementById("tube-tip-details").innerHTML =
+                                "<div class='container'>"
+                                + "<form id='editForm' name='editForm' method='POST' action='/tube_tip/[[${tube.id}]]'>"
+                                + "<div class='form-group'>"
+                                + "<label for='author'>(*) Author</label>"
+                                + "<input type='text' class='form-control' name='author' value='" + tube.author + "'/>"
+                                + "</div>"
+                                + "<div class='form-group'>"
+                                + "<label for='title'>(*) Title</label>"
+                                + "<input type='text' class='form-control' name='title' value='" + tube.title + "'/>"
+                                + "</div>"
+                                + "<div class='form-group'>"
+                                + "<label for='url'>(*) URL</label>"
+                                + "<input type='text' class='form-control' name='url' value='" + tube.url + "'/>"
+                                + "</div>"
+                                + "<div class='form-group'>"
+                                + "<label for='tags'>(*)Tags</label>"
+                                + "<input type='text' class='form-control' name='tags' value='" + tube.tags + "'/>"
+                                + "</div>"
+                                + "<div class='form-group'>"
+                                + "<textarea class='form-control' rows='4' cols='50' form=editForm name='description' wrap='hard' placeholder='Description'>"
+                                + tube.description + "</textarea>"
+                                + "</div>"
+                                + "<input type='hidden' name='_method' id='submit-button' class='btn btn-primary' type='submit' value='PUT'/>"
+                                + "</form>"
+                                + "</div>";
+                    addSaveButton();
+                    addCancelButton();
+                }
+
+                function emptyElements() {
+                    document.getElementById("tube-tip-details").innerHTML = "";
+                    document.getElementById("buttons").innerHTML = "";
+                }
+
+                function deleteTube() {
+                    var confirmation = confirm("Do you really want to delete tube tip: "
+                            + tube.title + " by " + tube.author + "?");
+                    if (confirmation) {
+                        document.deleteForm.submit();
+                    }
+                }
+
+                function saveTube() {
+                    document.editForm.submit();
+                }
+
+                editDisabled();
+            </script>
         </div>
-
-        <script th:inline="javascript">
-
-            function back() {
-                window.location.href = "/";
-            }
-
-            /*<![CDATA[*/
-            var tube = /*[[${tube}]]*/ 'tube';
-            /*]]>*/
-
-            function addDeleteButton() {
-                var deleteButton = document.createElement("button");
-                deleteButton.id = "delete-button";
-                deleteButton.innerHTML = "Delete"
-                        + "<form name='deleteForm' method='POST' action='/tube_tip/[[${tube.id}]]'>"
-                        + "<input type='hidden' name='_method' value='DELETE'>"
-                        + "<\/form>";
-                deleteButton.onclick = deleteTube
-                document.getElementById("buttons").appendChild(deleteButton);
-            }
-
-            function removeDeleteButton() {
-                var deleteButton = document.getElementById("delete-button");
-                if (deleteButton) {
-                    deleteButton.parentNode.removeChild(deleteButton);
-                }
-            }
-
-            function addEditButton() {
-                var editButton = document.createElement("button");
-                editButton.id = "edit-button";
-                editButton.innerHTML = "Edit"
-                editButton.onclick = editEnabled
-                document.getElementById("buttons").appendChild(editButton);
-            }
-
-            function removeEditButton() {
-                var editButton = document.getElementById("edit-button");
-                if (editButton) {
-                    editButton.parentNode.removeChild(editButton);
-                }
-            }
-
-            function addSaveButton() {
-                var saveButton = document.createElement("button");
-                saveButton.id = "save-button";
-                saveButton.innerHTML = "Save"
-                saveButton.onclick = saveTube
-                document.getElementById("buttons").appendChild(saveButton);
-            }
-
-            function removeSaveButton() {
-                var saveButton = document.getElementById("save-button");
-                if (saveButton) {
-                    saveButton.parentNode.removeChild(saveButton);
-                }
-            }
-
-            function addCancelButton() {
-                var cancelButton = document.createElement("button");
-                cancelButton.id = "cancel-button";
-                cancelButton.innerHTML = "Cancel"
-                cancelButton.onclick = editDisabled
-                document.getElementById("buttons").appendChild(cancelButton);
-            }
-
-            function removeCancelButton() {
-                var cancelButton = document.getElementById("cancel-button");
-                if (cancelButton) {
-                    cancelButton.parentNode.removeChild(cancelButton);
-                }
-            }
-
-            function editDisabled() {
-                emptyElements();
-                document.getElementById("tube-tip-details").innerHTML =
-                        "Author: " + tube.author + "<br/>"
-                        + "Title: " + tube.title + "<br/>"
-                        + "URL: <a href='" + tube.url + "'>" + tube.url + "</a><br/>"
-                        + "Tags: " + tube.tags + "<br/>"
-                        + "<textarea rows='4' cols='50' readonly placeholder='Description'>" 
-                        + tube.description + "</textarea></br>";
-                addDeleteButton();
-                addEditButton();
-            }
-
-            function editEnabled() {
-                emptyElements();
-                document.getElementById("tube-tip-details").innerHTML =
-                        "<form id='editForm' name='editForm' method='POST' action='/tube_tip/[[${tube.id}]]'>"
-                        + "(*)Author: <input name='author' value='" + tube.author + "'/><br/>"
-                        + "(*)Title: <input name='title' value='" + tube.title + "'/><br/>"
-                        + "(*)ISBN: <input name='url' value='" + tube.url + "'/><br/>"
-                        + "(*)Tags: <input name='tags' value='" + tube.tags + "'/><br/>"
-                        + "<textarea rows='4' cols='50' form=editForm name='description' wrap='hard' placeholder='Description'>" 
-                        + tube.description + "</textarea></br>"
-                        + "<input type='hidden' name='_method' value='PUT'>"
-                        + "<\/form>";
-                addSaveButton();
-                addCancelButton();
-            }
-
-            function emptyElements() {
-                document.getElementById("tube-tip-details").innerHTML = "";
-                document.getElementById("buttons").innerHTML = "";
-            }
-
-            function deleteTube() {
-                var confirmation = confirm("Do you really want to delete tube tip: "
-                        + tube.title + " by " + tube.author + "?");
-                if (confirmation) {
-                    document.deleteForm.submit();
-                }
-            }
-
-            function saveTube() {
-                document.editForm.submit();
-            }
-
-            editDisabled();
-        </script>
     </body>
 </html>
