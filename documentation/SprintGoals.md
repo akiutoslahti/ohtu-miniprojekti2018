@@ -41,4 +41,5 @@ Acceptance Criteria as Cucumber Features:
 - [Acceptance Criteria 5: modify youtube tip](/src/test/resources/ohtutips/18_modify_tube.feature)
 - [Acceptance Criteria 6: mark youtube tip read](/src/test/resources/ohtutips/19_mark_tube_seen_or_unseen.feature)
 - [Acceptance Criteria 7: filter by studied](/src/test/resources/ohtutips/20_filter_studied.feature)
+- [Acceptance Criteria 8: add Bootstrap](/documentation/sprint/3/bootstrap_criteria.md)
 
