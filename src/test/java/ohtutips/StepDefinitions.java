@@ -391,7 +391,7 @@ public class StepDefinitions {
         bookTip.setAuthor("Cormen, Thomas H.");
         bookTip.setIsbn("978-0262033848");
         bookTip.setTags("Algorithms");
-        bookTip.setDescription("");
+        bookTip.setDescription("The one and only book in Algorithms. Not necessarily an introduction.");
 
         return bookTip;
     }
@@ -404,7 +404,7 @@ public class StepDefinitions {
         blogTip.setUrl("http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd");
         blogTip.setTags("TDD");
         blogTip.setType(BLOG);
-        blogTip.setDescription("");
+        blogTip.setDescription("Overview of TDD, well explained.");
 
         return blogTip;
     }
