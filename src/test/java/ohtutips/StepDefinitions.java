@@ -75,7 +75,7 @@ public class StepDefinitions {
     }
 
     @When("all necessary {string} tip fields have been filled")
-    public void all_necessary_tip_fields_have_been_filled(String tipType) throws Throwable {
+    public void all_necessary_tip_fields_have_been_filled(String tipType) {
         Tip testTip = null;
         if (tipType.equals(BOOK)) {
             testTip = oneBookTest();
@@ -167,7 +167,7 @@ public class StepDefinitions {
     }
 
     @When("all necessary {string} tip fields have not been filled")
-    public void all_necessary_tip_fields_have_not_been_filled(String tipType) throws Throwable {
+    public void all_necessary_tip_fields_have_not_been_filled(String tipType) {
         Tip testTip = null;
         if (tipType.equals(BOOK)) {
             testTip = oneBookTest();
@@ -204,7 +204,7 @@ public class StepDefinitions {
     // Depends on the number of tips
     //
     @When("{string} tip number {int} is {string} studied")
-    public void tip_studied_status(String tipType, int tipNumber, String status) throws Throwable {
+    public void tip_studied_status(String tipType, int tipNumber, String status) {
         WebElement element = driver.findElement(By.id(tipType + TIPS));
         List<WebElement> studiedElements = element.findElements(By.tagName("del"));
         if (status.equals("not")) {
@@ -218,7 +218,7 @@ public class StepDefinitions {
     // Depends on the number of tips
     //
     @When("{string} tip is {string} studied")
-    public void tip_studied_status(String tipType, String status) throws Throwable {
+    public void tip_studied_status(String tipType, String status) {
         WebElement checkElement = driver.findElement(By.id("studiedcheck"));
         if (status.equals("not")) {
             assertFalse(checkElement.isSelected());
@@ -228,16 +228,14 @@ public class StepDefinitions {
     }
 
     @When("{string} tip studied is clicked")
-    public void tip_studied_status_changed(String tipType) throws Throwable {
+    public void tip_studied_status_changed(String tipType) {
         WebElement checkElement = driver.findElement(By.id("studiedcheck"));
         checkElement.click();
-        Thread.sleep(500);
     }
 
     @When("show studied is clicked")
-    public void studied_filtering_changed() throws Throwable {
+    public void studied_filtering_changed() {
         WebElement checkElement = driver.findElement(By.id("studiedLabel"));
-        Thread.sleep(500);
         checkElement.click();
     }
 
