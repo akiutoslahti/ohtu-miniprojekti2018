@@ -18,9 +18,9 @@
             </br>
 
             <input type="text" class="form-control" placeholder="Filter tips" onkeyup="filterAndDisplayTips()" id="filterInput" />
-            <div class= "btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-outline-info">
-                    <input type="checkbox" autocomplete="off"  id="includeStudied" onchange="filterAndDisplayTips()" />show already studied tips
+            <div id="studiedDiv" class= "btn-group-toggle" data-toggle="buttons">
+                <label id="studiedLabel" class="btn btn-outline-info">
+                    <input type="checkbox" autocomplete="off" id="includeStudied" onchange="filterAndDisplayTips()" />show already studied tips
                 </label>
             </div>
 

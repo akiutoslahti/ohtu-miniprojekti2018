@@ -14,7 +14,6 @@ import java.util.List;
 import ohtutips.domain.BookTip;
 import ohtutips.domain.LinkTip;
 import ohtutips.domain.Tip;
-import static org.junit.Assert.assertNotEquals;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -144,10 +143,10 @@ public class StepDefinitions {
     // Depends on the number of tips
     //
     @When("{string} tip number {int} is navigated to")
-    public void certain_tip_is_navigated_to(String tipType, int id) {
+    public void certain_tip_is_navigated_to(String tipType, int tipNumber) {
         WebElement element = driver.findElement(By.id(tipType + TIPS));
         List<WebElement> list = element.findElements(By.xpath(".//a"));
-        WebElement certainElement = list.get(id);
+        WebElement certainElement = list.get(tipNumber - 1);
         certainElement.click();
         pageHasContent(tipType + "-tip-details");
     }
@@ -205,13 +204,13 @@ public class StepDefinitions {
     // Depends on the number of tips
     //
     @When("{string} tip number {int} is {string} studied")
-    public void tip_studied_status(String tipType, int id, String status) throws Throwable {
+    public void tip_studied_status(String tipType, int tipNumber, String status) throws Throwable {
         WebElement element = driver.findElement(By.id(tipType + TIPS));
         List<WebElement> studiedElements = element.findElements(By.tagName("del"));
         if (status.equals("not")) {
             assertEquals(0, studiedElements.size());
         } else {
-            assertNotEquals(0, studiedElements.size());
+            assertEquals(1, studiedElements.size());
         }
     }
 
@@ -228,18 +227,6 @@ public class StepDefinitions {
         }
     }
 
-    //
-    // Depends on the number of tips
-    //
-    @When("{string} tip number {int} studied is clicked")
-    public void tip_studied_status_changed(String tipType, int id) throws Throwable {
-        WebElement element = driver.findElement(By.id(tipType + TIPS));
-        List<WebElement> list = element.findElements(By.xpath(".//li"));
-        WebElement checkElement = list.get(id).findElement(By.id("studiedcheck"));
-        checkElement.click();
-        Thread.sleep(500);
-    }
-
     @When("{string} tip studied is clicked")
     public void tip_studied_status_changed(String tipType) throws Throwable {
         WebElement checkElement = driver.findElement(By.id("studiedcheck"));
@@ -249,7 +236,8 @@ public class StepDefinitions {
 
     @When("show studied is clicked")
     public void studied_filtering_changed() throws Throwable {
-        WebElement checkElement = driver.findElement(By.id("includeStudied"));
+        WebElement checkElement = driver.findElement(By.id("studiedLabel"));
+        Thread.sleep(500);
         checkElement.click();
     }
 
