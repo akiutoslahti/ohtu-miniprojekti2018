@@ -3,10 +3,10 @@ package ohtutips.controller;
 import com.zaxxer.hikari.HikariDataSource;
 import java.util.ArrayList;
 import javax.annotation.PostConstruct;
-import ohtutips.domain.BlogTip;
 import ohtutips.domain.BookTip;
-import ohtutips.repository.BlogTipRepository;
+import ohtutips.domain.LinkTip;
 import ohtutips.repository.BookTipRepository;
+import ohtutips.repository.LinkTipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -21,11 +21,14 @@ public class DefaultController {
     private BookTipRepository bookTipRepository;
 
     @Autowired
-    private BlogTipRepository blogTipRepository;
+    private LinkTipRepository linkTipRepository;
 
     @Autowired
     private HikariDataSource ds;
 
+    /**
+     * INIT DB WHEN IN DEV/TEST MODE.
+     */
     @PostConstruct
     public void init() {
         if (ds.getJdbcUrl().contains("jdbc:h2:mem:testdb")) {
@@ -33,22 +36,31 @@ public class DefaultController {
             for (BookTip tip : bookTips) {
                 bookTipRepository.save(tip);
             }
-            ArrayList<BlogTip> blogTips = initialBlogs();
-            for (BlogTip tip : blogTips) {
-                blogTipRepository.save(tip);
+            ArrayList<LinkTip> blogTips = initialBlogs();
+            for (LinkTip tip : blogTips) {
+                linkTipRepository.save(tip);
+            }
+            ArrayList<LinkTip> tubeTips = initialTubes();
+            for (LinkTip tip : tubeTips) {
+                linkTipRepository.save(tip);
             }
         }
     }
 
+    /**
+     * ALL TIPS.
+     */
     @RequestMapping(value = "/*", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("books", bookTipRepository.findAll(
                 new Sort(Sort.Direction.ASC, "id")));
-        model.addAttribute("blogs", blogTipRepository.findAll(
-                new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("blogs", linkTipRepository.findByType(
+                "blog", new Sort(Sort.Direction.ASC, "id")));
+        model.addAttribute("tubes", linkTipRepository.findByType(
+                "tube", new Sort(Sort.Direction.ASC, "id")));
         return "index";
     }
-    
+
     @RequestMapping(value = "/new_tip", method = RequestMethod.GET)
     public String new_tip(Model model) {
         return "addTip";
@@ -69,32 +81,29 @@ public class DefaultController {
         bookTip1.setAuthor("Abelson, Harold");
         bookTip1.setIsbn("978-0262510875");
         bookTip1.setTags("Programming");
-        bookTip1.setPrerequisiteCourses("");
-        bookTip1.setRelatedCourses("");
+        bookTip1.setDescription("Long time Programming101 coursebook from MIT.");
 
         bookTip2.setTitle("The C programming language");
         bookTip2.setAuthor("Kernighan, Brian W.");
         bookTip2.setIsbn("0-13-110370-9 ");
         bookTip2.setTags("Programming");
-        bookTip2.setPrerequisiteCourses("");
-        bookTip2.setRelatedCourses("");
+        bookTip2.setDescription("The one and only legendary C book.");
 
         bookTip3.setTitle("Introduction to the Theory of Computation");
         bookTip3.setAuthor("Sipser, Michael");
         bookTip3.setIsbn("978-1133187790");
         bookTip3.setTags("Computer Science");
-        bookTip3.setPrerequisiteCourses("");
-        bookTip3.setRelatedCourses("");
+        bookTip3.setDescription("Enjoyable read about models of computation.");
 
         return tips;
     }
 
-    private ArrayList<BlogTip> initialBlogs() {
-        ArrayList<BlogTip> tips = new ArrayList<>();
+    private ArrayList<LinkTip> initialBlogs() {
+        ArrayList<LinkTip> tips = new ArrayList<>();
 
-        BlogTip blogTip1 = new BlogTip();
-        BlogTip blogTip2 = new BlogTip();
-        BlogTip blogTip3 = new BlogTip();
+        LinkTip blogTip1 = new LinkTip();
+        LinkTip blogTip2 = new LinkTip();
+        LinkTip blogTip3 = new LinkTip();
 
         tips.add(blogTip1);
         tips.add(blogTip2);
@@ -104,24 +113,66 @@ public class DefaultController {
         blogTip1.setAuthor("Fowler, Martin");
         blogTip1.setUrl("https://martinfowler.com/articles/newMethodology.html");
         blogTip1.setTags("Agile Development");
-        blogTip1.setPrerequisiteCourses("");
-        blogTip1.setRelatedCourses("");
+        blogTip1.setType("blog");
+        blogTip1.setDescription("Good overview about agile development.");
 
         blogTip2.setTitle("Dependency Injection Demystified");
         blogTip2.setAuthor("Shore, James");
-        blogTip2.setUrl("https://www.jamesshore.com/Blog/Dependency-Injection-Demystified.html");
+        blogTip2.setUrl("https://www.jamesshore.com/Blog/Dependency-Injection-"
+                + "Demystified.html");
         blogTip2.setTags("Programming");
-        blogTip2.setPrerequisiteCourses("");
-        blogTip2.setRelatedCourses("");
+        blogTip2.setType("blog");
+        blogTip2.setDescription("Teaches you a nice design pattern for "
+                + "efficient testing.");
 
         blogTip3.setTitle("Make The Product Backlog DEEP");
         blogTip3.setAuthor("Pichler, Roman");
-        blogTip3.setUrl("https://www.romanpichler.com/blog/make-the-product-backlog-deep/");
+        blogTip3.setUrl("https://www.romanpichler.com/blog/make-the-product-"
+                + "backlog-deep/");
         blogTip3.setTags("Agile Development");
-        blogTip3.setPrerequisiteCourses("");
-        blogTip3.setRelatedCourses("");
+        blogTip3.setType("blog");
+        blogTip3.setDescription("Good guidelines for backlog grooming!");
 
         return tips;
     }
 
+    private ArrayList<LinkTip> initialTubes() {
+        ArrayList<LinkTip> tips = new ArrayList<>();
+
+        LinkTip tubeTip1 = new LinkTip();
+        LinkTip tubeTip2 = new LinkTip();
+        LinkTip tubeTip3 = new LinkTip();
+
+        tips.add(tubeTip1);
+        tips.add(tubeTip2);
+        tips.add(tubeTip3);
+
+        tubeTip1.setTitle("Turing & The Halting Problem");
+        tubeTip1.setAuthor("Computerphile");
+        tubeTip1.setUrl("https://www.youtube.com/watch?v=macM_MtS_w4");
+        tubeTip1.setTags("Computer Science");
+        tubeTip1.setType("tube");
+        tubeTip1.setDescription("Alan Turing almost accidentally created the "
+                + "blueprint for the modern day digital computer...");
+
+        tubeTip2.setTitle("\"Being agile and lean in constrained and regulated "
+                + "environments\" with Paul E. McMahon");
+        tubeTip2.setAuthor("Association for Computing Machinery (ACM)");
+        tubeTip2.setUrl("https://www.youtube.com/watch?v=bgdBeJTbkRo");
+        tubeTip2.setTags("Agile, Lean");
+        tubeTip2.setType("tube");
+        tubeTip2.setDescription("ACM SIGSOFT Webinar: Being agile and lean in "
+                + "constrained and regulated environments");
+
+        tubeTip3.setTitle("Robots Teaching Themselves to See");
+        tubeTip3.setAuthor("MITCSAIL");
+        tubeTip3.setUrl("https://www.youtube.com/watch?v=OplLXzxxmdA");
+        tubeTip3.setTags("Machine Learning, Robotics");
+        tubeTip3.setType("tube");
+        tubeTip3.setDescription("Video on how robotic arms can be trained "
+                + "quickly (approximately 20 minutes) for a wide variety of "
+                + "previously unseen and potentially non-rigid objects.");
+
+        return tips;
+    }
 }

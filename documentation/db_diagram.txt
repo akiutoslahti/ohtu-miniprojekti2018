@@ -4,3 +4,9 @@
 [Book|-author: String;-title: String;-type:String;-ISBN:String;-tags:String;-prerequisiteCourses:String;-relatedCourses:String;]
 
 -----------------------------------------------------------------------------
+06.12.2018
+
+[Book|-author: String;-title: String;-ISBN:String;-tags:String;-description: String],
+[Link|-type: String;-author: String;-title: String;-URL:String;-tags:String;-description: String]
+
+-----------------------------------------------------------------------------

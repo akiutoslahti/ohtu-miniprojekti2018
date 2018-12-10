@@ -17,7 +17,8 @@
         </p>
         
         <p>
-            <input type="text" placeholder="Filter tips" onkeyup="displayTips()" id="filterInput" />
+            <input type="text" placeholder="Filter tips" onkeyup="filterAndDisplayTips()" id="filterInput" />
+            <label><input type="checkbox" id="includeStudied" onchange="filterAndDisplayTips()" />show studied</label>
         </p>
         
         <h2>Books</h2>
@@ -28,16 +29,11 @@
 
         <ul id="blog-tips"></ul>
     
+        <h2>Videos</h2>
+
+        <ul id="tube-tips"></ul>
+    
         <script th:inline="javascript">
-            function filterTipList(tipList) {
-                var input = document.getElementById('filterInput').value.toLowerCase();
-                return tipList.filter(tip => tip.title.toLowerCase().includes(input) || tip.author.toLowerCase().includes(input));
-            }
-            
-            
-            function newTip() {
-                window.location.href="/new_tip";
-            }
             
             var booktips=[
             /*[# th:each="book : ${books}"]*/
@@ -51,21 +47,64 @@
             /*[/]*/
             ];
             
-            displayTips();
+            var tubetips=[
+            /*[# th:each="tube : ${tubes}"]*/
+                {id:[[${tube.id}]], title:[[${tube.title}]], author:[[${tube.author}]], studied:[[${tube.studied}]]},
+            /*[/]*/
+            ];
+    
+            var filteredBookList, filteredBlogList, filteredTubeList;
+            
+            filterAndDisplayTips();
+    
+            function filterByContent(tipList) {
+                var input = document.getElementById('filterInput').value.toLowerCase();
+                
+                return tipList.filter(tip => tip.title.toLowerCase().includes(input) || tip.author.toLowerCase().includes(input));
+            }
+            
+            function filterByStudied(tipList) {
+                if (document.getElementById("includeStudied").checked) {
+                    return tipList;
+                } else {
+                    return tipList.filter(tip => !tip.studied);
+                }
+            }
+            
+            function filterTipLists() {
+                filteredBookList = filterByContent(filterByStudied(booktips))
+                filteredBlogList = filterByContent(filterByStudied(blogtips))
+                filteredTubeList = filterByContent(filterByStudied(tubetips))
+            }
+            
+            function filterAndDisplayTips() {
+                filterTipLists();
+                displayTips();
+            }
+            
+            function newTip() {
+                window.location.href="/new_tip";
+            }
             
             function titleSort() {
                 sortByTitle(booktips);
                 sortByTitle(blogtips);
+                sortByTitle(tubetips);
+                filterAndDisplayTips();
             }
             
             function authorSort() {
                 sortByAuthor(booktips);
                 sortByAuthor(blogtips);
+                sortByAuthor(tubetips);
+                filterAndDisplayTips();
             }
             
             function addedSort() {
                 sortByAdded(booktips);
                 sortByAdded(blogtips);
+                sortByAdded(tubetips);
+                filterAndDisplayTips();
             }
             
             function sortByTitle(tipList) {
@@ -76,7 +115,6 @@
                     if (x > y) {return 1;}
                     return 0;
                 });
-                displayTips();
             }
             
             function sortByAuthor(tipList) {
@@ -87,24 +125,23 @@
                     if (x > y) {return 1;}
                     return 0;
                 });
-                displayTips();
             }
             
             function sortByAdded(tipList) {
                 tipList.sort(function(a, b){
                     return a.id - b.id;
                 });
-                displayTips();
+            }
+            
+            function toggleStudied(form) {
+                form.submit();
+                //filterAndDisplayTips();
             }
 
             function displayTips() {
                 var bookTipList = "";
                 var blogTipList = "";
-                
-                var filteredBookList, filteredBlogList;
-                
-                filteredBookList = filterTipList(booktips)
-                filteredBlogList = filterTipList(blogtips)
+                var tubeTipList = "";
                 
                 filteredBookList.forEach(listBookTips);
                 document.getElementById("book-tips").innerHTML = bookTipList;
@@ -112,53 +149,46 @@
                 filteredBlogList.forEach(listBlogTips);
                 document.getElementById("blog-tips").innerHTML = blogTipList;
 
+                filteredTubeList.forEach(listTubeTips);
+                document.getElementById("tube-tips").innerHTML = tubeTipList;
+
                 function listBookTips(tip) {
-                    bookTipList = bookTipList + "<li>"
-                            + '<iframe name="hiddenframe' + tip.id + '" style="display: none;"></iframe>'
-                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" action="/book_tip/' + tip.id + '/study"' 
-                            + ' target="hiddenframe' + tip.id + '">';
-                    
                     if(tip.studied) {
                         bookTipList = bookTipList 
-                                + ' <input type="checkbox" ' 
-                                + ' name="studied" id="studiedcheck" value="1" onchange="this.form.submit()" checked="checked"/>';
+                            + "<li><del><a id=" + tip.id + " href='/book_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></del></li>";
                     } else {
-                        bookTipList = bookTipList 
-                                + ' <input'
-                                + ' type="checkbox" id="studiedcheck" name="studied" value="1" onchange="this.form.submit()"/>';
-                    }
-                    
-                    bookTipList = bookTipList + ' <input type="hidden" value="0" name="studied"/>'
-                            + '</form>'
-                            + "<a id=" + tip.id + " href='/book_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a>"
-                            + "</li>"; 
-                    
+                        bookTipList = bookTipList
+                            + "<li><a id=" + tip.id + " href='/book_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>";
+                    }                 
                 }
-                
+
                 function listBlogTips(tip) {
-                    blogTipList = blogTipList + "<li>"
-                            + '<iframe name="hiddenframe' + tip.id + '" style="display: none;"></iframe>'
-                            + '<form style="display: inline-block" id="studied' + tip.id + '" method="POST" action="/blog_tip/' + tip.id + '/study"' 
-                            + ' target="hiddenframe' + tip.id + '">';
-                    
                     if(tip.studied) {
                         blogTipList = blogTipList 
-                                + ' <input type="checkbox"' 
-                                + ' name="studied" id="studiedcheck" value="1" onchange="this.form.submit()" checked="checked"/>';
+                            + "<li><del><a id=" + tip.id + " href='/blog_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></del></li>";
                     } else {
                         blogTipList = blogTipList
-                                + ' <input'
-                                + ' type="checkbox" id="studiedcheck" name="studied" value="1" onchange="this.form.submit()"/>';
+                            + "<li><a id=" + tip.id + " href='/blog_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>";
                     }
-                    
-                    blogTipList = blogTipList + ' <input type="hidden" value="0" name="studied"/>'
-                            + '</form>'
-                            + "<a id=" + tip.id + " href='/blog_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a>" 
-                            + "</li>"; ; 
                 }
-            }
+
+                function listTubeTips(tip) {
+                    if(tip.studied) {
+                        tubeTipList = tubeTipList 
+                            + "<li><del><a id=" + tip.id + " href='/tube_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></del></li>";
+                    } else {
+                        tubeTipList = tubeTipList
+                            + "<li><a id=" + tip.id + " href='/tube_tip/" 
+                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>";
+                    }
+                }
+
+        }
 
         </script> 
                

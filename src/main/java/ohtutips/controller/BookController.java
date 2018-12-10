@@ -2,6 +2,10 @@ package ohtutips.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
 import ohtutips.domain.BookTip;
 import ohtutips.repository.BookTipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,90 +23,99 @@ public class BookController {
     @Autowired
     private BookTipRepository bookTipRepository;
 
+    private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+
+    /**
+     * BOOK TIP DETAILS.
+     */
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.GET)
     public String bookTipDetails(Model model, @PathVariable long id) {
         model.addAttribute("book", bookTipRepository.findById(id).get());
         return "bookTipDetails";
     }
 
+    /**
+     * ADD BOOK TIP.
+     */
     @RequestMapping(value = "/book_tip", method = RequestMethod.POST)
     public String addBookTip(Model model, @RequestParam String author,
-            @RequestParam String title,
-            @RequestParam String isbn, @RequestParam String tags,
-            @RequestParam String prerequisiteCourses,
-            @RequestParam String relatedCourses) {
+            @RequestParam String title, @RequestParam String isbn,
+            @RequestParam String tags, @RequestParam String description) {
 
         List<String> errors = new ArrayList<>();
-        if (author.trim().isEmpty() || title.trim().isEmpty()
-                || isbn.trim().isEmpty()
-                || tags.trim().isEmpty()) {
-            errors.add("Please fill all fields marked with (*).");
-
-            model.addAttribute("errors", errors);
-            return "addTip";
-        }
 
         BookTip bookTip = new BookTip();
         bookTip.setAuthor(author);
         bookTip.setTitle(title);
         bookTip.setIsbn(isbn);
         bookTip.setTags(tags);
-        bookTip.setPrerequisiteCourses(prerequisiteCourses);
-        bookTip.setRelatedCourses(relatedCourses);
+        bookTip.setDescription(description);
+
+        Set<ConstraintViolation<BookTip>> violations = validator.validate(bookTip);
+        for (ConstraintViolation<BookTip> violation : violations) {
+            errors.add(violation.getMessage());
+        }
+
+        if (!errors.isEmpty()) {
+            model.addAttribute("errors", errors);
+            return "addTip";
+        }
 
         bookTipRepository.save(bookTip);
         return "redirect:/";
     }
 
+    /**
+     * DELETE BOOK TIP.
+     */
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.DELETE)
     public String deleteBookTip(@PathVariable long id) {
         bookTipRepository.deleteById(id);
         return "redirect:/";
     }
 
+    /**
+     * MODIFY BOOK TIP.
+     */
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.PUT)
     public String modifyBookTip(@PathVariable long id, Model model,
             @RequestParam String author, @RequestParam String title,
-            @RequestParam String isbn,
-            @RequestParam String tags, @RequestParam String prerequisiteCourses,
-            @RequestParam String relatedCourses) {
-
-        if (author.trim().isEmpty() || title.trim().isEmpty()
-                || isbn.trim().isEmpty()
-                || tags.trim().isEmpty()) {
-            List<String> errors = new ArrayList<>();
-
-            errors.add("Please do not empty fields marked with (*).");
-
-            model.addAttribute("errors", errors);
-            model.addAttribute("book", bookTipRepository.findById(id).get());
-            return "bookTipDetails";
-        }
+            @RequestParam String isbn, @RequestParam String tags,
+            @RequestParam String description) {
 
         BookTip bookTip = bookTipRepository.findById(id).get();
         bookTip.setAuthor(author);
         bookTip.setTitle(title);
         bookTip.setIsbn(isbn);
         bookTip.setTags(tags);
-        bookTip.setPrerequisiteCourses(prerequisiteCourses);
-        bookTip.setRelatedCourses(relatedCourses);
+        bookTip.setDescription(description);
 
-        bookTipRepository.save(bookTip);
+        try {
+            bookTipRepository.save(bookTip);
+        } catch (Exception e) {
+            List<String> errors = new ArrayList<>();
+            Set<ConstraintViolation<BookTip>> violations = validator.validate(bookTip);
+            for (ConstraintViolation<BookTip> violation : violations) {
+                errors.add(violation.getMessage());
+            }
+            model.addAttribute("errors", errors);
+            model.addAttribute("book", bookTipRepository.findById(id).get());
+            return "bookTipDetails";
+        }
 
         return "redirect:/book_tip/" + id;
     }
-    
+
+    /**
+     * MARK BOOK STUDIED.
+     */
     @RequestMapping(value = "/book_tip/{id}/study", method = RequestMethod.POST)
     @ResponseBody
     public void study(@PathVariable long id, @RequestParam Integer studied) {
         BookTip bt = bookTipRepository.findById(id).get();
-        
-        if (studied == 1) {
-            bt.setStudied(true);
-        } else {
-            bt.setStudied(false);
-        }
-        
+
+        bt.setStudied(studied == 1);
+
         bookTipRepository.save(bt);
     }
 }

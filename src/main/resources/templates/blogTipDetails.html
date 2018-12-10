@@ -8,6 +8,10 @@
         <button id="back-button" onclick="back()">Back</button>
         <h1>Blog tip details</h1>
 
+        <ul th:each="error : ${errors}">
+            <li th:text="${error}">here</li>
+        </ul>
+
         <iframe name="hiddenframe" style="display: none;"></iframe>
         <b>Studied:</b>
         <form style="display: inline-block"  id="studied" method="POST" th:action="@{/blog_tip/{id}/study(id=${blog.id})}" target="hiddenframe">
@@ -15,17 +19,13 @@
             <input th:if="${blog.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()" checked="checked"/>
             <input id="studiedHidden" type="hidden" value="0" name="studied"/>
         </form>
-        
-        <ul th:each="error : ${errors}">
-            <li th:text="${error}">here</li>
-        </ul>
 
         <div id="blog-tip-details"></div>
         <div id="buttons">
         </div>
 
         <script th:inline="javascript">
-            
+
             function back() {
                 window.location.href = "/";
             }
@@ -71,7 +71,7 @@
                 var saveButton = document.createElement("button");
                 saveButton.id = "save-button";
                 saveButton.innerHTML = "Save"
-                saveButton.onclick = saveBook
+                saveButton.onclick = saveBlog
                 document.getElementById("buttons").appendChild(saveButton);
             }
 
@@ -104,8 +104,8 @@
                         + "Title: " + blog.title + "<br/>"
                         + "URL: <a href='" + blog.url + "'>" + blog.url + "</a><br/>"
                         + "Tags: " + blog.tags + "<br/>"
-                        + "Prerequisite courses: " + blog.prerequisiteCourses + "<br/>"
-                        + "Related courses: " + blog.relatedCourses + "<br/>";
+                        + "<textarea rows='4' cols='50' readonly placeholder='Description'>" 
+                        + blog.description + "</textarea></br>";
                 addDeleteButton();
                 addEditButton();
             }
@@ -113,13 +113,13 @@
             function editEnabled() {
                 emptyElements();
                 document.getElementById("blog-tip-details").innerHTML =
-                        "<form name='editForm' method='POST' action='/blog_tip/[[${blog.id}]]'>"
+                        "<form id='editForm' name='editForm' method='POST' action='/blog_tip/[[${blog.id}]]'>"
                         + "(*)Author: <input name='author' value='" + blog.author + "'/><br/>"
                         + "(*)Title: <input name='title' value='" + blog.title + "'/><br/>"
                         + "(*)ISBN: <input name='url' value='" + blog.url + "'/><br/>"
                         + "(*)Tags: <input name='tags' value='" + blog.tags + "'/><br/>"
-                        + "Prerequisite courses: <input name='prerequisiteCourses' value='" + blog.prerequisiteCourses + "'/><br/>"
-                        + "Related courses: <input name='relatedCourses' value='" + blog.relatedCourses + "'/><br/>"
+                        + "<textarea rows='4' cols='50' form=editForm name='description' wrap='hard' placeholder='Description'>" 
+                        + blog.description + "</textarea></br>"
                         + "<input type='hidden' name='_method' value='PUT'>"
                         + "<\/form>";
                 addSaveButton();
@@ -139,7 +139,7 @@
                 }
             }
 
-            function saveBook() {
+            function saveBlog() {
                 document.editForm.submit();
             }
 

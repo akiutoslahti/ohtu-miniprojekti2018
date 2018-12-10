@@ -5,13 +5,13 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-public class BlogTipTest {
+public class LinkTipTest {
 
-    private BlogTip testBlog;
+    private LinkTip testBlog;
 
     @Before
     public void setUp() {
-        testBlog = new BlogTip();
+        testBlog = new LinkTip();
     }
 
     @Test

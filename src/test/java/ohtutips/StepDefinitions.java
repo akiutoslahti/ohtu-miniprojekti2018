@@ -10,8 +10,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import java.util.List;
-import ohtutips.domain.BlogTip;
 import ohtutips.domain.BookTip;
+import ohtutips.domain.LinkTip;
 import ohtutips.domain.Tip;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -29,6 +29,16 @@ import org.springframework.test.context.ContextConfiguration;
         webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class StepDefinitions {
 
+    private static final String BOOK = "book";
+    private static final String BLOG = "blog";
+    private static final String TUBE = "tube";
+    private static final String AUTHOR = "author";
+    private static final String TITLE = "title";
+    private static final String TAGS = "tags";
+    private static final String ISBN = "isbn";
+    private static final String URL = "url";
+    private static final String TIPS = "-tips";
+
     private final WebDriver driver = new HtmlUnitDriver(BrowserVersion.CHROME, true);
     //private final WebDriver driver = new ChromeDriver();
     private final String baseUrl = "http://localhost:8080";
@@ -43,58 +53,63 @@ public class StepDefinitions {
         driver.findElement(By.id("add-new-reading-tip")).click();
     }
 
-    @When("valid filter {string} is applied")
-    public void valid_filter_string_is_typed_into_filter_field(String filter) {
+    @When("filter {string} is applied")
+    public void filter_string_is_typed_into_filter_field(String filter) {
         enter_filter_string(filter);
     }
 
-    @When("invalid filter {string} is applied")
-    public void invalid_filter_string_is_typed_into_filter_field(String filter) {
-        enter_filter_string(filter);
-    }
-
-    @When("filter is removed")
-    public void filter_is_removed() {
+    @When("{int} last characters from filter are removed")
+    public void last_chars_from_filter_are_removed(int chars) {
         WebElement element = driver.findElement(By.id("filterInput"));
         // Sending backspaces instead of .clear to simulate typing and trigger JS
-        element.sendKeys(Keys.BACK_SPACE);
-        element.sendKeys(Keys.BACK_SPACE);
+        for (int i = 0; i < chars; i++) {
+            element.sendKeys(Keys.BACK_SPACE);
+        }
     }
 
     @When("all necessary {string} tip fields have been filled")
     public void all_necessary_tip_fields_have_been_filled(String tipType) throws Throwable {
         Tip testTip = null;
-        if (tipType.equals("book")) {
+        if (tipType.equals(BOOK)) {
             testTip = oneBookTest();
-        } else if (tipType.equals("blog")) {
+        } else if (tipType.equals(BLOG)) {
             testTip = oneBlogTest();
+        } else if (tipType.equals(TUBE)) {
+            testTip = oneTubeTest();
         } else {
             fail();
         }
 
-        WebElement element = driver.findElement(By.name("author"));
+        WebElement element = driver.findElement(By.name(AUTHOR));
         element.sendKeys(testTip.getAuthor());
-        element = driver.findElement(By.name("title"));
+        element = driver.findElement(By.name(TITLE));
         element.sendKeys(testTip.getTitle());
-        element = driver.findElement(By.name("tags"));
+        element = driver.findElement(By.name(TAGS));
         element.sendKeys(testTip.getTags());
 
-        if (tipType.equals("book")) {
-            element = driver.findElement(By.name("isbn"));
+        if (tipType.equals(BOOK)) {
+            element = driver.findElement(By.name(ISBN));
             element.sendKeys(oneBookTest().getIsbn());
-        } else {
-            element = driver.findElement(By.name("url"));
+        } else if (tipType.equals(BLOG)) {
+            element = driver.findElement(By.name(URL));
             element.sendKeys(oneBlogTest().getUrl());
+        } else if (tipType.equals(TUBE)) {
+            element = driver.findElement(By.name(URL));
+            element.sendKeys(oneTubeTest().getUrl());
+        } else {
+            fail();
         }
     }
 
     @When("user navigates to {string} tip details")
     public void user_navigates_to_tip_details(String tipType) {
         Tip testTip = null;
-        if (tipType.equals("book")) {
+        if (tipType.equals(BOOK)) {
             testTip = oneBookTest();
-        } else if (tipType.equals("blog")) {
+        } else if (tipType.equals(BLOG)) {
             testTip = oneBlogTest();
+        } else if (tipType.equals(TUBE)) {
+            testTip = oneTubeTest();
         } else {
             fail();
         }
@@ -111,14 +126,17 @@ public class StepDefinitions {
 
     @When("any {string} tip is navigated to")
     public void any_tip_is_navigated_to(String tipType) {
-        WebElement element = driver.findElement(By.id(tipType + "-tips"));
+        WebElement element = driver.findElement(By.id(tipType + TIPS));
         element = element.findElement(By.xpath(".//a[1]"));
         element.click();
     }
 
+    //
+    // Depends on the number of tips
+    //
     @When("{string} tip number {int} is navigated to")
     public void certain_tip_is_navigated_to(String tipType, int id) {
-        WebElement element = driver.findElement(By.id(tipType + "-tips"));
+        WebElement element = driver.findElement(By.id(tipType + TIPS));
         List<WebElement> list = element.findElements(By.xpath(".//a[1]"));
         WebElement certainElement = list.get(id);
         certainElement.click();
@@ -143,47 +161,55 @@ public class StepDefinitions {
     @When("all necessary {string} tip fields have not been filled")
     public void all_necessary_tip_fields_have_not_been_filled(String tipType) throws Throwable {
         Tip testTip = null;
-        if (tipType.equals("book")) {
+        if (tipType.equals(BOOK)) {
             testTip = oneBookTest();
-        } else if (tipType.equals("blog")) {
+        } else if (tipType.equals(BLOG)) {
             testTip = oneBlogTest();
+        } else if (tipType.equals(TUBE)) {
+            testTip = oneTubeTest();
         } else {
             fail();
         }
 
-        WebElement element = driver.findElement(By.name("author"));
+        WebElement element = driver.findElement(By.name(AUTHOR));
         element.sendKeys(testTip.getAuthor());
-        element = driver.findElement(By.name("title"));
+        element = driver.findElement(By.name(TITLE));
         element.sendKeys(testTip.getTitle());
-        element = driver.findElement(By.name("tags"));
+        element = driver.findElement(By.name(TAGS));
         element.sendKeys(testTip.getTags());
     }
 
     @When("valid {string} title has been entered")
     public void enters_valid_title(String tipType) {
-        WebElement element = driver.findElement(By.name("title"));
+        WebElement element = driver.findElement(By.name(TITLE));
         element.clear();
-        element.sendKeys("This is a valid" + tipType + "title");
+        element.sendKeys("This is a valid" + tipType + TITLE);
     }
 
     @When("title field has been emptied")
     public void empties_title_field() {
-        WebElement element = driver.findElement(By.name("title"));
+        WebElement element = driver.findElement(By.name(TITLE));
         element.clear();
     }
 
+    //
+    // Depends on the number of tips
+    //
     @When("{string} tip number {int} is {string} studied")
     public void tip_studied_status(String tipType, int id, String status) throws Throwable {
-        WebElement element = driver.findElement(By.id(tipType + "-tips"));
+        WebElement element = driver.findElement(By.id(tipType + TIPS));
         List<WebElement> list = element.findElements(By.xpath(".//li"));
-        WebElement checkElement = list.get(id).findElement(By.id("studiedcheck"));
+        List<WebElement> delTags = list.get(id).findElements(By.tagName("del"));
         if (status.equals("not")) {
-            assertFalse(checkElement.isSelected());
+            assertTrue(delTags.isEmpty());
         } else {
-            assertTrue(checkElement.isSelected());
+            assertFalse(delTags.isEmpty());
         }
     }
 
+    //
+    // Depends on the number of tips
+    //
     @When("{string} tip is {string} studied")
     public void tip_studied_status(String tipType, String status) throws Throwable {
         WebElement checkElement = driver.findElement(By.id("studiedcheck"));
@@ -194,9 +220,12 @@ public class StepDefinitions {
         }
     }
 
+    //
+    // Depends on the number of tips
+    //
     @When("{string} tip number {int} studied is clicked")
     public void tip_studied_status_changed(String tipType, int id) throws Throwable {
-        WebElement element = driver.findElement(By.id(tipType + "-tips"));
+        WebElement element = driver.findElement(By.id(tipType + TIPS));
         List<WebElement> list = element.findElements(By.xpath(".//li"));
         WebElement checkElement = list.get(id).findElement(By.id("studiedcheck"));
         checkElement.click();
@@ -210,15 +239,27 @@ public class StepDefinitions {
         Thread.sleep(500);
     }
 
+    @When("show studied is clicked")
+    public void studied_filtering_changed() throws Throwable {
+        WebElement checkElement = driver.findElement(By.id("includeStudied"));
+        checkElement.click();
+    }
+
     @Then("all tips contain {string}")
     public void all_tips_contain_string(String filter) {
-        WebElement element = driver.findElement(By.id("book-tips"));
+        WebElement element = driver.findElement(By.id(BOOK + TIPS));
         List<WebElement> list = element.findElements(By.xpath(".//a"));
         for (WebElement el : list) {
             assertTrue(el.getText().replace(" by ", "").toLowerCase().contains(filter));
         }
 
-        element = driver.findElement(By.id("blog-tips"));
+        element = driver.findElement(By.id(BLOG + TIPS));
+        list = element.findElements(By.xpath(".//a"));
+        for (WebElement el : list) {
+            assertTrue(el.getText().replace(" by ", "").toLowerCase().contains(filter));
+        }
+
+        element = driver.findElement(By.id(TUBE + TIPS));
         list = element.findElements(By.xpath(".//a"));
         for (WebElement el : list) {
             assertTrue(el.getText().replace(" by ", "").toLowerCase().contains(filter));
@@ -232,19 +273,26 @@ public class StepDefinitions {
         pageHasContent(tipType.substring(0, 1).toUpperCase() + tipType.substring(1));
     }
 
+    //
+    // Depends on how many rows in database + possible filters
+    //
     @Then("list of {string} tips has {int} entries")
     public void list_of_tips_has_entries(String tipType, int amount) {
-        WebElement element = driver.findElement(By.id(tipType + "-tips"));
+        WebElement element = driver.findElement(By.id(tipType + TIPS));
         List<WebElement> list = element.findElements(By.xpath(".//li"));
         assertEquals(amount, list.size());
     }
 
-    @Then("one of {string} is the newly created one")
-    public void one_of_is_the_newly_created_one(String tipType) {
-        if (tipType.equals("books")) {
-            assertTrue(tipListContains(oneBookTest()));
-        } else if (tipType.equals("blogs")) {
-            assertTrue(tipListContains(oneBlogTest()));
+    @Then("one tip of type {string} is the newly created one")
+    public void one_tip_of_type_is_the_newly_created_one(String tipType) {
+        if (tipType.equals(BOOK)) {
+            assertTrue(tipListContains(oneBookTest(), tipType));
+        } else if (tipType.equals(BLOG)) {
+            assertTrue(tipListContains(oneBlogTest(), tipType));
+        } else if (tipType.equals(TUBE)) {
+            assertTrue(tipListContains(oneTubeTest(), tipType));
+        } else {
+            fail();
         }
     }
 
@@ -255,10 +303,12 @@ public class StepDefinitions {
 
     @Then("deleted {string} is not listed")
     public void deleted_is_not_listed(String tipType) {
-        if (tipType.equals("book")) {
-            assertFalse(tipListContains(oneBookTest()));
-        } else if (tipType.equals("blog")) {
-            assertFalse(tipListContains(oneBlogTest()));
+        if (tipType.equals(BOOK)) {
+            assertFalse(tipListContains(oneBookTest(), tipType));
+        } else if (tipType.equals(BLOG)) {
+            assertFalse(tipListContains(oneBlogTest(), tipType));
+        } else if (tipType.equals(TUBE)) {
+            assertFalse(tipListContains(oneTubeTest(), tipType));
         } else {
             fail();
         }
@@ -267,12 +317,12 @@ public class StepDefinitions {
     @Then("changed {string} title is shown")
     public void changed_title_is_shown(String tipType) {
         driver.findElement(By.id("back-button")).click();
-        pageHasContent("This is a valid" + tipType + "title");
+        pageHasContent("This is a valid" + tipType + TITLE);
     }
 
     @Then("{string} tips are sorted by id")
     public void tips_are_sorted_by_id(String tipType) {
-        WebElement tipsElement = driver.findElement(By.id(tipType + "-tips"));
+        WebElement tipsElement = driver.findElement(By.id(tipType + TIPS));
         List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
         int previousId = -1;
 
@@ -283,65 +333,37 @@ public class StepDefinitions {
         }
     }
 
-    @Then("book tips are sorted by author")
-    public void book_tips_are_sorted_by_author() {
-        WebElement tipsElement = driver.findElement(By.id("book-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold",
-                allTips.get(0).getText());
-        assertEquals("The C programming language by Kernighan, Brian W.",
-                allTips.get(1).getText());
-        assertEquals("Introduction to the Theory of Computation by Sipser, Michael",
-                allTips.get(2).getText());
-    }
-
-    @Then("book tips are sorted by title")
-    public void book_tips_are_sorted_by_title() {
-        WebElement tipsElement = driver.findElement(By.id("book-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Introduction to the Theory of Computation by Sipser, Michael",
-                allTips.get(0).getText());
-        assertEquals("Structure and Interpretation of Computer Programs by Abelson, Harold",
-                allTips.get(1).getText());
-        assertEquals("The C programming language by Kernighan, Brian W.",
-                allTips.get(2).getText());
-
-    }
-
-    @Then("blog tips are sorted by author")
-    public void blog_tips_are_sorted_by_author() {
-        WebElement tipsElement = driver.findElement(By.id("blog-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("The New Methodology by Fowler, Martin",
-                allTips.get(0).getText());
-        assertEquals("Make The Product Backlog DEEP by Pichler, Roman",
-                allTips.get(1).getText());
-        assertEquals("Dependency Injection Demystified by Shore, James",
-                allTips.get(2).getText());
-    }
-
-    @Then("blog tips are sorted by title")
-    public void blog_tips_are_sorted_by_title() {
-        WebElement tipsElement = driver.findElement(By.id("blog-tips"));
-        List<WebElement> allTips = tipsElement.findElements(By.xpath(".//a"));
-        assertEquals("Dependency Injection Demystified by Shore, James",
-                allTips.get(0).getText());
-        assertEquals("Make The Product Backlog DEEP by Pichler, Roman",
-                allTips.get(1).getText());
-        assertEquals("The New Methodology by Fowler, Martin",
-                allTips.get(2).getText());
+    @Then("{string} tips are sorted by {string}")
+    public void tips_are_sorted_by(String tipType, String sortedBy) {
+        WebElement tipsElement = driver.findElement(By.id(tipType + TIPS));
+        List<WebElement> tips = tipsElement.findElements(By.xpath(".//a"));
+        String previous = "";
+        for (WebElement tip : tips) {
+            String fullText = tip.getText();
+            if (sortedBy.equals(TITLE)) {
+                String title = fullText.substring(0, fullText.indexOf(" by "));
+                assertTrue(previous.compareToIgnoreCase(title) <= 0);
+                previous = title;
+            } else {
+                String author = fullText.substring(fullText.indexOf(" by ") + 4, fullText.length());
+                assertTrue(previous.compareToIgnoreCase(author) <= 0);
+                previous = author;
+            }
+        }
     }
 
     private void pageHasContent(String content) {
         assertTrue(driver.getPageSource().contains(content));
     }
 
-    private boolean tipListContains(Tip testTip) {
+    private boolean tipListContains(Tip testTip, String tipType) {
         WebElement element;
-        if (testTip instanceof BookTip) {
-            element = driver.findElement(By.id("book-tips"));
-        } else if (testTip instanceof BlogTip) {
-            element = driver.findElement(By.id("blog-tips"));
+        if (testTip instanceof BookTip && tipType.equals(BOOK)) {
+            element = driver.findElement(By.id(BOOK + TIPS));
+        } else if (testTip instanceof LinkTip && tipType.equals(BLOG)) {
+            element = driver.findElement(By.id(BLOG + TIPS));
+        } else if (testTip instanceof LinkTip && tipType.equals(TUBE)) {
+            element = driver.findElement(By.id(TUBE + TIPS));
         } else {
             return false;
         }
@@ -367,25 +389,37 @@ public class StepDefinitions {
         BookTip bookTip = new BookTip();
         bookTip.setTitle("Introduction to algorithms");
         bookTip.setAuthor("Cormen, Thomas H.");
-        bookTip.setIsbn("978-0-262-03384-8");
+        bookTip.setIsbn("978-0262033848");
         bookTip.setTags("Algorithms");
-        bookTip.setPrerequisiteCourses("");
-        bookTip.setRelatedCourses("");
+        bookTip.setDescription("");
 
         return bookTip;
     }
 
-    private BlogTip oneBlogTest() {
+    private LinkTip oneBlogTest() {
 
-        BlogTip blogTip = new BlogTip();
+        LinkTip blogTip = new LinkTip();
         blogTip.setTitle("The Three Rules of TDD");
         blogTip.setAuthor("Uncle Bob");
         blogTip.setUrl("http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd");
         blogTip.setTags("TDD");
-        blogTip.setPrerequisiteCourses("");
-        blogTip.setRelatedCourses("");
+        blogTip.setType(BLOG);
+        blogTip.setDescription("");
 
         return blogTip;
+    }
+
+    private LinkTip oneTubeTest() {
+
+        LinkTip tubeTip = new LinkTip();
+        tubeTip.setTitle("Web Development 2018 - The Must-Know Tech");
+        tubeTip.setAuthor("LearnCode.academy");
+        tubeTip.setUrl("https://www.youtube.com/watch?v=gVXcqO9A1vo");
+        tubeTip.setTags("Web Development");
+        tubeTip.setType(TUBE);
+        tubeTip.setDescription("A complete roadmap to being a successful web dev in 2018!");
+
+        return tubeTip;
     }
 
 }

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Book tip details</title>
+        <title>Tube tip details</title>
     </head>
 
     <body>
         <button id="back-button" onclick="back()">Back</button>
-        <h1>Book tip details</h1>
+        <h1>Tube tip details</h1>
 
         <ul th:each="error : ${errors}">
             <li th:text="${error}">here</li>
@@ -14,13 +14,13 @@
 
         <iframe name="hiddenframe" style="display: none;"></iframe>
         <b>Studied:</b>
-        <form style="display: inline-block"  id="studied" method="POST" th:action="@{/book_tip/{id}/study(id=${book.id})}" target="hiddenframe">
-            <input th:if="${not book.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>
-            <input th:if="${book.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()" checked="checked"/>
+        <form style="display: inline-block"  id="studied" method="POST" th:action="@{/tube_tip/{id}/study(id=${tube.id})}" target="hiddenframe">
+            <input th:if="${not tube.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>
+            <input th:if="${tube.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()" checked="checked"/>
             <input id="studiedHidden" type="hidden" value="0" name="studied"/>
         </form>
 
-        <div id="book-tip-details"></div>
+        <div id="tube-tip-details"></div>
         <div id="buttons">
         </div>
 
@@ -31,17 +31,17 @@
             }
 
             /*<![CDATA[*/
-            var book = /*[[${book}]]*/ 'book';
+            var tube = /*[[${tube}]]*/ 'tube';
             /*]]>*/
 
             function addDeleteButton() {
                 var deleteButton = document.createElement("button");
                 deleteButton.id = "delete-button";
                 deleteButton.innerHTML = "Delete"
-                        + "<form name='deleteForm' method='POST' action='/book_tip/[[${book.id}]]'>"
+                        + "<form name='deleteForm' method='POST' action='/tube_tip/[[${tube.id}]]'>"
                         + "<input type='hidden' name='_method' value='DELETE'>"
                         + "<\/form>";
-                deleteButton.onclick = deleteBook
+                deleteButton.onclick = deleteTube
                 document.getElementById("buttons").appendChild(deleteButton);
             }
 
@@ -71,7 +71,7 @@
                 var saveButton = document.createElement("button");
                 saveButton.id = "save-button";
                 saveButton.innerHTML = "Save"
-                saveButton.onclick = saveBook
+                saveButton.onclick = saveTube
                 document.getElementById("buttons").appendChild(saveButton);
             }
 
@@ -99,27 +99,27 @@
 
             function editDisabled() {
                 emptyElements();
-                document.getElementById("book-tip-details").innerHTML =
-                        "Author: " + book.author + "<br/>"
-                        + "Title: " + book.title + "<br/>"
-                        + "ISBN: " + book.isbn + "<br/>"
-                        + "Tags: " + book.tags + "<br/>"
-                        + "<textarea rows='4' cols='50' readonly placeholder='Description'>"
-                        + book.description + "</textarea></br>";
+                document.getElementById("tube-tip-details").innerHTML =
+                        "Author: " + tube.author + "<br/>"
+                        + "Title: " + tube.title + "<br/>"
+                        + "URL: <a href='" + tube.url + "'>" + tube.url + "</a><br/>"
+                        + "Tags: " + tube.tags + "<br/>"
+                        + "<textarea rows='4' cols='50' readonly placeholder='Description'>" 
+                        + tube.description + "</textarea></br>";
                 addDeleteButton();
                 addEditButton();
             }
 
             function editEnabled() {
                 emptyElements();
-                document.getElementById("book-tip-details").innerHTML =
-                        "<form id='editForm' name='editForm' method='POST' action='/book_tip/[[${book.id}]]'>"
-                        + "(*)Author: <input name='author' value='" + book.author + "'/><br/>"
-                        + "(*)Title: <input name='title' value='" + book.title + "'/><br/>"
-                        + "(*)ISBN: <input name='isbn' value='" + book.isbn + "'/><br/>"
-                        + "(*)Tags: <input name='tags' value='" + book.tags + "'/><br/>"
+                document.getElementById("tube-tip-details").innerHTML =
+                        "<form id='editForm' name='editForm' method='POST' action='/tube_tip/[[${tube.id}]]'>"
+                        + "(*)Author: <input name='author' value='" + tube.author + "'/><br/>"
+                        + "(*)Title: <input name='title' value='" + tube.title + "'/><br/>"
+                        + "(*)ISBN: <input name='url' value='" + tube.url + "'/><br/>"
+                        + "(*)Tags: <input name='tags' value='" + tube.tags + "'/><br/>"
                         + "<textarea rows='4' cols='50' form=editForm name='description' wrap='hard' placeholder='Description'>" 
-                        + book.description + "</textarea></br>"
+                        + tube.description + "</textarea></br>"
                         + "<input type='hidden' name='_method' value='PUT'>"
                         + "<\/form>";
                 addSaveButton();
@@ -127,22 +127,21 @@
             }
 
             function emptyElements() {
-                document.getElementById("book-tip-details").innerHTML = "";
+                document.getElementById("tube-tip-details").innerHTML = "";
                 document.getElementById("buttons").innerHTML = "";
             }
 
-            function deleteBook() {
-                var confirmation = confirm("Do you really want to delete book tip: "
-                        + book.title + " by " + book.author + "?");
+            function deleteTube() {
+                var confirmation = confirm("Do you really want to delete tube tip: "
+                        + tube.title + " by " + tube.author + "?");
                 if (confirmation) {
                     document.deleteForm.submit();
                 }
             }
 
-            function saveBook() {
+            function saveTube() {
                 document.editForm.submit();
             }
-
 
             editDisabled();
         </script>
