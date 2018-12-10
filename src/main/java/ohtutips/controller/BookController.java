@@ -3,6 +3,7 @@ package ohtutips.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Pattern;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -41,8 +42,14 @@ public class BookController {
     public String addBookTip(Model model, @RequestParam String author,
             @RequestParam String title, @RequestParam String isbn,
             @RequestParam String tags, @RequestParam String description) {
-
+        
         List<String> errors = new ArrayList<>();
+        
+        author = author.replace("'", "’");
+        title = title.replace("'", "’");
+        tags = tags.replace("'", "’");
+        description = description.replace("'", "’");
+        isbn = isbn.replace("'", "’");
 
         BookTip bookTip = new BookTip();
         bookTip.setAuthor(author);
@@ -51,6 +58,10 @@ public class BookController {
         bookTip.setTags(tags);
         bookTip.setDescription(description);
 
+        if (checkForBadCharacters(author, title, isbn,  tags, description)) {
+            errors.add("Please only use a-z, A-Z, åäö, Åäö, 0-9 or ('_.,:-?!\") ");
+        }
+        
         Set<ConstraintViolation<BookTip>> violations = validator.validate(bookTip);
         for (ConstraintViolation<BookTip> violation : violations) {
             errors.add(violation.getMessage());
@@ -83,6 +94,20 @@ public class BookController {
             @RequestParam String isbn, @RequestParam String tags,
             @RequestParam String description) {
 
+        List<String> errors = new ArrayList<>();
+        author = author.replace("'", "’");
+        title = title.replace("'", "’");
+        tags = tags.replace("'", "’");
+        description = description.replace("'", "’");
+        isbn = isbn.replace("'", "’");
+        
+        if (checkForBadCharacters(author, title, isbn ,tags, description)) {
+            errors.add("Please only use a-z, A-Z, åäö, Åäö, 0-9 or ('_.,:-?!\") ");
+            model.addAttribute("errors", errors);
+            model.addAttribute("book", bookTipRepository.findById(id).get());
+            return "bookTipDetails";
+        }
+        
         BookTip bookTip = bookTipRepository.findById(id).get();
         bookTip.setAuthor(author);
         bookTip.setTitle(title);
@@ -93,7 +118,6 @@ public class BookController {
         try {
             bookTipRepository.save(bookTip);
         } catch (Exception e) {
-            List<String> errors = new ArrayList<>();
             Set<ConstraintViolation<BookTip>> violations = validator.validate(bookTip);
             for (ConstraintViolation<BookTip> violation : violations) {
                 errors.add(violation.getMessage());
@@ -117,5 +141,16 @@ public class BookController {
         bt.setStudied(studied == 1);
 
         bookTipRepository.save(bt);
+    }
+    
+    private boolean checkForBadCharacters(String author, String title, String isbn, String tags, String description) {
+        
+        Pattern pattern = Pattern.compile("[a-zA-ZäöÄÖåÅ0-9[/]’_.,()?!\"\\s: -]*");
+        
+        return !(pattern.matcher(author).matches() 
+                && pattern.matcher(title).matches()
+                && pattern.matcher(tags).matches()
+                && pattern.matcher(description).matches()
+                && pattern.matcher(isbn).matches());
     }
 }

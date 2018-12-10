@@ -85,7 +85,7 @@ public class DefaultController {
 
         bookTip2.setTitle("The C programming language");
         bookTip2.setAuthor("Kernighan, Brian W.");
-        bookTip2.setIsbn("0-13-110370-9 ");
+        bookTip2.setIsbn("0131103709 ");
         bookTip2.setTags("Programming");
         bookTip2.setDescription("The one and only legendary C book.");
 
