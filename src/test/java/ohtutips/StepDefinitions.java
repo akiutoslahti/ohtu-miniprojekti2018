@@ -14,6 +14,7 @@ import java.util.List;
 import ohtutips.domain.BookTip;
 import ohtutips.domain.LinkTip;
 import ohtutips.domain.Tip;
+import static org.junit.Assert.assertNotEquals;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -206,14 +207,11 @@ public class StepDefinitions {
     @When("{string} tip number {int} is {string} studied")
     public void tip_studied_status(String tipType, int id, String status) throws Throwable {
         WebElement element = driver.findElement(By.id(tipType + TIPS));
+        List<WebElement> studiedElements = element.findElements(By.tagName("del"));
         if (status.equals("not")) {
-            List<WebElement> list = element.findElements(By.xpath(".//a"));
-            List<WebElement> delTags = list.get(id).findElements(By.tagName("del"));
-            assertTrue(delTags.isEmpty());
+            assertEquals(0, studiedElements.size());
         } else {
-            List<WebElement> delTags = element.findElements(By.tagName("del"));
-            List<WebElement> list = element.findElements(By.xpath(".//a"));
-            assertFalse(list.isEmpty());
+            assertNotEquals(0, studiedElements.size());
         }
     }
 
