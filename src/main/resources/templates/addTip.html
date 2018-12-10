@@ -4,13 +4,13 @@
     </head>
 
     <body>
-        <button id="back-button" onclick="back()">Back</button>
-        <h1>Add a reading tip</h1>
+        <button type="button" class="btn btn-warning" id="back-button" onclick="back()">Back</button>
+        <h3>Add a learning tip</h3>
 
-        <div id="buttons">
-            <button id="addbook-button" onclick="bookForm()">Add Book</button>
-            <button id="addblog-button" onclick="blogForm()">Add Blog</button>
-            <button id="addtube-button" onclick="tubeForm()">Add Tube</button>
+        <div class="btn-group" role="group" aria-label="Choose type" id="buttons">
+            <button type="button" class="btn btn-primary" id="addbook-button" onclick="bookForm()">Add Book</button>
+            <button type="button" class="btn btn-primary" id="addblog-button" onclick="blogForm()">Add Blog</button>
+            <button type="button" class="btn btn-primary" id="addtube-button" onclick="tubeForm()">Add Video</button>
         </div>
 
         <ul th:each="error : ${errors}">
@@ -69,7 +69,7 @@
                         + "(*)Tags: <input type='text' name='tags'/><br/>"
                         + "<textarea rows='4' cols='50' form=postForm name='description' wrap='hard' placeholder='Description'>"
                         + "</textarea></br>"
-                        + "<input id='submit-button' type='submit' value='Submit tube tip'/>"
+                        + "<input id='submit-button' type='submit' value='Submit video tip'/>"
                         + "</form>";
             }
 
