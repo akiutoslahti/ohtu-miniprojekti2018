@@ -33,32 +33,31 @@
                     document.getElementById("addblog-button").disabled = false;
                     document.getElementById("addtube-button").disabled = false;
                     document.getElementById("addForm").innerHTML =
-                            '<div class="container">'
-                            + '<form id="postForm" method="POST" action="/book_tip">'
-                            + '<div class="form-group">'
-                            + '<label for="author">(*) Author</label>'
-                            + '<input type="text" class="form-control" name="author"/>'
-                            + '</div>'
-                            + '<div class="form-group">'
-                            + '<label for="title">(*)Title</label>'
-                            + '<input type="text" class="form-control" name="title"/>'
-                            + '</div>'
-                            + '<div class="form-group">'
-                            + '<label for="isbn">(*)ISBN</label>'
-                            + '<input type="text" class="form-control" name="isbn"/>'
-                            + '</div>'
-                            + '<div class="form-group">'
-                            + '<label for="tags">(*)Tags</label>'
-                            + '<input type="text" class="form-control" name="tags"/>'
-                            + '</div>'
-                            + '<div class="form-group">'
-                            + '<textarea class="form-control" rows="4" cols="50" form=postForm name="description" wrap="hard" placeholder="Description">'
-                            + '</textarea>'
-                            + '</div>'
-                            + '<input id="submit-button" class="btn btn-primary" type="submit" value="Submit book tip"/>'
-                            + '</form>'
-                            + '</div>';
-
+                            "<div class='container'>"
+                            + "<form id='postForm' method='POST' action='/book_tip'>"
+                            + "<div class='form-group'>"
+                            + "<label for='author'>(*) Author</label>"
+                            + "<input type='text' class='form-control' name='author'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<label for='title'>(*)Title</label>"
+                            + "<input type='text' class='form-control' name='title'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<label for='isbn'>(*)ISBN</label>"
+                            + "<input type='text' class='form-control' name='isbn'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<label for='tags'>(*)Tags</label>"
+                            + "<input type='text' class='form-control' name='tags'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<textarea class='form-control' rows='4' cols='50' form=postForm name='description' wrap='hard' placeholder='Description'>"
+                            + "</textarea>"
+                            + "</div>"
+                            + "<input id='submit-button' class='btn btn-primary' type='submit' value='Submit book tip'/>"
+                            + "</form>"
+                            + "</div>";
                 }
 
                 function blogForm() {
@@ -66,14 +65,31 @@
                     document.getElementById("addblog-button").disabled = true;
                     document.getElementById("addtube-button").disabled = false;
                     document.getElementById("addForm").innerHTML =
-                            "<form id='postForm' method='POST' action='/blog_tip'>"
-                            + "(*)Title: <input type='text' name='title'/><br/>"
-                            + "(*)URL: <input type='text' name='url'/><br/>"
-                            + "(*)Tags: <input type='text' name='tags'/><br/>"
-                            + "<textarea rows='4' cols='50' form=postForm name='description' wrap='hard' placeholder='Description'>"
-                            + "</textarea></br>"
-                            + "<input id='submit-button' type='submit' value='Submit blog tip'/>"
-                            + "</form>";
+                            "<div class='container'>"
+                            + "<form id='postForm' method='POST' action='/blog_tip'>"
+                            + "<div class='form-group'>"
+                            + "<label for='author'>(*) Author</label>"
+                            + "<input type='text' class='form-control' name='author'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<label for='title'>(*)Title</label>"
+                            + "<input type='text' class='form-control' name='title'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<label for='isbn'>(*)URL</label>"
+                            + "<input type='text' class='form-control' name='url'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<label for='tags'>(*)Tags</label>"
+                            + "<input type='text' class='form-control' name='tags'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<textarea class='form-control' rows='4' cols='50' form=postForm name='description' wrap='hard' placeholder='Description'>"
+                            + "</textarea>"
+                            + "</div>"
+                            + "<input id='submit-button' class='btn btn-primary' type='submit' value='Submit blog tip'/>"
+                            + "</form>"
+                            + "</div>";
                 }
 
                 function tubeForm() {
@@ -81,15 +97,31 @@
                     document.getElementById("addblog-button").disabled = false;
                     document.getElementById("addtube-button").disabled = true;
                     document.getElementById("addForm").innerHTML =
-                            "<form id='postForm' method='POST' action='/tube_tip'>"
-                            + "(*)Author: <input type='text' name='author'/><br/>"
-                            + "(*)Title: <input type='text' name='title'/><br/>"
-                            + "(*)URL: <input type='text' name='url'/><br/>"
-                            + "(*)Tags: <input type='text' name='tags'/><br/>"
-                            + "<textarea rows='4' cols='50' form=postForm name='description' wrap='hard' placeholder='Description'>"
-                            + "</textarea></br>"
-                            + "<input id='submit-button' type='submit' value='Submit video tip'/>"
-                            + "</form>";
+                            "<div class='container'>"
+                            + "<form id='postForm' method='POST' action='/tube_tip'>"
+                            + "<div class='form-group'>"
+                            + "<label for='author'>(*) Author</label>"
+                            + "<input type='text' class='form-control' name='author'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<label for='title'>(*)Title</label>"
+                            + "<input type='text' class='form-control' name='title'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<label for='isbn'>(*)URL</label>"
+                            + "<input type='text' class='form-control' name='url'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<label for='tags'>(*)Tags</label>"
+                            + "<input type='text' class='form-control' name='tags'/>"
+                            + "</div>"
+                            + "<div class='form-group'>"
+                            + "<textarea class='form-control' rows='4' cols='50' form=postForm name='description' wrap='hard' placeholder='Description'>"
+                            + "</textarea>"
+                            + "</div>"
+                            + "<input id='submit-button' class='btn btn-primary' type='submit' value='Submit video tip'/>"
+                            + "</form>"
+                            + "</div>";
                 }
 
             </script>
