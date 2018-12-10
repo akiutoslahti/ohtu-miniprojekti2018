@@ -238,7 +238,7 @@ public class StepDefinitions {
         checkElement.click();
         Thread.sleep(500);
     }
-    
+
     @When("show studied is clicked")
     public void studied_filtering_changed() throws Throwable {
         WebElement checkElement = driver.findElement(By.id("includeStudied"));

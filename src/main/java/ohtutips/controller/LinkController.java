@@ -2,12 +2,12 @@ package ohtutips.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import ohtutips.domain.LinkTip;
-import ohtutips.repository.LinkTipRepository;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import ohtutips.domain.LinkTip;
+import ohtutips.repository.LinkTipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class LinkController {
-    
+
     private static final String BLOG = "blog";
     private static final String TUBE = "tube";
 
@@ -28,10 +28,9 @@ public class LinkController {
 
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-    //
-    // LINK TIP DETAILS
-    //
-    
+    /**
+     * LINK TIP DETAILS.
+     */
     @RequestMapping(value = "/" + BLOG + "_tip/{id}", method = RequestMethod.GET)
     public String blogTipDetails(Model model, @PathVariable long id) {
         return linkTipDetails(model, id, BLOG);
@@ -41,16 +40,15 @@ public class LinkController {
     public String tubeTipDetails(Model model, @PathVariable long id) {
         return linkTipDetails(model, id, TUBE);
     }
-    
+
     private String linkTipDetails(Model model, long id, String type) {
         model.addAttribute(type, linkTipRepository.findById(id).get());
         return type + "TipDetails";
     }
 
-    //
-    // ADD LINK TIP
-    //
-    
+    /**
+     * ADD LINK TIP.
+     */
     @RequestMapping(value = "/" + BLOG + "_tip", method = RequestMethod.POST)
     public String addBlogTip(Model model, @RequestParam String author,
             @RequestParam String title, @RequestParam String url,
@@ -69,7 +67,7 @@ public class LinkController {
             String tags, String description) {
 
         System.out.println("Saving " + type + " tip");
-        
+
         List<String> errors = new ArrayList<>();
 
         LinkTip linkTip = new LinkTip();
@@ -94,10 +92,9 @@ public class LinkController {
         return "redirect:/";
     }
 
-    //
-    // DELETE LINK TIP
-    //
-    
+    /**
+     * DELETE LINK TIP.
+     */
     @RequestMapping(value = "/" + BLOG + "_tip/{id}", method = RequestMethod.DELETE)
     public String deleteBlogTip(@PathVariable long id) {
         linkTipRepository.deleteById(id);
@@ -110,10 +107,9 @@ public class LinkController {
         return "redirect:/";
     }
 
-    //
-    // MODIFY LINK TIP
-    //
-    
+    /**
+     * MODIFY LINK TIP.
+     */
     @RequestMapping(value = "/" + BLOG + "_tip/{id}", method = RequestMethod.PUT)
     public String modifyBlogTip(@PathVariable long id, Model model,
             @RequestParam String author, @RequestParam String title,
@@ -158,16 +154,15 @@ public class LinkController {
         return "redirect:/" + type + "_tip/" + id;
     }
 
-    //
-    // MARK LINK STUDIED
-    //
-    
+    /**
+     * MARK LINK STUDIED.
+     */
     @RequestMapping(value = "/" + BLOG + "_tip/{id}/study", method = RequestMethod.POST)
     @ResponseBody
     public void blogStudied(@PathVariable long id, @RequestParam Integer studied) {
         linkStudied(id, studied);
     }
-    
+
     @RequestMapping(value = "/" + TUBE + "_tip/{id}/study", method = RequestMethod.POST)
     @ResponseBody
     public void tubeStudied(@PathVariable long id, @RequestParam Integer studied) {
@@ -177,12 +172,8 @@ public class LinkController {
     private void linkStudied(long id, Integer studied) {
         LinkTip lt = linkTipRepository.findById(id).get();
 
-        if (studied == 1) {
-            lt.setStudied(true);
-        } else {
-            lt.setStudied(false);
-        }
-
+        lt.setStudied(studied == 1);
+        
         linkTipRepository.save(lt);
     }
 }

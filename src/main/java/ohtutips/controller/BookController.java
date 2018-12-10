@@ -25,12 +25,18 @@ public class BookController {
 
     private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
+    /**
+     * BOOK TIP DETAILS.
+     */
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.GET)
     public String bookTipDetails(Model model, @PathVariable long id) {
         model.addAttribute("book", bookTipRepository.findById(id).get());
         return "bookTipDetails";
     }
 
+    /**
+     * ADD BOOK TIP.
+     */
     @RequestMapping(value = "/book_tip", method = RequestMethod.POST)
     public String addBookTip(Model model, @RequestParam String author,
             @RequestParam String title, @RequestParam String isbn,
@@ -59,12 +65,18 @@ public class BookController {
         return "redirect:/";
     }
 
+    /**
+     * DELETE BOOK TIP.
+     */
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.DELETE)
     public String deleteBookTip(@PathVariable long id) {
         bookTipRepository.deleteById(id);
         return "redirect:/";
     }
 
+    /**
+     * MODIFY BOOK TIP.
+     */
     @RequestMapping(value = "/book_tip/{id}", method = RequestMethod.PUT)
     public String modifyBookTip(@PathVariable long id, Model model,
             @RequestParam String author, @RequestParam String title,
@@ -94,16 +106,15 @@ public class BookController {
         return "redirect:/book_tip/" + id;
     }
 
+    /**
+     * MARK BOOK STUDIED.
+     */
     @RequestMapping(value = "/book_tip/{id}/study", method = RequestMethod.POST)
     @ResponseBody
     public void study(@PathVariable long id, @RequestParam Integer studied) {
         BookTip bt = bookTipRepository.findById(id).get();
 
-        if (studied == 1) {
-            bt.setStudied(true);
-        } else {
-            bt.setStudied(false);
-        }
+        bt.setStudied(studied == 1);
 
         bookTipRepository.save(bt);
     }

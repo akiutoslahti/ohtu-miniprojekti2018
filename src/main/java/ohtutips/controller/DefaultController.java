@@ -26,6 +26,9 @@ public class DefaultController {
     @Autowired
     private HikariDataSource ds;
 
+    /**
+     * INIT DB WHEN IN DEV/TEST MODE.
+     */
     @PostConstruct
     public void init() {
         if (ds.getJdbcUrl().contains("jdbc:h2:mem:testdb")) {
@@ -44,6 +47,9 @@ public class DefaultController {
         }
     }
 
+    /**
+     * ALL TIPS.
+     */
     @RequestMapping(value = "/*", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("books", bookTipRepository.findAll(
@@ -54,7 +60,7 @@ public class DefaultController {
                 "tube", new Sort(Sort.Direction.ASC, "id")));
         return "index";
     }
-    
+
     @RequestMapping(value = "/new_tip", method = RequestMethod.GET)
     public String new_tip(Model model) {
         return "addTip";
@@ -112,14 +118,17 @@ public class DefaultController {
 
         blogTip2.setTitle("Dependency Injection Demystified");
         blogTip2.setAuthor("Shore, James");
-        blogTip2.setUrl("https://www.jamesshore.com/Blog/Dependency-Injection-Demystified.html");
+        blogTip2.setUrl("https://www.jamesshore.com/Blog/Dependency-Injection-"
+                + "Demystified.html");
         blogTip2.setTags("Programming");
         blogTip2.setType("blog");
-        blogTip2.setDescription("Teaches you a nice design pattern for efficient testing.");
+        blogTip2.setDescription("Teaches you a nice design pattern for "
+                + "efficient testing.");
 
         blogTip3.setTitle("Make The Product Backlog DEEP");
         blogTip3.setAuthor("Pichler, Roman");
-        blogTip3.setUrl("https://www.romanpichler.com/blog/make-the-product-backlog-deep/");
+        blogTip3.setUrl("https://www.romanpichler.com/blog/make-the-product-"
+                + "backlog-deep/");
         blogTip3.setTags("Agile Development");
         blogTip3.setType("blog");
         blogTip3.setDescription("Good guidelines for backlog grooming!");
@@ -143,23 +152,26 @@ public class DefaultController {
         tubeTip1.setUrl("https://www.youtube.com/watch?v=macM_MtS_w4");
         tubeTip1.setTags("Computer Science");
         tubeTip1.setType("tube");
-        tubeTip1.setDescription("Alan Turing almost accidentally created the blueprint "
-                + "for the modern day digital computer...");
+        tubeTip1.setDescription("Alan Turing almost accidentally created the "
+                + "blueprint for the modern day digital computer...");
 
-        tubeTip2.setTitle("\"Being agile and lean in constrained and regulated environments\" with Paul E. McMahon");
+        tubeTip2.setTitle("\"Being agile and lean in constrained and regulated "
+                + "environments\" with Paul E. McMahon");
         tubeTip2.setAuthor("Association for Computing Machinery (ACM)");
         tubeTip2.setUrl("https://www.youtube.com/watch?v=bgdBeJTbkRo");
         tubeTip2.setTags("Agile, Lean");
         tubeTip2.setType("tube");
-        tubeTip2.setDescription("ACM SIGSOFT Webinar: Being agile and lean in constrained and regulated environments");
+        tubeTip2.setDescription("ACM SIGSOFT Webinar: Being agile and lean in "
+                + "constrained and regulated environments");
 
         tubeTip3.setTitle("Robots Teaching Themselves to See");
         tubeTip3.setAuthor("MITCSAIL");
         tubeTip3.setUrl("https://www.youtube.com/watch?v=OplLXzxxmdA");
         tubeTip3.setTags("Machine Learning, Robotics");
         tubeTip3.setType("tube");
-        tubeTip3.setDescription("Video on how robotic arms can be trained quickly (approximately 20 minutes) "
-                + "for a wide variety of previously unseen and potentially non-rigid objects.");
+        tubeTip3.setDescription("Video on how robotic arms can be trained "
+                + "quickly (approximately 20 minutes) for a wide variety of "
+                + "previously unseen and potentially non-rigid objects.");
 
         return tips;
     }
