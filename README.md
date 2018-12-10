@@ -21,8 +21,8 @@
    * [Sprint #3](https://trello.com/b/qxg8Fz5g/sprint-3)
    * [Sprint #4](https://trello.com/b/W7Z4FaUe/sprint-4)
 * [Burndown Chart](https://docs.google.com/spreadsheets/d/1k_zhpgvVd8Xq-XXRJ9vQeVHRLzwot7oc-jfq42d4XPU/edit?ts=5bed3f04#gid=0)
-* Sprint Feedback [1](documentation/Sprint/1/sprint_1_feedback.md) [2](documentation/Sprint/2/sprint_2_feedback.md) [3](documentation/Sprint/3/sprint_3_feedback.md)
-* Sprint Retrospect [1](documentation/Sprint/1/sprint_1_retrospect.md) [2](documentation/Sprint/2/sprint_2_retrospect.md) [3](documentation/Sprint/3/sprint_3_retrospect.md)
+* Sprint Feedback [1](documentation/sprint/1/feedback.md) [2](documentation/sprint/2/feedback.md) [3](documentation/sprint/3/feedback.md)
+* Sprint Retrospect [1](documentation/sprint/1/retrospect.md) [2](documentation/sprint/2/retrospect.md) [3](documentation/sprint/3/retrospect.md)
 
 ## Pipeline Tools
 * Continuous integration: [Travis CI](https://travis-ci.org/akiutoslahti/ohtu-miniprojekti2018) 
