@@ -1,150 +1,172 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Book tip details</title>
+    <head th:replace="fragments/header :: header">
     </head>
 
     <body>
-        <button id="back-button" onclick="back()">Back</button>
-        <h1>Book tip details</h1>
+        <div class="container">
+            <button type="button" class="btn btn-warning" id="back-button" onclick="back()">Back</button>
+            <h1>Book tip details</h1>
 
-        <ul th:each="error : ${errors}">
-            <li th:text="${error}">here</li>
-        </ul>
+            <ul th:each="error : ${errors}">
+                <li th:text="${error}">here</li>
+            </ul>
 
-        <iframe name="hiddenframe" style="display: none;"></iframe>
-        <b>Studied:</b>
-        <form style="display: inline-block"  id="studied" method="POST" th:action="@{/book_tip/{id}/study(id=${book.id})}" target="hiddenframe">
-            <input th:if="${not book.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>
-            <input th:if="${book.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()" checked="checked"/>
-            <input id="studiedHidden" type="hidden" value="0" name="studied"/>
-        </form>
+            <iframe name="hiddenframe" style="display: none;"></iframe>
 
-        <div id="book-tip-details"></div>
-        <div id="buttons">
+            <div>
+                <h4><label for="studied">Already studied: </label>
+                <form style="display: inline-block"  id="studied" method="POST" th:action="@{/book_tip/{id}/study(id=${book.id})}" target="hiddenframe">
+                    <input th:if="${not book.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>
+                    <input th:if="${book.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()" checked="checked"/>
+                    <input id="studiedHidden" type="hidden" value="0" name="studied"/>
+                </form></h4>
+            </div>
+
+            <div id="book-tip-details"></div>
+            <div id="buttons">
+            </div>
+
+
+            <script th:inline="javascript">
+
+                function back() {
+                    window.location.href = "/";
+                }
+
+                /*<![CDATA[*/
+                var book = /*[[${book}]]*/ 'book';
+                /*]]>*/
+
+                function addDeleteButton() {
+                    var deleteButton = document.createElement("button");
+                    deleteButton.id = "delete-button";
+                    deleteButton.innerHTML = "Delete"
+                            + "<form name='deleteForm' method='POST' action='/book_tip/[[${book.id}]]'>"
+                            + "<input type='hidden' name='_method' value='DELETE'>"
+                            + "<\/form>";
+                    deleteButton.onclick = deleteBook;
+                    document.getElementById("buttons").appendChild(deleteButton);
+                }
+
+                function removeDeleteButton() {
+                    var deleteButton = document.getElementById("delete-button");
+                    if (deleteButton) {
+                        deleteButton.parentNode.removeChild(deleteButton);
+                    }
+                }
+
+                function addEditButton() {
+                    var editButton = document.createElement("button");
+                    editButton.id = "edit-button";
+                    editButton.innerHTML = "Edit details";
+                    editButton.onclick = editEnabled;
+                    document.getElementById("buttons").appendChild(editButton);
+                }
+
+                function removeEditButton() {
+                    var editButton = document.getElementById("edit-button");
+                    if (editButton) {
+                        editButton.parentNode.removeChild(editButton);
+                    }
+                }
+
+                function addSaveButton() {
+                    var saveButton = document.createElement("button");
+                    saveButton.id = "save-button";
+                    saveButton.innerHTML = "Save";
+                    saveButton.onclick = saveBook;
+                    document.getElementById("buttons").appendChild(saveButton);
+                }
+
+                function removeSaveButton() {
+                    var saveButton = document.getElementById("save-button");
+                    if (saveButton) {
+                        saveButton.parentNode.removeChild(saveButton);
+                    }
+                }
+
+                function addCancelButton() {
+                    var cancelButton = document.createElement("button");
+                    cancelButton.id = "cancel-button";
+                    cancelButton.innerHTML = "Cancel";
+                    cancelButton.onclick = editDisabled;
+                    document.getElementById("buttons").appendChild(cancelButton);
+                }
+
+                function removeCancelButton() {
+                    var cancelButton = document.getElementById("cancel-button");
+                    if (cancelButton) {
+                        cancelButton.parentNode.removeChild(cancelButton);
+                    }
+                }
+
+                function editDisabled() {
+                    emptyElements();
+                    document.getElementById("book-tip-details").innerHTML =
+                            "Author: " + book.author + "<br/>"
+                            + "Title: " + book.title + "<br/>"
+                            + "ISBN: " + book.isbn + "<br/>"
+                            + "Tags: " + book.tags + "<br/>"
+                            + "<textarea rows='4' cols='50' readonly placeholder='Description'>"
+                            + book.description + "</textarea></br>";
+                    addDeleteButton();
+                    addEditButton();
+                }
+
+                function editEnabled() {
+                    emptyElements();
+                    document.getElementById("book-tip-details").innerHTML =
+                                "<div class='container'>"
+                                + "<form id='editForm' name='editForm' method='POST' action='/book_tip/[[${book.id}]]'>"
+                                + "<div class='form-group'>"
+                                + "<label for='author'>(*) Author</label>"
+                                + "<input type='text' class='form-control' name='author' value='" + book.author + "'/>"
+                                + "</div>"
+                                + "<div class='form-group'>"
+                                + "<label for='title'>(*)Title</label>"
+                                + "<input type='text' class='form-control' name='title' value='" + book.title + "'/>"
+                                + "</div>"
+                                + "<div class='form-group'>"
+                                + "<label for='isbn'>(*)ISBN</label>"
+                                + "<input type='text' class='form-control' name='isbn' value='" + book.isbn + "'/>"
+                                + "</div>"
+                                + "<div class='form-group'>"
+                                + "<label for='tags'>(*)Tags</label>"
+                                + "<input type='text' class='form-control' name='tags' value='" + book.tags + "'/>"
+                                + "</div>"
+                                + "<div class='form-group'>"
+                                + "<textarea class='form-control' rows='4' cols='50' form=editForm name='description' wrap='hard' placeholder='Description'>"
+                                + book.description + "</textarea>"
+                                + "</div>"
+                                + "<input type='hidden' name='_method' id='submit-button' class='btn btn-primary' type='submit' value='PUT'/>"
+                                + "</form>"
+                                + "</div>";
+
+                    addSaveButton();
+                    addCancelButton();
+                }
+
+                function emptyElements() {
+                    document.getElementById("book-tip-details").innerHTML = "";
+                    document.getElementById("buttons").innerHTML = "";
+                }
+
+                function deleteBook() {
+                    var confirmation = confirm("Do you really want to delete book tip: "
+                            + book.title + " by " + book.author + "?");
+                    if (confirmation) {
+                        document.deleteForm.submit();
+                    }
+                }
+
+                function saveBook() {
+                    document.editForm.submit();
+                }
+
+
+                editDisabled();
+            </script>
         </div>
-
-        <script th:inline="javascript">
-
-            function back() {
-                window.location.href = "/";
-            }
-
-            /*<![CDATA[*/
-            var book = /*[[${book}]]*/ 'book';
-            /*]]>*/
-
-            function addDeleteButton() {
-                var deleteButton = document.createElement("button");
-                deleteButton.id = "delete-button";
-                deleteButton.innerHTML = "Delete"
-                        + "<form name='deleteForm' method='POST' action='/book_tip/[[${book.id}]]'>"
-                        + "<input type='hidden' name='_method' value='DELETE'>"
-                        + "<\/form>";
-                deleteButton.onclick = deleteBook
-                document.getElementById("buttons").appendChild(deleteButton);
-            }
-
-            function removeDeleteButton() {
-                var deleteButton = document.getElementById("delete-button");
-                if (deleteButton) {
-                    deleteButton.parentNode.removeChild(deleteButton);
-                }
-            }
-
-            function addEditButton() {
-                var editButton = document.createElement("button");
-                editButton.id = "edit-button";
-                editButton.innerHTML = "Edit"
-                editButton.onclick = editEnabled
-                document.getElementById("buttons").appendChild(editButton);
-            }
-
-            function removeEditButton() {
-                var editButton = document.getElementById("edit-button");
-                if (editButton) {
-                    editButton.parentNode.removeChild(editButton);
-                }
-            }
-
-            function addSaveButton() {
-                var saveButton = document.createElement("button");
-                saveButton.id = "save-button";
-                saveButton.innerHTML = "Save"
-                saveButton.onclick = saveBook
-                document.getElementById("buttons").appendChild(saveButton);
-            }
-
-            function removeSaveButton() {
-                var saveButton = document.getElementById("save-button");
-                if (saveButton) {
-                    saveButton.parentNode.removeChild(saveButton);
-                }
-            }
-
-            function addCancelButton() {
-                var cancelButton = document.createElement("button");
-                cancelButton.id = "cancel-button";
-                cancelButton.innerHTML = "Cancel"
-                cancelButton.onclick = editDisabled
-                document.getElementById("buttons").appendChild(cancelButton);
-            }
-
-            function removeCancelButton() {
-                var cancelButton = document.getElementById("cancel-button");
-                if (cancelButton) {
-                    cancelButton.parentNode.removeChild(cancelButton);
-                }
-            }
-
-            function editDisabled() {
-                emptyElements();
-                document.getElementById("book-tip-details").innerHTML =
-                        "Author: " + book.author + "<br/>"
-                        + "Title: " + book.title + "<br/>"
-                        + "ISBN: " + book.isbn + "<br/>"
-                        + "Tags: " + book.tags + "<br/>"
-                        + "<textarea rows='4' cols='50' readonly placeholder='Description'>"
-                        + book.description + "</textarea></br>";
-                addDeleteButton();
-                addEditButton();
-            }
-
-            function editEnabled() {
-                emptyElements();
-                document.getElementById("book-tip-details").innerHTML =
-                        "<form id='editForm' name='editForm' method='POST' action='/book_tip/[[${book.id}]]'>"
-                        + "(*)Author: <input name='author' value='" + book.author + "'/><br/>"
-                        + "(*)Title: <input name='title' value='" + book.title + "'/><br/>"
-                        + "(*)ISBN: <input name='isbn' value='" + book.isbn + "'/><br/>"
-                        + "(*)Tags: <input name='tags' value='" + book.tags + "'/><br/>"
-                        + "<textarea rows='4' cols='50' form=editForm name='description' wrap='hard' placeholder='Description'>" 
-                        + book.description + "</textarea></br>"
-                        + "<input type='hidden' name='_method' value='PUT'>"
-                        + "<\/form>";
-                addSaveButton();
-                addCancelButton();
-            }
-
-            function emptyElements() {
-                document.getElementById("book-tip-details").innerHTML = "";
-                document.getElementById("buttons").innerHTML = "";
-            }
-
-            function deleteBook() {
-                var confirmation = confirm("Do you really want to delete book tip: "
-                        + book.title + " by " + book.author + "?");
-                if (confirmation) {
-                    document.deleteForm.submit();
-                }
-            }
-
-            function saveBook() {
-                document.editForm.submit();
-            }
-
-
-            editDisabled();
-        </script>
     </body>
 </html>
