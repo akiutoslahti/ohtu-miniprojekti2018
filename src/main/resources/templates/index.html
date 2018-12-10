@@ -1,43 +1,35 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <title>Reading Tips Archive</title>
+    <head th:replace="fragments/header :: header">
     </head>
 
     <body>
         <h1>Reading Tips Archive</h1>
-
-        <button id="add-new-reading-tip" onclick="newTip()">Add new reading tip</button>
         
-        <p>
-        Sort by:
-            <button id="titleSort" onclick="titleSort()">Title</button>
-            <button id="authorSort" onclick="authorSort()">Author</button>
-            <button id="idSort" onclick="addedSort()">Added</button>
-        </p>
-        
-        <p>
-            <input type="text" placeholder="Filter tips" onkeyup="filterAndDisplayTips()" id="filterInput" />
-            <label><input type="checkbox" id="includeStudied" onchange="filterAndDisplayTips()" />show studied</label>
-        </p>
-        
-        <h2>Books</h2>
-        
-        <ul class="list-group" id="book-tips"></ul>
-        
-        <h2>Blogs</h2>
-
-        <div class="list-group" id="blog-tips">
-            
+        <div class="btn-group" role="group" aria-label="Sorty by:">
+            <button type="button" class="btn btn-secondary" id="titleSort" onclick="titleSort()">Title</button>
+            <button type="button" class="btn btn-secondary" id="authorSort" onclick="authorSort()">Author</button>
+            <button type="button" class="btn btn-secondary" id="idSort" onclick="addedSort()">Added</button>            
         </div>
-        <ul class="list-group" id="blog-tips2"></ul>
-    
-        <h2>Videos</h2>
 
-        <ul class="list-group" id="tube-tips"></ul>
+        <button type="button" class="btn btn-outline-secondary" id="add-new-reading-tip" onclick="newTip()">Add new reading tip</button>
+        
+        <p>
+            <input type="text" class="form-control" placeholder="Filter tips" onkeyup="filterAndDisplayTips()" id="filterInput" />
+            <label><input type="checkbox" class="checkbox-inline" id="includeStudied" onchange="filterAndDisplayTips()" />show already studied tips</label>
+        </p>
+        
+        <h3>Books</h3>
+        
+        <div class="list-group" id="book-tips"></div>
+        
+        <h3>Blogs</h3>
+
+        <div class="list-group" id="blog-tips"></div>
+
+        <h3>Videos</h3>
+
+        <div class="list-group" id="tube-tips"></div>
     
         <script th:inline="javascript">
             
