@@ -41,6 +41,8 @@
                 function addDeleteButton() {
                     var deleteButton = document.createElement("button");
                     deleteButton.id = "delete-button";
+                    deleteButton.setAttribute('type', 'button');
+                    deleteButton.setAttribute('class', 'btn btn-danger');
                     deleteButton.innerHTML = "Delete"
                             + "<form name='deleteForm' method='POST' action='/book_tip/[[${book.id}]]'>"
                             + "<input type='hidden' name='_method' value='DELETE'>"
@@ -59,6 +61,8 @@
                 function addEditButton() {
                     var editButton = document.createElement("button");
                     editButton.id = "edit-button";
+                    editButton.setAttribute('type', 'button');
+                    editButton.setAttribute('class', 'btn btn-primary');
                     editButton.innerHTML = "Edit details";
                     editButton.onclick = editEnabled;
                     document.getElementById("buttons").appendChild(editButton);
@@ -74,6 +78,8 @@
                 function addSaveButton() {
                     var saveButton = document.createElement("button");
                     saveButton.id = "save-button";
+                    saveButton.setAttribute('type', 'button');
+                    saveButton.setAttribute('class', 'btn btn-primary');                    
                     saveButton.innerHTML = "Save";
                     saveButton.onclick = saveBook;
                     document.getElementById("buttons").appendChild(saveButton);
@@ -89,6 +95,8 @@
                 function addCancelButton() {
                     var cancelButton = document.createElement("button");
                     cancelButton.id = "cancel-button";
+                    cancelButton.setAttribute('type', 'button');
+                    cancelButton.setAttribute('class', 'btn btn-secondary');
                     cancelButton.innerHTML = "Cancel";
                     cancelButton.onclick = editDisabled;
                     document.getElementById("buttons").appendChild(cancelButton);
