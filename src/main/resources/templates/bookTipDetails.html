@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="fragments/header :: header">
-    </head>
+    <head th:replace="fragments/header :: header"></head>
 
     <body>
         <div class="container">
-            <button type="button" class="btn btn-warning" id="back-button" onclick="back()">Back</button>
+            <button th:replace="fragments/buttons :: back"></button>
             <h1>Book tip details</h1>
 
             <ul th:each="error : ${errors}">
@@ -14,18 +13,11 @@
 
             <iframe name="hiddenframe" style="display: none;"></iframe>
 
-            <div>
-                <h4><label for="studied">Already studied: </label>
-                <form style="display: inline-block"  id="studied" method="POST" th:action="@{/book_tip/{id}/study(id=${book.id})}" target="hiddenframe">
-                    <input th:if="${not book.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()"/>
-                    <input th:if="${book.studied}" id="studiedcheck" type="checkbox" name="studied" value="1" onchange="this.form.submit()" checked="checked"/>
-                    <input id="studiedHidden" type="hidden" value="0" name="studied"/>
-                </form></h4>
-            </div>
-
+            <div th:replace="fragments/buttons :: studiedBookCheckbox"></div>
+            
+            
             <div id="book-tip-details"></div>
-            <div id="buttons">
-            </div>
+            <div id="buttons"></div>
 
 
             <script th:inline="javascript">
