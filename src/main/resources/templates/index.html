@@ -26,15 +26,18 @@
         
         <h2>Books</h2>
         
-        <ul id="book-tips"></ul>
+        <ul class="list-group" id="book-tips"></ul>
         
         <h2>Blogs</h2>
 
-        <ul id="blog-tips"></ul>
+        <div class="list-group" id="blog-tips">
+            
+        </div>
+        <ul class="list-group" id="blog-tips2"></ul>
     
         <h2>Videos</h2>
 
-        <ul id="tube-tips"></ul>
+        <ul class="list-group" id="tube-tips"></ul>
     
         <script th:inline="javascript">
             
@@ -158,36 +161,29 @@
                 function listBookTips(tip) {
                     if(tip.studied) {
                         bookTipList = bookTipList 
-                            + "<li><del><a id=" + tip.id + " href='/book_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></del></li>";
+                            + '<del><a id=' + tip.id + ' class="list-group-item list-group-item-action" href=' + '/book_tip/' + tip.id + '>' + tip.title + ' by ' + tip.author + '</a></del>';
                     } else {
                         bookTipList = bookTipList
-                            + "<li><a id=" + tip.id + " href='/book_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>";
-                    }                 
+                            + '<a id=' + tip.id + ' class="list-group-item list-group-item-action" href=' + '/book_tip/' + tip.id + '>' + tip.title + ' by ' + tip.author + '</a>';                    }                 
                 }
 
                 function listBlogTips(tip) {
                     if(tip.studied) {
                         blogTipList = blogTipList 
-                            + "<li><del><a id=" + tip.id + " href='/blog_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></del></li>";
+                            + '<del><a id=' + tip.id + ' class="list-group-item list-group-item-action" href=' + '/blog_tip/' + tip.id + '>' + tip.title + ' by ' + tip.author + '</a></del>';
                     } else {
                         blogTipList = blogTipList
-                            + "<li><a id=" + tip.id + " href='/blog_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>";
+                            + '<a id=' + tip.id + ' class="list-group-item list-group-item-action" href=' + '/blog_tip/' + tip.id + '>' + tip.title + ' by ' + tip.author + '</a>';
                     }
                 }
 
                 function listTubeTips(tip) {
                     if(tip.studied) {
                         tubeTipList = tubeTipList 
-                            + "<li><del><a id=" + tip.id + " href='/tube_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></del></li>";
+                            + '<del><a id=' + tip.id + ' class="list-group-item list-group-item-action" href=' + '/tube_tip/' + tip.id + '>' + tip.title + ' by ' + tip.author + '</a></del>';
                     } else {
                         tubeTipList = tubeTipList
-                            + "<li><a id=" + tip.id + " href='/tube_tip/" 
-                            + tip.id + "'>" + tip.title + " by " + tip.author + "</a></li>";
+                            + '<a id=' + tip.id + ' class="list-group-item list-group-item-action" href=' + '/tube_tip/' + tip.id + '>' + tip.title + ' by ' + tip.author + '</a>';
                     }
                 }
 
