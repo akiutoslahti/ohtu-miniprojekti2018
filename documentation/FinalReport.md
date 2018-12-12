@@ -1,11 +1,11 @@
 # Final Report
 
 ## Team Members
-Jaakko Vilenius [majormalfunk](https://github.com/majormalfunk)
-Aki Utoslahti [akiutoslahti](https://github.com/akiutoslahti)
-Tero Tapio [Granigan](https://github.com/Granigan)
-Eetu Huovila [Etsku520](https://github.com/Etsku520)
-Jere Helén [xnene](https://github.com/xneme)
+* Jaakko Vilenius [majormalfunk](https://github.com/majormalfunk)
+* Aki Utoslahti [akiutoslahti](https://github.com/akiutoslahti)
+* Tero Tapio [Granigan](https://github.com/Granigan)
+* Eetu Huovila [Etsku520](https://github.com/Etsku520)
+* Jere Helén [xnene](https://github.com/xneme)
 
 ## Background
 Team "Is Trello Okay?" was originally formed already before the course began, in the freshman group, though the name was found only after stubborness to stick with Trello as the backlog tool regardless of the warnings. Team also grew to full five members with one more member joining in at the group forming event.
@@ -17,6 +17,7 @@ After each sprint the team held a Mad, Sad, Glad -retrospect to review the proce
 
 ### Sprint #1 - SETUP
 [Retrospect](documentation/sprint/1/retrospect.md) & [Feedback](documentation/sprint/1/feedback.md)
+
 The first sprint revolved around selecting a platform and configuration for the project, and choosing the process tracking tools and establishing a working process. The aforementioned prior experience of team members was both a benefit and a disadvantage, as on the one hand the team had a specialist for both tasks and was thus able to settle on tech, pipeline, and process very quickly, but on the other, the forming process was largely handled by an individual instead of a team process. This came up in the retrospect when one of the main issues discussed was too little time spent at the initialisation of the process. This led us to emphasise sharing knowledge further down the project, and spend more time in a face-to-face sprint planning session.
 
 Another clear issue was the task scheduling. The original process required each task to be assigned (albeit tentatively) to someone. However, not enough consideration was put into this, as strict assignments led to conflicts with scheduling and tasks pending on others. The team addressed this issue by spending more time discussing task priorities and everyone's personal schedule during the sprint planning.
@@ -25,10 +26,12 @@ Finally, feedback from the client dictated team needed to improve on Trello usag
 
 ### Sprint #2 - SORT & CRUD
 [Retrospect](documentation/sprint/2/retrospect.md) & [Feedback](documentation/sprint/2/feedback.md)
+
 By sprint two, the team had gotten over the birthing problems and was getting some serious work done. The great flow and feeling was illustrated by the retrospect having no Sad topics, and a single Mad topic (which was a technical issue involving a fringe case in web testing.) The team discussed if such cases could be prevented in the future with help of external checkers, but in the end deemed it unnecessary.
 
 ### Sprint #3 - BLOGS & FILTER
 [Retrospect](documentation/sprint/3/retrospect.md) & [Feedback](documentation/sprint/3/feedback.md)
+
 Carrying on with the good momentum from the second sprint, team performed well in the third one as well. As a Sad topic, it was noted and discussed that personal life can and does intervene in one's ability to contribute. General consensus was that this is normal and expected, but it is critical to communicate with the team so others know to adjust.
  
 On the tech side, a major issue with testing pipeline was identified and discussed: Cucumber tests were built to work one after another, and this was becoming unbearable. Team placed heavy emphasis on figuring out solutions and made it a priority going into the next sprint.
