@@ -1,4 +1,11 @@
-#Final Report
+# Final Report
+
+## Team Members
+Jaakko Vilenius [majormalfunk](https://github.com/majormalfunk)
+Aki Utoslahti [akiutoslahti](https://github.com/akiutoslahti)
+Tero Tapio [Granigan](https://github.com/Granigan)
+Eetu Huovila [Etsku520](https://github.com/Etsku520)
+Jere Helén [xnene](https://github.com/xneme)
 
 ## Background
 Team "Is Trello Okay?" was originally formed already before the course began, in the freshman group, though the name was found only after stubborness to stick with Trello as the backlog tool regardless of the warnings. Team also grew to full five members with one more member joining in at the group forming event.
