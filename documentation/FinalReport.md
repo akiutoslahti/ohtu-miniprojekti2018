@@ -24,6 +24,8 @@ Another clear issue was the task scheduling. The original process required each 
 
 Finally, feedback from the client dictated team needed to improve on Trello usage, which led to splitting one board into multiple ones - which in hindsight was a great upgrade.
 
+Tech-wise only real issue was with getting Cucumber and especially Selenium to work with Spring Boot. The main reason for problems was documentation. Either there was lack of it or it was outdated. Cucumber problem was easily fixed by upgrading it to newest version and implementing test configuration for Spring Boot. Selenium problem however was harder to fix as Selenium project had changed versioning system with htmlUnitDriver and the change was not well informed. Latest version of Selenium and htmlUnitDriver fixed the problem with some creative googling.
+
 ### Sprint #2 - SORT & CRUD
 [Retrospect](/documentation/sprint/2/retrospect.md) & [Feedback](/documentation/sprint/2/feedback.md)
 
@@ -37,6 +39,8 @@ Carrying on with the good momentum from the second sprint, team performed well i
 On the tech side, a major issue with testing pipeline was identified and discussed: Cucumber tests were built to work one after another, and this was becoming unbearable. Team placed heavy emphasis on figuring out solutions and made it a priority going into the next sprint.
 
 ### Sprint #4 - YOUTUBE & BOOTSTRAP - DEMO
+In the last sprint we had some technical problems due to adopting Bootstrap and it causing some unexpected problems with Selenium tests. JavaScript and CSS support is apparently somewhat deprecated/buggy in htmlUnitDriver and some creative googling was again needed to get rid of the problems.
+
 After the last sprint and its demo, a brief standing retrospect was held, but team members were mostly just glad about the completion of the project to really be able to come up with any Sad or Mad topics. There also was no more feedback given, aside from the applause for the demo.
 
 ## Troubles and Successes
