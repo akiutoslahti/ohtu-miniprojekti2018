@@ -6,6 +6,7 @@
 **[App online in Heroku](https://ohtutips.herokuapp.com/)**
 
 ## Documentation
+* [Final Report](documentation/FinalReport.md)
 * [How to start developing](documentation/Development.md)
 * [Database migrations](documentation/Migrations.md)
 * [Build pipeline](documentation/IntegrationAndBuild.md)
