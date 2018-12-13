@@ -16,7 +16,7 @@ Team members were a varied bunch, few with lots of experience in specific requir
 After each sprint the team held a Mad, Sad, Glad -retrospect to review the process and find flaws. This worked well, and the team was able to adapt new process features and discard old ones throughout the project. Below are the main issues from each sprint, for further details please see the linked retrospect and client feedback notes. This document only includes the main Mad and Sad topics, glad ones were actually more abundant, but did not require corrections and are not brought up here.
 
 ### Sprint #1 - SETUP
-[Retrospect](documentation/sprint/1/retrospect.md) & [Feedback](documentation/sprint/1/feedback.md)
+[Retrospect](/documentation/sprint/1/retrospect.md) & [Feedback](/documentation/sprint/1/feedback.md)
 
 The first sprint revolved around selecting a platform and configuration for the project, and choosing the process tracking tools and establishing a working process. The aforementioned prior experience of team members was both a benefit and a disadvantage, as on the one hand the team had a specialist for both tasks and was thus able to settle on tech, pipeline, and process very quickly, but on the other, the forming process was largely handled by an individual instead of a team process. This came up in the retrospect when one of the main issues discussed was too little time spent at the initialisation of the process. This led us to emphasise sharing knowledge further down the project, and spend more time in a face-to-face sprint planning session.
 
@@ -25,12 +25,12 @@ Another clear issue was the task scheduling. The original process required each 
 Finally, feedback from the client dictated team needed to improve on Trello usage, which led to splitting one board into multiple ones - which in hindsight was a great upgrade.
 
 ### Sprint #2 - SORT & CRUD
-[Retrospect](documentation/sprint/2/retrospect.md) & [Feedback](documentation/sprint/2/feedback.md)
+[Retrospect](/documentation/sprint/2/retrospect.md) & [Feedback](/documentation/sprint/2/feedback.md)
 
 By sprint two, the team had gotten over the birthing problems and was getting some serious work done. The great flow and feeling was illustrated by the retrospect having no Sad topics, and a single Mad topic (which was a technical issue involving a fringe case in web testing.) The team discussed if such cases could be prevented in the future with help of external checkers, but in the end deemed it unnecessary.
 
 ### Sprint #3 - BLOGS & FILTER
-[Retrospect](documentation/sprint/3/retrospect.md) & [Feedback](documentation/sprint/3/feedback.md)
+[Retrospect](/documentation/sprint/3/retrospect.md) & [Feedback](/documentation/sprint/3/feedback.md)
 
 Carrying on with the good momentum from the second sprint, team performed well in the third one as well. As a Sad topic, it was noted and discussed that personal life can and does intervene in one's ability to contribute. General consensus was that this is normal and expected, but it is critical to communicate with the team so others know to adjust.
  
